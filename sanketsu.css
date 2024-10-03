@@ -1,12 +1,81 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css?family=Pacifico|Open+Sans:300");
 @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik+Marker+Hatch&display=swap");
-.startColor {
-  background-color: aqua;
-  height: 100dvh;
-  padding: 0.1px;
+.background-animation {
+  position: fixed; /* 固定在螢幕上 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ff0000; /* 背景顏色，可以根據需要改變 */
+  opacity: 1; /* 初始透明度 */
+  z-index: 999; /* 確保在所有元素上方 */
+}
+.background-animation .circle {
+  background: #3E3E3E;
+  border-radius: 50%;
+  width: 25vw;
+  height: 25vw;
+  position: fixed; /* 固定在螢幕上 */
+  z-index: 1000; /* 確保在背景動畫上方 */
+  top: 50%; /* 定位在螢幕中央 */
+  left: 25%;
+  transform: translate(-50%, -50%); /* 讓圓形居中 */
+  /* 添加動畫 */
+  animation: bounce-in-top 1.1s both;
+}
+.background-animation p {
+  text-align: center;
+  margin: 0;
+  font-family: "Rubik Marker Hatch", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+.background-animation .animaP {
+  font-size: 3rem;
+  margin-top: 15dvh;
+}
+.background-animation .animaP2 {
+  font-size: 3rem;
 }
 
+/* bounce-in-top 動畫效果 */
+@keyframes bounce-in-top {
+  0% {
+    transform: translateY(-500px);
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+  38% {
+    transform: translateY(0);
+    animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  55% {
+    transform: translateY(-65px);
+    animation-timing-function: ease-in;
+  }
+  72% {
+    transform: translateY(0);
+    animation-timing-function: ease-out;
+  }
+  81% {
+    transform: translateY(-28px);
+    animation-timing-function: ease-in;
+  }
+  90% {
+    transform: translateY(0);
+    animation-timing-function: ease-out;
+  }
+  95% {
+    transform: translateY(-8px);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0);
+    animation-timing-function: ease-out;
+  }
+}
 * {
   box-sizing: border-box;
   font-family: "Open Sans", sans-serif;

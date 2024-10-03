@@ -12,8 +12,13 @@
 
 </head>
 <body>
-  <div class="startColor">
-  <div class="wow animate__animated animate__bounce outer-menu" data-wow-delay="3s" >
+  <!-- 新增的背景動畫元素 -->
+  <div class="background-animation" id="backgroundAnimation">
+    <p class="animaP">Welcome</p>
+    <p class="animaP2">My Space</p>
+    <div class="wow circle" data-wow-delay="1s"></div>
+  </div>
+  <div class="wow animate__animated animate__fadeIn outer-menu" data-wow-delay="6s" >
     <input class="checkbox-toggle" type="checkbox" />
     <div class="hamburger">
         <div></div>
@@ -31,18 +36,18 @@
         </div>
     </div>
 </div>
-<h1>Portfolio</h1>
+<h1 class="wow animate__animated animate__flipInX" data-wow-delay="4.5s" data-wow-duration="1.5s" >Portfolio</h1>
 <div class="First">
-<div class="imgContent">
+<div class="wow animate__animated animate__fadeIn imgContent" data-wow-delay="5.5s">
 <img src="public/pictures/kojin.jpg" alt="無法顯示圖片" class="responsive-image">
 </div>
-      <div class="Who">
+      <div class="wow animate__animated animate__fadeIn Who" data-wow-delay="5.6s">
     <p class="NameP">I'm Ben</p>
     <p class="NiceP">Nice to meet you!</p>
     <p class="SoftP">Software Enjineer</p>
     </div>
   </div>
-</div>
+
   <!-- <div class="iconS">
 <img class="imgIcons" src="public/pictures/media-network-social-5-svgrepo-com.svg" alt="">
 <img class="imgIcons" src="public/pictures/facebook-media-network-svgrepo-com.svg" alt="">
@@ -55,7 +60,28 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
         <!-- WOW.js -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.3/wow.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+        <script>
+          // 初始化 WOW.js
+          new WOW().init();
+      
+// GSAP 動畫
+window.onload = function() {
+    // 先將透明度設置為 1
+    document.getElementById("backgroundAnimation").style.opacity = 1;
+
+    // 延遲顯示，然後進行淡出
+    gsap.to("#backgroundAnimation", {
+      duration: 1,    // 動畫持續時間
+      delay: 4,       // 延遲 4 秒後開始消失（根據需要調整）
+      opacity: 0,     // 最終透明度
+      onComplete: function() {
+        // 動畫完成後隱藏元素
+        document.getElementById("backgroundAnimation").style.display = "none";
+      }
+    });
+  };
+        </script>
         <script src="src/main.js"></script>
 </body>
 </html>
