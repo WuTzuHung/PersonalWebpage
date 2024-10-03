@@ -1,292 +1,289 @@
 @charset "UTF-8";
-body {
+@import url("https://fonts.googleapis.com/css?family=Pacifico|Open+Sans:300");
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik+Marker+Hatch&display=swap");
+* {
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
   margin: 0;
-  background: url(https://pbs.twimg.com/media/FosGiivaYAAOqxC?format=jpg&name=large) no-repeat center center fixed;
-  background-size: cover;
+  padding: 0;
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
-
-.header {
-  width: 100%;
+body, html {
   height: 100dvh;
-  position: relative;
-  margin: 0;
-}
-.header .topback {
-  width: 100%;
-  height: 100dvh;
-  position: absolute;
-  top: 0px;
-}
-.header .top {
-  width: 100%;
-  height: 19dvh;
-  position: fixed;
-  top: 0dvh;
-  z-index: 1000;
-}
-.header .logo {
-  position: fixed;
-  top: 1dvh;
-  left: 0%;
-  z-index: 1001;
-}
-.header .logo2 {
-  position: fixed;
-  top: 5dvh;
-  left: 85%;
-  z-index: 1002;
-}
-.header .logo3 {
-  position: absolute;
-  top: 30dvh;
-  left: 25%;
+  overflow: hidden;
 }
 
-.second br {
-  display: none;
-}
-
-.second {
-  width: 100%;
-  height: 105dvh;
-  background-color: rgba(255, 192, 203, 0.5);
-  padding: 1px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.second h1 {
-  font-size: 5rem;
-  margin-bottom: 5dvh;
-}
-.second p {
-  font-size: 1.9rem;
-  margin-top: 10dvh;
-}
-
-.third {
-  width: 100%;
-  height: 120dvh;
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(203, 115, 245, 0.5);
-  padding: 0.1px;
-  align-items: center;
-}
-.third h2 {
-  font-size: 5rem;
-  margin-top: 15dvh;
-  margin-bottom: 15dvh;
-}
-.third .thirdOne {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.third .thirdOne h3 {
-  margin-top: 3.5dvh;
-}
-.third .thirdOne .thirdImg {
-  text-align: center;
-}
-.third .thirdOne .thirdImg .responsive-img {
-  width: 100%;
-  height: auto;
-  -o-object-fit: cover;
-     object-fit: cover; /* 保持比例裁剪 */
-  border-radius: 5%;
-  max-width: 70%; /* 你可以調整最大寬度，讓圖片大小保持一致 */
-  max-height: 90dvh; /* 調整最大高度 */
-  aspect-ratio: 6/9; /* 設定一個固定的寬高比例，如 16:9 */
-}
-
-.fourth {
-  width: 100%;
-  height: 115dvh;
-  background-color: rgba(255, 192, 203, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1px;
-}
-.fourth .carousel-item img {
-  height: 100dvh;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-.fourth .sayu {
-  width: 70%;
-}
-.fourth .carousel-indicators button {
-  width: 30%;
-  margin-left: 3%;
-  margin-right: 3%;
-}
-.fourth h3 {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-.footer {
-  width: 100%;
-  height: 22dvh;
-  position: relative;
-  background-color: #3E3E3E;
-}
-.footer a {
+a,
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
   text-decoration: none;
 }
-.footer .logofooter {
-  width: 18%;
-  margin-left: 1%;
-  margin-top: 4.5dvh;
+
+.outer-menu {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
 }
-.footer .twitter {
-  width: 4.5%;
-  height: 10dvh;
-  border-radius: 10px;
-  margin-left: 10%;
-  margin-top: 5dvh;
+
+.outer-menu .checkbox-toggle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  opacity: 0;
 }
-.footer .ig {
-  width: 4.5%;
-  height: 10dvh;
-  border-radius: 10px;
-  margin-left: 4%;
-  margin-top: 5dvh;
+
+.outer-menu .checkbox-toggle:checked + .hamburger > div {
+  transform: rotate(135deg);
 }
-.footer .youtube {
-  width: 4.5%;
-  height: 10dvh;
-  border-radius: 10px;
-  margin-left: 4%;
+
+.outer-menu .checkbox-toggle:checked + .hamburger > div:before,
+.outer-menu .checkbox-toggle:checked + .hamburger > div:after {
+  top: 0;
+  transform: rotate(90deg);
+}
+
+.outer-menu .checkbox-toggle:checked + .hamburger > div:after {
+  opacity: 0;
+}
+
+.outer-menu .checkbox-toggle:checked ~ .menu {
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.outer-menu .checkbox-toggle:checked ~ .menu > div {
+  transform: scale(1);
+  transition-duration: 0.75s;
+}
+
+.outer-menu .checkbox-toggle:checked ~ .menu > div > div {
+  opacity: 1;
+  transition: opacity 0.4s ease 0.4s;
+}
+
+.outer-menu .hamburger {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 50px;
+  height: 50px;
+  padding: 0.5em 1em;
+  background: rgba(33, 150, 243, 0.75);
+  border-radius: 0 0.12em 0.12em 0;
+  cursor: pointer;
+  transition: box-shadow 0.4s ease;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outer-menu .hamburger > div {
+  position: relative;
+  flex: none;
+  width: 100%;
+  height: 2px;
+  background: #FEFEFE;
+  transition: all 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outer-menu .hamburger > div:before,
+.outer-menu .hamburger > div:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: -8px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: inherit;
+  transition: all 0.4s ease;
+}
+
+.outer-menu .hamburger > div:after {
+  top: 8px;
+}
+
+.outer-menu .menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  visibility: hidden;
+  overflow: hidden;
+  backface-visibility: hidden;
+  outline: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outer-menu .menu > div {
+  width: 200vmax;
+  height: 200vmax;
+  color: #FEFEFE;
+  background: rgba(41, 98, 255, 0.97);
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  flex: none;
+  transform: scale(0);
+  backface-visibility: hidden;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outer-menu .menu > div > div {
+  text-align: center;
+  max-width: 90vw;
+  max-height: 100vh;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  overflow-y: auto;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outer-menu .menu > div > div > ul {
+  list-style: none;
+  padding: 0 1em;
+  margin: 0;
+  display: block;
+  max-height: 100vh;
+}
+
+.outer-menu .menu > div > div > ul > li {
+  padding: 0;
+  margin: 1em;
+  font-size: 18px;
+  display: block;
+}
+
+.outer-menu .menu > div > div > ul > li > a {
+  position: relative;
+  display: inline;
+  cursor: pointer;
+  transition: color 0.4s ease;
+}
+
+.outer-menu .menu > div > div > ul > li > a:hover {
+  color: #e5e5e5;
+}
+
+.outer-menu .menu > div > div > ul > li > a:hover:after {
+  width: 100%;
+}
+
+.outer-menu .menu > div > div > ul > li > a:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: -0.15em;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #e5e5e5;
+  transition: width 0.4s ease;
+}
+
+a {
+  font-family: "Permanent Marker", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.5rem;
+}
+
+.First {
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-family: "Pacifico", cursive;
+  font-weight: 400;
+  font-size: 3rem;
+  text-align: center;
+  margin: 0;
+  margin-top: 12dvh;
+  margin-bottom: 1dvh;
+}
+
+.imgContent {
+  height: 40dvh;
+  display: flex;
+  justify-content: center;
   margin-top: 5dvh;
 }
 
-@media (max-width: 576px) {
-  .header {
-    height: 30dvh;
+.responsive-image {
+  max-width: 100%; /* 使圖片不超過其容器的寬度 */
+  height: 40dvh; /* 高度自動調整以保持比例 */
+}
+
+.Who {
+  height: 25dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 4dvh;
+}
+.Who p {
+  font-family: "Rubik Marker Hatch", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+.Who .NameP {
+  font-size: 2rem;
+}
+.Who .NiceP {
+  font-size: 1.5rem;
+}
+.Who .SoftP {
+  font-size: 1.2rem;
+}
+
+/* 桌面版樣式 */
+@media screen and (min-width: 768px) {
+  .outer-menu {
+    top: 20px;
+    left: 20px;
   }
-  .header .topback {
-    height: 30dvh;
-    top: 0px;
+  .outer-menu .checkbox-toggle,
+  .outer-menu .hamburger {
+    width: 60px;
+    height: 60px;
   }
-  .header .top {
-    height: 5.7dvh;
-    top: 0dvh;
+  .outer-menu .hamburger > div:before,
+  .outer-menu .hamburger > div:after {
+    top: -10px;
   }
-  .header .logo {
-    top: 1dvh;
-    left: 0%;
-    width: 25%;
+  .outer-menu .hamburger > div:after {
+    top: 10px;
   }
-  .header .logo2 {
-    top: 1dvh;
-    left: 74%;
-    width: 25%;
+  .outer-menu .menu > div > div {
+    transform: scale(0.8);
   }
-  .header .logo3 {
-    top: 10dvh;
-    left: 19%;
-    width: 65%;
+  .outer-menu .menu > div > div > ul > li {
+    font-size: 24px;
   }
-  .second {
-    height: 50dvh;
-  }
-  .second h1 {
-    font-size: 2rem;
-    margin-top: 1dvh;
-    margin-bottom: 2dvh;
-  }
-  .second p {
-    font-size: 0.8rem;
-    margin-top: 3dvh;
-  }
-  .third {
-    height: 140dvh;
-  }
-  .third h2 {
-    font-size: 2rem;
-    margin-top: 5dvh;
-    margin-bottom: 8dvh;
-  }
-  .third .thirdOne {
-    display: flex;
-    flex-direction: column;
-  }
-  .third .thirdOne h3 {
-    font-size: 1rem;
-    margin-top: 1.5dvh;
-    margin-bottom: 5dvh;
-  }
-  .third .thirdOne .thirdImg .responsive-img {
-    max-height: 30dvh; /* 調整最大高度 */
-  }
-  .fourth {
-    height: 50dvh;
-  }
-  .fourth .carousel-item img {
-    height: 30dvh;
-  }
-  .fourth .sayu {
-    width: 95%;
-  }
-  .fourth .carousel-indicators button {
-    width: 20%;
-  }
-  .fourth h3 {
-    width: 5%;
-    font-size: 1rem;
-    font-weight: bold;
-  }
-  .footer {
-    width: 100%;
-    height: 10dvh;
-    position: relative;
-    background-color: #3E3E3E;
-  }
-  .footer .logofooter {
-    width: 15%;
-    height: 5dvh;
-    margin-left: 1%;
-    margin-top: 3dvh;
-    margin-bottom: 0dvh;
-  }
-  .footer .twitter {
-    width: 10%;
-    height: 5dvh;
-    border-radius: 10px;
-    margin-left: 10%;
-    margin-top: 2dvh;
-    margin-bottom: 0dvh;
-  }
-  .footer .ig {
-    width: 10%;
-    height: 5dvh;
-    border-radius: 10px;
-    margin-left: 5%;
-    margin-top: 2dvh;
-    margin-bottom: 0dvh;
-  }
-  .footer .youtube {
-    width: 10%;
-    height: 5dvh;
-    border-radius: 10px;
-    margin-left: 5%;
-    margin-top: 2dvh;
-    margin-bottom: 0dvh;
-  }
-  #console {
-    font-family: monospace;
-    background: #eee;
-    padding: 10px;
-    border: 1px solid #ccc;
-    max-height: 200px;
-    overflow-y: auto;
+  a {
+    font-size: 2.5rem;
   }
 }/*# sourceMappingURL=sanketsu.css.map */
