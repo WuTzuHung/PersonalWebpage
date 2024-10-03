@@ -1,0 +1,292 @@
+@charset "UTF-8";
+body {
+  margin: 0;
+  background: url(https://pbs.twimg.com/media/FosGiivaYAAOqxC?format=jpg&name=large) no-repeat center center fixed;
+  background-size: cover;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.header {
+  width: 100%;
+  height: 100dvh;
+  position: relative;
+  margin: 0;
+}
+.header .topback {
+  width: 100%;
+  height: 100dvh;
+  position: absolute;
+  top: 0px;
+}
+.header .top {
+  width: 100%;
+  height: 19dvh;
+  position: fixed;
+  top: 0dvh;
+  z-index: 1000;
+}
+.header .logo {
+  position: fixed;
+  top: 1dvh;
+  left: 0%;
+  z-index: 1001;
+}
+.header .logo2 {
+  position: fixed;
+  top: 5dvh;
+  left: 85%;
+  z-index: 1002;
+}
+.header .logo3 {
+  position: absolute;
+  top: 30dvh;
+  left: 25%;
+}
+
+.second br {
+  display: none;
+}
+
+.second {
+  width: 100%;
+  height: 105dvh;
+  background-color: rgba(255, 192, 203, 0.5);
+  padding: 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.second h1 {
+  font-size: 5rem;
+  margin-bottom: 5dvh;
+}
+.second p {
+  font-size: 1.9rem;
+  margin-top: 10dvh;
+}
+
+.third {
+  width: 100%;
+  height: 120dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(203, 115, 245, 0.5);
+  padding: 0.1px;
+  align-items: center;
+}
+.third h2 {
+  font-size: 5rem;
+  margin-top: 15dvh;
+  margin-bottom: 15dvh;
+}
+.third .thirdOne {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.third .thirdOne h3 {
+  margin-top: 3.5dvh;
+}
+.third .thirdOne .thirdImg {
+  text-align: center;
+}
+.third .thirdOne .thirdImg .responsive-img {
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover; /* 保持比例裁剪 */
+  border-radius: 5%;
+  max-width: 70%; /* 你可以調整最大寬度，讓圖片大小保持一致 */
+  max-height: 90dvh; /* 調整最大高度 */
+  aspect-ratio: 6/9; /* 設定一個固定的寬高比例，如 16:9 */
+}
+
+.fourth {
+  width: 100%;
+  height: 115dvh;
+  background-color: rgba(255, 192, 203, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1px;
+}
+.fourth .carousel-item img {
+  height: 100dvh;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.fourth .sayu {
+  width: 70%;
+}
+.fourth .carousel-indicators button {
+  width: 30%;
+  margin-left: 3%;
+  margin-right: 3%;
+}
+.fourth h3 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.footer {
+  width: 100%;
+  height: 22dvh;
+  position: relative;
+  background-color: #3E3E3E;
+}
+.footer a {
+  text-decoration: none;
+}
+.footer .logofooter {
+  width: 18%;
+  margin-left: 1%;
+  margin-top: 4.5dvh;
+}
+.footer .twitter {
+  width: 4.5%;
+  height: 10dvh;
+  border-radius: 10px;
+  margin-left: 10%;
+  margin-top: 5dvh;
+}
+.footer .ig {
+  width: 4.5%;
+  height: 10dvh;
+  border-radius: 10px;
+  margin-left: 4%;
+  margin-top: 5dvh;
+}
+.footer .youtube {
+  width: 4.5%;
+  height: 10dvh;
+  border-radius: 10px;
+  margin-left: 4%;
+  margin-top: 5dvh;
+}
+
+@media (max-width: 576px) {
+  .header {
+    height: 30dvh;
+  }
+  .header .topback {
+    height: 30dvh;
+    top: 0px;
+  }
+  .header .top {
+    height: 5.7dvh;
+    top: 0dvh;
+  }
+  .header .logo {
+    top: 1dvh;
+    left: 0%;
+    width: 25%;
+  }
+  .header .logo2 {
+    top: 1dvh;
+    left: 74%;
+    width: 25%;
+  }
+  .header .logo3 {
+    top: 10dvh;
+    left: 19%;
+    width: 65%;
+  }
+  .second {
+    height: 50dvh;
+  }
+  .second h1 {
+    font-size: 2rem;
+    margin-top: 1dvh;
+    margin-bottom: 2dvh;
+  }
+  .second p {
+    font-size: 0.8rem;
+    margin-top: 3dvh;
+  }
+  .third {
+    height: 140dvh;
+  }
+  .third h2 {
+    font-size: 2rem;
+    margin-top: 5dvh;
+    margin-bottom: 8dvh;
+  }
+  .third .thirdOne {
+    display: flex;
+    flex-direction: column;
+  }
+  .third .thirdOne h3 {
+    font-size: 1rem;
+    margin-top: 1.5dvh;
+    margin-bottom: 5dvh;
+  }
+  .third .thirdOne .thirdImg .responsive-img {
+    max-height: 30dvh; /* 調整最大高度 */
+  }
+  .fourth {
+    height: 50dvh;
+  }
+  .fourth .carousel-item img {
+    height: 30dvh;
+  }
+  .fourth .sayu {
+    width: 95%;
+  }
+  .fourth .carousel-indicators button {
+    width: 20%;
+  }
+  .fourth h3 {
+    width: 5%;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  .footer {
+    width: 100%;
+    height: 10dvh;
+    position: relative;
+    background-color: #3E3E3E;
+  }
+  .footer .logofooter {
+    width: 15%;
+    height: 5dvh;
+    margin-left: 1%;
+    margin-top: 3dvh;
+    margin-bottom: 0dvh;
+  }
+  .footer .twitter {
+    width: 10%;
+    height: 5dvh;
+    border-radius: 10px;
+    margin-left: 10%;
+    margin-top: 2dvh;
+    margin-bottom: 0dvh;
+  }
+  .footer .ig {
+    width: 10%;
+    height: 5dvh;
+    border-radius: 10px;
+    margin-left: 5%;
+    margin-top: 2dvh;
+    margin-bottom: 0dvh;
+  }
+  .footer .youtube {
+    width: 10%;
+    height: 5dvh;
+    border-radius: 10px;
+    margin-left: 5%;
+    margin-top: 2dvh;
+    margin-bottom: 0dvh;
+  }
+  #console {
+    font-family: monospace;
+    background: #eee;
+    padding: 10px;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+}/*# sourceMappingURL=sanketsu.css.map */

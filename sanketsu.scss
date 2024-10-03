@@ -1,0 +1,453 @@
+body{
+    margin: 0;
+  background: url(https://pbs.twimg.com/media/FosGiivaYAAOqxC?format=jpg&name=large) no-repeat center center fixed;
+  background-size: cover;
+}
+
+::-webkit-scrollbar {
+    display: none; 
+}
+
+
+
+    .header{
+        width: 100%;
+        height: 100dvh;
+    //     // border: 1px solid black;
+        position: relative;
+        margin: 0;
+        // justify-content: center;
+
+        .topback{
+            width: 100%;
+            height: 100dvh;
+            position: absolute;
+            top: 0px;
+        }
+        
+        .top{
+            width: 100%;
+            height: 19dvh;
+            position: fixed;
+            top: 0dvh;
+            z-index: 1000;
+        }
+
+        .logo{
+            position: fixed;
+            top: 1dvh;
+            left: 0%;
+            z-index: 1001;
+        }
+
+        .logo2{
+            position: fixed;
+            top: 5dvh;
+            left: 85%;
+            z-index: 1002;
+        }
+
+        .logo3{
+            position: absolute;
+            top: 30dvh;
+            left: 25%;
+            // margin-top: 15dvh;
+        }
+
+        // .logo4{
+        //     position: absolute;
+        //     top: 25%;
+        //     left: 15%;
+        //     width: 70%;
+        // }
+    }
+
+    .second br {
+        display: none; 
+      }
+
+
+    .second{
+        width: 100%;
+        height: 105dvh;
+        background-color: rgba(255, 192, 203, 0.5);
+        padding: 1px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        h1{
+            font-size: 5rem;
+            margin-bottom: 5dvh;
+        }
+
+        p{
+            font-size: 1.9rem;
+            margin-top: 10dvh;
+        }
+
+        
+    }
+
+    .third{
+        width: 100%;
+        height: 120dvh;
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(203, 115, 245, 0.5);
+        padding: 0.1px;
+        // justify-content: center;
+        align-items: center;
+
+        h2{
+            font-size: 5rem;
+            margin-top: 15dvh;
+            margin-bottom: 15dvh;
+        }
+
+        .thirdOne{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        h3{
+            margin-top: 3.5dvh;
+        }
+        
+
+        .thirdImg{
+            text-align: center;
+            
+            .responsive-img {
+                width: 100%;
+                height: auto;
+                object-fit: cover; /* 保持比例裁剪 */
+                border-radius: 5%;
+                max-width: 70%; /* 你可以調整最大寬度，讓圖片大小保持一致 */
+                max-height: 90dvh; /* 調整最大高度 */
+                aspect-ratio: 6 / 9; /* 設定一個固定的寬高比例，如 16:9 */
+              }
+        }
+
+
+    }
+
+
+    }
+
+
+
+    .fourth{
+        width: 100%;
+        height: 115dvh;
+        // position: relative;
+        background-color: rgba(255, 192, 203, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1px;
+
+
+        .carousel-item img {
+            height: 100dvh; 
+            object-fit: cover; //填滿容器，保持寬高比
+        }
+
+        .sayu{
+            // position: absolute;
+            width: 70%;
+            // height: 100dvh;
+           
+
+            .carousel-control-prev{
+                
+            }
+
+            .carousel-control-next{
+
+                
+            }
+        }
+
+        .carousel-indicators button{
+            width: 30%;
+            margin-left: 3%;
+            margin-right: 3%;
+            
+        }
+
+        h3{
+            font-size: 2rem;
+            // color: black;
+            font-weight: bold;
+        }
+
+
+    }
+
+
+    // .fifth{
+    //     width: 100vw;
+    //     height: 920px;
+    //     position: relative;
+    //     background-color: rgba(203, 115, 245, 0.5);
+    // }
+
+    // .sixth{
+    //     width: 100vw;
+    //     height: 950px;
+    //     position: relative;
+    //     background-color: rgba(255, 192, 203, 0.5);
+    // }
+
+    .footer{
+        width: 100%;
+        height: 22dvh;
+        position: relative;
+        background-color: #3E3E3E;
+
+        a{
+            text-decoration: none;
+        }
+
+        .logofooter{
+            width: 18%;
+            margin-left: 1%;
+            margin-top: 4.5dvh;
+
+            
+            
+            
+        }
+
+        .twitter{
+            width: 4.5%;
+            height: 10dvh;
+             border-radius: 10px;
+            margin-left: 10%;
+            margin-top: 5dvh;
+
+        }
+
+        .ig{
+            width: 4.5%;
+            height: 10dvh;
+            border-radius: 10px;
+            margin-left: 4%;
+            margin-top: 5dvh;
+            
+        }
+
+        .youtube{
+            width: 4.5%;
+            height: 10dvh;
+            border-radius: 10px;
+            margin-left: 4%;
+            margin-top: 5dvh;
+            
+    }
+
+}
+
+@media (max-width: 576px) { 
+
+    .header{
+        height: 30dvh;
+
+
+        .topback{
+            height: 30dvh;
+            top: 0px;
+        }
+        
+        .top{
+            height: 5.7dvh;
+            top: 0dvh;
+        }
+
+        .logo{
+            top: 1dvh;
+            left: 0%;
+            width: 25%;
+        }
+
+        .logo2{
+            top: 1dvh;
+            left: 74%;
+            width: 25%;
+
+        }
+
+        .logo3{
+            top: 10dvh;
+            left: 19%;
+            width: 65%;
+        }
+
+        // .logo4{
+        //     position: absolute;
+        //     top: 25%;
+        //     left: 15%;
+        //     width: 70%;
+        // }
+    }
+
+    .second{
+        height: 50dvh;
+        
+
+        h1{
+            font-size: 2rem;
+            margin-top: 1dvh;
+            margin-bottom: 2dvh;
+        }
+
+        p{
+            font-size: 0.8rem;
+            margin-top: 3dvh;
+        }
+
+        
+    }
+
+    .third{
+        height: 140dvh;
+
+        h2{
+            font-size: 2rem;
+            margin-top: 5dvh;
+            margin-bottom: 8dvh;
+        }
+
+        .thirdOne{
+            display: flex;
+            flex-direction: column;
+
+        h3{
+            font-size: 1rem;
+            margin-top: 1.5dvh;
+            margin-bottom: 5dvh;
+        }
+        
+
+        .thirdImg{
+            
+            .responsive-img {
+                max-height: 30dvh; /* 調整最大高度 */
+              }
+        }
+
+
+    }
+
+
+    }
+
+
+    .fourth{
+        height: 50dvh;
+
+
+        .carousel-item img {
+            height: 30dvh; 
+        }
+
+        .sayu{
+            width: 95%;
+           
+
+            .carousel-control-prev{
+                
+            }
+
+            .carousel-control-next{
+
+                
+            }
+
+            
+        }
+
+        .carousel-indicators button{
+            width: 20%;
+            
+        }
+
+        h3{
+            width: 5%;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+
+    }
+
+
+    .footer{
+        width: 100%;
+        height: 10dvh;
+        position: relative;
+        background-color: #3E3E3E;
+
+        .logofooter{
+            width: 15%;
+            height: 5dvh;
+            margin-left: 1%;
+            margin-top: 3dvh;
+            margin-bottom: 0dvh;
+
+            
+        }
+
+        .twitter{
+            width: 10%;
+
+
+            height: 5dvh;
+            border-radius: 10px;
+            margin-left: 10%;
+            margin-top: 2dvh;
+            margin-bottom: 0dvh;
+
+        }
+
+        .ig{
+            width: 10%;
+
+
+            height: 5dvh;
+            border-radius: 10px;
+            margin-left: 5%;
+            margin-top: 2dvh;
+            margin-bottom: 0dvh;
+
+            
+        }
+
+        .youtube{
+            width: 10%;
+
+
+            height: 5dvh;
+            border-radius: 10px;
+            margin-left: 5%;
+            margin-top: 2dvh;
+            margin-bottom: 0dvh;
+
+            
+    }
+
+}
+
+// #console {
+//     font-family: monospace;
+//     background: #eee;
+//     padding: 10px;
+//     border: 1px solid #ccc;
+//     max-height: 200px;
+//     overflow-y: auto;
+// }
+
+
+ }
