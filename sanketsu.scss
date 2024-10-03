@@ -1,6 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Pacifico|Open+Sans:300');
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik+Marker+Hatch&display=swap');
 
+.startColor{
+    background-color: aqua;
+    height: 100dvh;
+    padding: 0.1px;
+}
+
+
+//漢堡選單
         * {
             box-sizing: border-box;
             font-family: 'Open Sans', sans-serif;
@@ -203,6 +211,10 @@
             transition: width .4s ease;
         }
 
+        //漢堡選單以上
+
+        //以下是個人首頁
+
         a{
             font-family: "Permanent Marker", cursive;
             font-weight: 400;
@@ -270,7 +282,10 @@
         //     }
         //   }
 
+                //以上是個人首頁
+
         /* 桌面版樣式 */
+        // 個人首頁
         @media screen and (min-width: 768px) {
             .outer-menu {
                 top: 20px;
@@ -303,4 +318,6 @@
             a{
                 font-size: 2.5rem;
             }
+
+            //// 個人首頁以上
         }

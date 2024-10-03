@@ -1,6 +1,12 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css?family=Pacifico|Open+Sans:300");
 @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik+Marker+Hatch&display=swap");
+.startColor {
+  background-color: aqua;
+  height: 100dvh;
+  padding: 0.1px;
+}
+
 * {
   box-sizing: border-box;
   font-family: "Open Sans", sans-serif;
