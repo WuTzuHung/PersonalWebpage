@@ -366,6 +366,17 @@ h1 {
 
 /* 桌面版樣式 */
 @media screen and (min-width: 768px) {
+  .background-animation .circle {
+    width: 10vw; /* 在小螢幕上改變大小 */
+    height: 10vw; /* 在小螢幕上改變大小 */
+  }
+  .background-animation .animaP {
+    font-size: 5rem;
+    margin-top: 13dvh;
+  }
+  .background-animation .animaP2 {
+    font-size: 5.5rem;
+  }
   .outer-menu {
     top: 20px;
     left: 20px;
@@ -389,6 +400,40 @@ h1 {
     font-size: 24px;
   }
   a {
+    font-size: 2.5rem;
+  }
+  h1 {
+    font-size: 3rem;
+    margin: 0; /* 清除默認的邊距 */
+    position: fixed; /* 使用固定定位 */
+    bottom: 0; /* 將元素定位到螢幕底部 */
+    right: 0; /* 將元素定位到螢幕右側 */
+    padding: 12px; /* 添加一些內邊距，根據需要調整 */
+  }
+  .First {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20dvh;
+  }
+  .First .imgContent {
+    margin-left: 10%;
+    height: 60dvh;
+  }
+  .First .responsive-image {
+    height: 60dvh;
+  }
+  .First .Who {
+    width: 50%;
+    margin-top: 12dvh;
+    margin-left: 5%;
+  }
+  .First .Who .NameP {
+    font-size: 5rem;
+  }
+  .First .Who .NiceP {
+    font-size: 3rem;
+  }
+  .First .Who .SoftP {
     font-size: 2.5rem;
   }
 }/*# sourceMappingURL=sanketsu.css.map */
