@@ -1,23 +1,69 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css?family=Pacifico|Open+Sans:300");
 @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik+Marker+Hatch&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: "Neue Montreal", sans-serif;
+  height: 100dvh;
+  background: white;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.nav {
+  width: 100%;
+  display: flex;
+  gap: 2em;
+  padding: 2em 2.5em;
+  border-bottom: 1px rgba(255, 255, 255, 0.1);
+}
+
+.transition {
+  position: absolute;
+  z-index: 2000;
+  width: 100%;
+  height: 100dvh;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background: rgb(41, 98, 255);
+  transform: scaleY(0);
+}
+
+.container {
+  padding: 2em;
+}
+
 .background-animation {
-  position: fixed; /* 固定在螢幕上 */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100dvh;
-  background-color: #ff0000; /* 背景顏色，可以根據需要改變 */
-  opacity: 1; /* 初始透明度 */
-  z-index: 999; /* 確保在所有元素上方 */
+  background-color: #ff0000;
+  opacity: 1;
+  z-index: 999;
 }
 .background-animation .floor {
-  position: fixed; /* 固定在螢幕上 */
+  position: fixed;
   width: 100%;
   height: 40dvh;
   bottom: 0dvh;
   background-color: black;
-  z-index: 1000; /* 確保在所有元素上方 */
+  z-index: 1000;
   animation: wobble-hor-bottom 1.3s both;
 }
 @keyframes wobble-hor-bottom {
@@ -46,12 +92,10 @@
   border-radius: 50%;
   width: 25vw;
   height: 25vw;
-  position: fixed; /* 固定在螢幕上 */
-  z-index: 1001; /* 確保在背景動畫上方 */
-  bottom: 40dvh; /* 定位在螢幕中央 */
+  position: fixed;
+  z-index: 1001;
+  bottom: 40dvh;
   left: 10%;
-  transform: translate(-50%, -50%); /* 讓圓形居中 */
-  /* 添加動畫 */
   animation: bounce-in-top 2s both;
 }
 .background-animation p {
@@ -68,11 +112,9 @@
 .background-animation .animaP2 {
   font-size: 3rem;
 }
-
-/* bounce-in-top 動畫效果 */
 @keyframes bounce-in-top {
   0% {
-    transform: translateY(-1000px);
+    transform: translateY(-800px);
     animation-timing-function: ease-in;
     opacity: 0;
   }
@@ -326,7 +368,7 @@ h1 {
   font-size: 3rem;
   text-align: center;
   margin: 0;
-  margin-top: 12dvh;
+  margin-top: 0dvh;
   margin-bottom: 1dvh;
 }
 
@@ -413,7 +455,7 @@ h1 {
   .First {
     display: flex;
     flex-direction: row;
-    margin-top: 20dvh;
+    margin-top: 8dvh;
   }
   .First .imgContent {
     margin-left: 10%;
@@ -425,7 +467,7 @@ h1 {
   .First .Who {
     width: 50%;
     margin-top: 12dvh;
-    margin-left: 5%;
+    margin-left: 6%;
   }
   .First .Who .NameP {
     font-size: 5rem;

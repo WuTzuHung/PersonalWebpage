@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="./sanketsu.css">
     <!-- Animate.css -->
@@ -12,6 +12,43 @@
 
 </head>
 <body>
+
+  <body data-barba="wrapper">
+    <div class="transition"></div>
+    <div class="wrapper">
+      <div class="nav">
+        <div class="wow animate__animated animate__fadeIn outer-menu" data-wow-delay="6s" >
+          <input class="checkbox-toggle" type="checkbox" />
+          <div class="hamburger">
+              <div></div>
+          </div>
+          <div class="menu">
+              <div>
+                  <div>
+                      <ul>
+                          <li><a href="index.html">Home</a></li>
+                          <li><a href="about.html">About me</a></li>
+                          <li><a href="skills.html">Skills</a></li>
+                          <li><a href="favorites.html">Favorites</a></li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+      </div>
+
+      <main data-barba="container" 
+      data-barba-namespace="home"
+      class="container" 
+      >
+      <!-- <div class="header"> -->
+        <!-- <div class="header-revealer"></div>  -->
+        <!-- <h2>home</h2> -->
+
+<!-- </div>  -->
+<!-- 上面是header的結尾div -->
+<h1 class="wow animate__animated animate__flipInX" data-wow-delay="4.1s" data-wow-duration="2s" >Portfolio</h1>
+
   <!-- 新增的背景動畫元素 -->
   <div class="background-animation" id="backgroundAnimation">
     <p class="animaP">Welcome</p>
@@ -19,25 +56,7 @@
     <div class="wow floor" data-wow-delay="1.75s"></div>
     <div class="wow circle" data-wow-delay="1s"></div>
   </div>
-  <div class="wow animate__animated animate__fadeIn outer-menu" data-wow-delay="6s" >
-    <input class="checkbox-toggle" type="checkbox" />
-    <div class="hamburger">
-        <div></div>
-    </div>
-    <div class="menu">
-        <div>
-            <div>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About me</a></li>
-                    <li><a href="skills.html">Skills</a></li>
-                    <li><a href="favorites.html">Favorites</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<h1 class="wow animate__animated animate__flipInX" data-wow-delay="4.5s" data-wow-duration="1.5s" >Portfolio</h1>
+
 <div class="First">
 <div class="wow animate__animated animate__fadeIn imgContent" data-wow-delay="5.5s">
 <img src="public/pictures/kojin.jpg" alt="無法顯示圖片" class="responsive-image">
@@ -56,33 +75,26 @@
 <img class="imgIcons" src="public/pictures/media-network-social-2-svgrepo-com.svg" alt="">
   </div> -->
 
+      </main>
+    </div>
+  </body>
+  
+
 
         <script src="https://cdn.jsdelivr.net/npm/@barba/core"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
         <!-- WOW.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+        <script src="src/main.js"></script>
+        
         <script>
+          
           // 初始化 WOW.js
           new WOW().init();
       
-// GSAP 動畫
-window.onload = function() {
-    // 先將透明度設置為 1
-    document.getElementById("backgroundAnimation").style.opacity = 1;
 
-    // 延遲顯示，然後進行淡出
-    gsap.to("#backgroundAnimation", {
-      duration: 1,    // 動畫持續時間
-      delay: 4,       // 延遲 4 秒後開始消失（根據需要調整）
-      opacity: 0,     // 最終透明度
-      onComplete: function() {
-        // 動畫完成後隱藏元素
-        document.getElementById("backgroundAnimation").style.display = "none";
-      }
-    });
-  };
         </script>
-        <script src="src/main.js"></script>
+        
 </body>
 </html>
