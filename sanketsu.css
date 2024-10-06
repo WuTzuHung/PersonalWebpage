@@ -61,7 +61,7 @@ h2 {
   font-family: "Sigmar", sans-serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 120px;
+  font-size: 3rem;
   line-height: 1;
   font-weight: 400;
   color: #5b3232;
@@ -483,7 +483,6 @@ h1 {
     font-size: 2.5rem;
   }
   h1 {
-    font-size: 3rem;
     margin: 0; /* 清除默認的邊距 */
     position: fixed; /* 使用固定定位 */
     bottom: 0; /* 將元素定位到螢幕底部 */
@@ -515,5 +514,16 @@ h1 {
   }
   .First .Who .SoftP {
     font-size: 2.5rem;
+  }
+  h2 {
+    position: relative;
+    font-family: "Sigmar", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 7rem;
+    line-height: 1;
+    font-weight: 400;
+    color: #5b3232;
+    top: 120px;
   }
 }/*# sourceMappingURL=sanketsu.css.map */
