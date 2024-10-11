@@ -176,6 +176,8 @@ h2{
         bottom: 40dvh;
         left: 10%;
         // transform: translate(-50%, -50%); 
+        will-change: transform, opacity; /* 預告瀏覽器進行變化的屬性 */
+        transform: translate3d(0, 0, 0); /* 啟用 3D 變換，強制 GPU 加速 */
 
         //墜落動畫時間
     -webkit-animation: bounce-in-top 2s both;
