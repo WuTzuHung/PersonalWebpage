@@ -134,6 +134,7 @@ h2 {
   z-index: 1001;
   bottom: 40dvh;
   left: 10%;
+  transform: translate(-50%, -50%);
   animation: bounce-in-top 2s both;
 }
 .background-animation p {
