@@ -135,7 +135,7 @@ h2 {
   bottom: 40dvh;
   left: 10%;
   transform: translate(-50%, -50%);
-  animation: bounce-in-top 3s both;
+  animation: bounce-in-top 2.6s both;
 }
 .background-animation p {
   text-align: center;
