@@ -102,8 +102,8 @@ h2{
         background-color: black;
         z-index: 1000; 
 
-        -webkit-animation: wobble-hor-bottom 1.7s both;
-	        animation: wobble-hor-bottom 1.7s both;
+        -webkit-animation: wobble-hor-bottom 1.5s both;
+	        animation: wobble-hor-bottom 1.5s both;
     }
 
     @-webkit-keyframes wobble-hor-bottom {
@@ -170,8 +170,8 @@ h2{
     .circle {
         background: #3E3E3E;
         border-radius: 50%;
-        width: 100px;
-        height: 100px;
+        width: 20px;
+        height: 20px;
         position: fixed; 
         z-index: 1001; 
         bottom: 40dvh;
