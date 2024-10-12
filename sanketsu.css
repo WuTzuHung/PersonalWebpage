@@ -95,46 +95,95 @@ h2 {
   opacity: 1;
   z-index: 999;
 }
+.background-animation .homeTopLeft {
+  position: fixed;
+  width: 15%;
+  height: 7dvh;
+  left: 2%;
+  top: 2dvh;
+  background-color: white;
+  z-index: 1000;
+  -webkit-clip-path: polygon(0 0, 100% 0, 0 100%);
+          clip-path: polygon(0 0, 100% 0, 0 100%);
+}
 .background-animation .floor {
   position: fixed;
   width: 100%;
-  height: 40dvh;
+  height: 50dvh;
   bottom: 0dvh;
   background-color: black;
   z-index: 1000;
-  animation: wobble-hor-bottom 1.5s both;
+  -webkit-clip-path: polygon(100% 100%, 0 100%, 100% 0);
+          clip-path: polygon(100% 100%, 0 100%, 100% 0);
 }
-@keyframes wobble-hor-bottom {
-  0%, 100% {
-    transform: translateX(0%);
-    transform-origin: 50% 50%;
-  }
-  15% { /* 調整幅度 */
-    transform: translateX(-10px) rotate(-3deg); /* 調整幅度 */
-  }
-  30% { /* 調整幅度 */
-    transform: translateX(8px) rotate(2.5deg); /* 調整幅度 */
-  }
-  45% { /* 調整幅度 */
-    transform: translateX(-6px) rotate(-2deg); /* 調整幅度 */
-  }
-  60% { /* 調整幅度 */
-    transform: translateX(4px) rotate(1.5deg); /* 調整幅度 */
-  }
-  75% { /* 調整幅度 */
-    transform: translateX(-2px) rotate(-1deg); /* 調整幅度 */
-  }
+.background-animation div.elasticball {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: 6rem;
+  margin: 0;
+  margin-top: 13dvh;
 }
-.background-animation .circle {
-  background: #3E3E3E;
+.background-animation div.elasticball:before {
+  content: "";
+  width: 2rem;
+  height: 2rem;
+  bottom: 0;
+  opacity: 0;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  position: fixed;
-  z-index: 1001;
-  bottom: 40dvh;
-  left: 10%;
-  animation: bounce-in-top 2s both;
+  position: absolute;
+  background-color: #ffffff;
+  transform: scaleY(0.5) translateY(1rem);
+  animation: elasticball-bottom 0.5s 0.3s infinite;
+}
+.background-animation div.elasticball__ball {
+  width: 1.5rem;
+  height: 1.5rem;
+  transform-origin: 50% 100%;
+  animation: elasticball 0.5s infinite cubic-bezier(1, -0.01, 0, 1);
+}
+.background-animation div.elasticball__ball i {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 50%;
+  background-color: #ffffff;
+  animation: elasticball-color 2s infinite;
+}
+@keyframes elasticball {
+  0% {
+    transform: translateY(0) scaleY(1);
+  }
+  50% {
+    transform: translateY(4rem) scaleY(0.7);
+  }
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
+}
+@keyframes elasticball-color {
+  0% {
+    background-color: #ffffff;
+  }
+  30% {
+    background-color: #ffffff;
+  }
+  50% {
+    background-color: #000000;
+  }
+  80% {
+    background-color: #000000;
+  }
+}
+@keyframes elasticball-bottom {
+  0% {
+    transform: scale(1, 0.5) translateY(1rem);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(2, 0.5) translateY(1rem);
+    opacity: 0;
+  }
 }
 .background-animation p {
   text-align: center;
@@ -151,42 +200,6 @@ h2 {
   font-size: 3rem;
 }
 
-@keyframes bounce-in-top {
-  0% {
-    transform: translateY(-800px);
-    animation-timing-function: ease-in;
-    opacity: 0;
-  }
-  38% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-    opacity: 1;
-  }
-  55% {
-    transform: translateY(-200px);
-    animation-timing-function: ease-in;
-  }
-  72% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-  }
-  81% {
-    transform: translateY(-80px);
-    animation-timing-function: ease-in;
-  }
-  90% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-  }
-  95% {
-    transform: translateY(-16px);
-    animation-timing-function: ease-in;
-  }
-  100% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-  }
-}
 * {
   box-sizing: border-box;
   font-family: "Open Sans", sans-serif;
