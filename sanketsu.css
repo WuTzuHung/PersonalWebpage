@@ -102,7 +102,7 @@ h2 {
   bottom: 0dvh;
   background-color: black;
   z-index: 1000;
-  animation: wobble-hor-bottom 1.3s both;
+  animation: wobble-hor-bottom 1.7s both;
 }
 @keyframes wobble-hor-bottom {
   0%, 100% {
@@ -134,7 +134,7 @@ h2 {
   z-index: 1001;
   bottom: 40dvh;
   left: 10%;
-  animation: bounce-in-top 2.1s both;
+  animation: bounce-in-top 2s both;
 }
 .background-animation p {
   text-align: center;
@@ -150,9 +150,10 @@ h2 {
 .background-animation .animaP2 {
   font-size: 3rem;
 }
+
 @keyframes bounce-in-top {
   0% {
-    transform: translateY(-500px);
+    transform: translateY(-800px);
     animation-timing-function: ease-in;
     opacity: 0;
   }
@@ -162,7 +163,7 @@ h2 {
     opacity: 1;
   }
   55% {
-    transform: translateY(-65px);
+    transform: translateY(-200px);
     animation-timing-function: ease-in;
   }
   72% {
@@ -170,7 +171,7 @@ h2 {
     animation-timing-function: ease-out;
   }
   81% {
-    transform: translateY(-28px);
+    transform: translateY(-80px);
     animation-timing-function: ease-in;
   }
   90% {
@@ -178,7 +179,7 @@ h2 {
     animation-timing-function: ease-out;
   }
   95% {
-    transform: translateY(-8px);
+    transform: translateY(-16px);
     animation-timing-function: ease-in;
   }
   100% {
