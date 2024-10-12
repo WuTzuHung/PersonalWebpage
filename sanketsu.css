@@ -128,8 +128,8 @@ h2 {
 .background-animation .circle {
   background: #3E3E3E;
   border-radius: 50%;
-  width: 25vw;
-  height: 25vw;
+  width: 100px;
+  height: 100px;
   position: fixed;
   z-index: 1001;
   bottom: 40dvh;
