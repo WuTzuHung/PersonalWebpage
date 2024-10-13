@@ -95,111 +95,82 @@ h2 {
   opacity: 1;
   z-index: 999;
 }
-.background-animation .homeTopLeft {
-  position: fixed;
-  width: 15%;
-  height: 7dvh;
-  left: 2%;
-  top: 2dvh;
-  background-color: white;
-  z-index: 1000;
-  -webkit-clip-path: polygon(0 0, 100% 0, 0 100%);
-          clip-path: polygon(0 0, 100% 0, 0 100%);
-}
-.background-animation .floor {
-  position: fixed;
+
+.funspinner {
   width: 100%;
-  height: 50dvh;
-  bottom: 0dvh;
-  background-color: black;
-  z-index: 1000;
-  -webkit-clip-path: polygon(100% 100%, 0 100%, 100% 0);
-          clip-path: polygon(100% 100%, 0 100%, 100% 0);
-}
-.background-animation .elasticball {
+  height: 100dvh;
   display: flex;
   justify-content: center;
-  position: relative;
-  height: 6rem;
-  margin: 0;
-  margin-top: 13dvh;
-}
-.background-animation .elasticball:before {
-  content: "";
-  width: 2rem;
-  height: 2rem;
-  bottom: 0;
-  opacity: 0;
-  border-radius: 50%;
-  position: absolute;
-  background-color: #ffffff;
-  transform: scaleY(0.5) translateY(1rem);
-  animation: elasticball-bottom 0.5s 0.3s infinite;
-}
-.background-animation .elasticball__ball {
-  width: 1.5rem;
-  height: 1.5rem;
-  transform-origin: 50% 100%;
-  animation: elasticball 0.5s infinite cubic-bezier(1, -0.01, 0, 1);
-}
-.background-animation .elasticball__ball i {
-  width: 100%;
-  height: 100%;
-  display: block;
-  border-radius: 50%;
-  background-color: #ffffff;
-  animation: elasticball-color 2s infinite;
-}
-@keyframes elasticball {
-  0% {
-    transform: translateY(0) scaleY(1);
-  }
-  50% {
-    transform: translateY(4rem) scaleY(0.7);
-  }
-  100% {
-    transform: translateY(0) scaleY(1);
-  }
-}
-@keyframes elasticball-color {
-  0% {
-    background-color: #ffffff;
-  }
-  30% {
-    background-color: #ffffff;
-  }
-  50% {
-    background-color: #000000;
-  }
-  80% {
-    background-color: #000000;
-  }
-}
-@keyframes elasticball-bottom {
-  0% {
-    transform: scale(1, 0.5) translateY(1rem);
-    opacity: 0.3;
-  }
-  100% {
-    transform: scale(2, 0.5) translateY(1rem);
-    opacity: 0;
-  }
-}
-.background-animation p {
-  text-align: center;
-  margin: 0;
-  font-family: "Rubik Marker Hatch", system-ui;
-  font-weight: 400;
-  font-style: normal;
-}
-.background-animation .animaP {
-  font-size: 3rem;
-  margin-top: 15dvh;
-}
-.background-animation .animaP2 {
-  font-size: 3rem;
+  align-items: center;
 }
 
+.hourglass {
+  width: 10%;
+  height: 10%;
+  transform: rotate(360deg);
+  animation: hourglass 2s 1s infinite;
+}
+.hourglass .st0 {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 3;
+  stroke-miterlimit: 10;
+}
+.hourglass .st1, .hourglass .st2 {
+  fill: #000000;
+  transform-origin: 50% 50%;
+  animation: hourglass1 2s infinite;
+}
+.hourglass .st2 {
+  transform: scale(0);
+  animation: hourglass2 2s infinite;
+}
+
+@keyframes hourglass {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(180deg);
+  }
+  45% {
+    transform: rotate(180deg);
+  }
+  65% {
+    transform: rotate(360deg);
+  }
+  90% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes hourglass1 {
+  10% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(0);
+  }
+  90% {
+    transform: scale(1);
+  }
+}
+@keyframes hourglass2 {
+  10% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1);
+  }
+  90% {
+    transform: scale(0);
+  }
+}
 * {
   box-sizing: border-box;
   font-family: "Open Sans", sans-serif;
