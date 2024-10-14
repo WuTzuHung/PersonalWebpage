@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Pacifico|Open+Sans:300');
+// @import url('https://fonts.googleapis.com/css?family=Pacifico|Open+Sans:300');
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik+Marker+Hatch&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Sigmar&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
 $primary: #c6c0ba;
 $secondary: #ffffff;
@@ -61,7 +61,7 @@ body{
 
 h2{
   position: relative;
-  font-family: "Sigmar", sans-serif;
+  font-family: "Jua", sans-serif;
   font-weight: 400;
   font-style: normal;
   font-size: 3rem;
@@ -110,8 +110,8 @@ h2{
 
 // @HOURGLASS
 .hourglass {
-  width: 10%;
-  height: 10%;
+  width: 10vw;
+  height: 16vw;
   transform: rotate(360deg);
   animation: hourglass 2s 1s infinite;
   .st0 {
@@ -174,8 +174,8 @@ h2{
 //漢堡選單
         * {
             box-sizing: border-box;
-            font-family: 'Open Sans', sans-serif;
-            font-weight: 300;
+            // font-family: 'Open Sans', sans-serif;
+            // font-weight: 300;
             margin: 0;
             padding: 0;
         }
@@ -379,9 +379,9 @@ h2{
         //以下是個人首頁
 
         a{
-            font-family: "Permanent Marker", cursive;
-            font-weight: 400;
-            font-style: normal;
+          font-family: "Jua", sans-serif;
+          font-weight: 400;
+          font-style: normal;
             font-size: 1.5rem;
         }
 
@@ -391,7 +391,7 @@ h2{
         }
 
         h1 {
-            font-family: 'Pacifico', cursive;
+            font-family: 'Jua', cursive;
             font-weight: 400;
             font-size: 3rem;
             text-align: center;
@@ -455,22 +455,19 @@ h2{
 
           
 
-          .circle {
-            width: 10vw; /* 在小螢幕上改變大小 */
-            height: 10vw; /* 在小螢幕上改變大小 */
-        }
-
-  
-      .animaP{
-          font-size: 5rem;
-          margin-top: 13dvh;
-      }
-  
-      .animaP2{
-          font-size: 5.5rem;
       }
 
+      .funspinner{
+        
       }
+    
+    
+    // @HOURGLASS
+    .hourglass {
+      width: 3vw;
+      height: 5vw;
+      
+    }
 
           //以下是漢堡選單
 
@@ -550,15 +547,7 @@ h2{
             //// 個人首頁以上
         
             h2{
-              position: relative;
-              font-family: "Sigmar", sans-serif;
-              font-weight: 400;
-              font-style: normal;
               font-size: 7rem;
-              line-height: 1;
-              font-weight: 400;
-              color: #5b3232;
-              top: 120px;
             }
         
         
