@@ -57,9 +57,6 @@ body {
 .nav .liComputer.active {
   color: #f65050;
 }
-.nav .liComputer.active::after {
-  width: 100%;
-}
 
 .transition {
   position: absolute;
