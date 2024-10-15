@@ -97,11 +97,13 @@ function restartBackgroundAnimation() {
     });
 }
 
-document.querySelectorAll('li').forEach(item => {
+document.querySelectorAll('.liComputer').forEach(item => {
     item.addEventListener('click', function() {
       // 移除所有 li 中的 active 類
-      document.querySelector('li.active')?.classList.remove('active');
+      document.querySelectorAll('.liComputer.active').forEach(activeItem => {
+        activeItem.classList.remove('active');
+      });
       // 為當前點擊的 li 添加 active 類
       item.classList.add('active');
     });
-  });
+});
