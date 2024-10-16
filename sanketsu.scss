@@ -91,7 +91,7 @@ body{
 }
 
 .container{
-  padding: 2em;
+  padding: 1em;
 }
 
 .header{
@@ -436,7 +436,7 @@ h2{
             text-align: center;
             margin: 0;
             margin-top: 0dvh;
-            margin-bottom: 1dvh;
+            // margin-bottom: 1dvh;
           }
 
           .imgContent{
@@ -567,7 +567,7 @@ h2{
             .First{
               display: flex;
               flex-direction: row;
-              margin-top: 5dvh;
+              margin-top: 7dvh;
               
 
               .imgContent{
@@ -581,8 +581,8 @@ h2{
 
               .Who{
                 width: 50%;
-                margin-top: 12dvh;
-                margin-left: 6%;
+                margin-top: 13dvh;
+                margin-left: 7%;
 
                 .NameP{
                   font-size: 5rem;
