@@ -97,13 +97,30 @@ function restartBackgroundAnimation() {
     });
 }
 
-document.querySelectorAll('.liComputer').forEach(item => {
-    item.addEventListener('click', function() {
-      // 移除所有 li 中的 active 類
-      document.querySelectorAll('.liComputer.active').forEach(activeItem => {
-        activeItem.classList.remove('active');
-      });
-      // 為當前點擊的 li 添加 active 類
-      item.classList.add('active');
+document.querySelectorAll('.liComputer, .navLi').forEach(item => {
+    item.addEventListener('click', function(event) {
+        event.preventDefault();  // 防止連接的默認跳轉行為，便於測試
+
+        // console.log("Clicked on:", item.textContent);  // 打印點擊的元素
+
+        // 檢查當前 active 的 li
+        const activeItems = document.querySelectorAll('.liComputer.active');
+        // console.log("Active items before click:", activeItems);
+
+        // 移除所有 li 中的 active 類
+        activeItems.forEach(activeItem => {
+            activeItem.classList.remove('active');
+        });
+
+        // 為當前點擊的 li 添加 active 類
+        item.classList.add('active');
+
+        // console.log("Active items after click:", document.querySelectorAll('.liComputer.active'));
+
+        // 檢查所有 li 的 CSS display 屬性
+        document.querySelectorAll('.liComputer').forEach(li => {
+            const computedStyle = window.getComputedStyle(li);
+            // console.log(`${li.textContent} display status:`, computedStyle.display);
+        });
     });
 });

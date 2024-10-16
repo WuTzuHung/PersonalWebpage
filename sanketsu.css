@@ -359,7 +359,6 @@ a:active {
   list-style: none;
   padding: 0 1em;
   margin: 0;
-  display: block;
   max-height: 100vh;
 }
 
@@ -367,7 +366,6 @@ a:active {
   padding: 0;
   margin: 1em;
   font-size: 18px;
-  display: block;
 }
 
 .outer-menu .menu > div > div > ul > li > a {
