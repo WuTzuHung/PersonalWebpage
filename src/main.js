@@ -97,41 +97,85 @@ function restartBackgroundAnimation() {
     });
 }
 
-// 在網頁載入時設定初始狀態，這是拿來改善首次進入home時，不小心點到home 會觸發不能點其他頁面的問題
 document.addEventListener('DOMContentLoaded', function() {
-    // 假設 Home 是預設的活動頁面
-    const homeLi = document.querySelector('.liComputer[data-page="home"], .navLi[data-page="home"]'); // 請根據您的 HTML 結構調整選擇器
-    if (homeLi) {
-        homeLi.classList.add('active');
-    }
+    const homeLis = document.querySelectorAll('li[data-page="home"]');
+    console.log('網頁載入時的 homeLis:', homeLis);
+    
+    homeLis.forEach(homeLi => {
+        if (homeLi) {
+            homeLi.classList.add('active');
+            console.log('設置初始 active 後的狀態:', homeLi.classList.contains('active'));
+        }
+    });
 });
 
-
-//這是拿來改善過渡相同頁面的問題
-document.querySelectorAll('.liComputer, .navLi').forEach(item => {
+// 監聽所有 li 元素的點擊事件
+document.querySelectorAll('li').forEach(item => {
     item.addEventListener('click', function(event) {
-        event.preventDefault();  // 防止連接的默認跳轉行為，便於測試
+        // 找到 li 內的 a 元素並阻止其默認行為
+        const link = item.querySelector('a');
+        if (link) {
+            event.preventDefault();
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+            });
+        }
 
-        // console.log("Clicked on:", item.textContent);  // 打印點擊的元素
+        console.log('點擊事件觸發');
+        console.log('點擊的 li 元素:', item);
+        
+        // 檢查是否為 home 頁面的 li
+        const isHomePage = item.getAttribute('data-page') === 'home';
+        
+        // 檢查當前 li 是否已經是 active
+        if (item.classList.contains('active')) {
+            console.log('已在當前頁面，阻止處理');
+            event.preventDefault(); // 再次確保阻止默認行為
+            event.stopPropagation(); // 阻止事件冒泡
+            return false; // 確保完全阻止
+        }
 
-        // 檢查當前 active 的 li
-        const activeItems = document.querySelectorAll('.liComputer.active');
-        // console.log("Active items before click:", activeItems);
-
-        // 移除所有 li 中的 active 類
-        activeItems.forEach(activeItem => {
+        console.log('開始切換頁面...');
+        
+        // 移除所有 li 中的 active 類（包括兩個選單）
+        document.querySelectorAll('li.active').forEach(activeItem => {
+            console.log('移除 active 從:', activeItem);
             activeItem.classList.remove('active');
         });
 
-        // 為當前點擊的 li 添加 active 類
-        item.classList.add('active');
-
-        // console.log("Active items after click:", document.querySelectorAll('.liComputer.active'));
-
-        // 檢查所有 li 的 CSS display 屬性
-        document.querySelectorAll('.liComputer').forEach(li => {
-            const computedStyle = window.getComputedStyle(li);
-            // console.log(`${li.textContent} display status:`, computedStyle.display);
-        });
+        // 如果點擊的是 home 頁面，則為兩個選單中的 home li 都添加 active
+        if (isHomePage) {
+            document.querySelectorAll('li[data-page="home"]').forEach(homeLi => {
+                homeLi.classList.add('active');
+            });
+        } else {
+            // 為當前點擊的 li 添加 active 類
+            item.classList.add('active');
+            
+            // 在另一個選單中找到對應的 li 並添加 active
+            const href = link ? link.getAttribute('href') : null;
+            if (href) {
+                const correspondingLinks = document.querySelectorAll(`a[href="${href}"]`);
+                correspondingLinks.forEach(corrLink => {
+                    const corrLi = corrLink.closest('li');
+                    if (corrLi && corrLi !== item) {
+                        corrLi.classList.add('active');
+                    }
+                });
+            }
+        }
     });
+
+    // 額外監聽 a 標籤的點擊事件
+    const link = item.querySelector('a');
+    if (link) {
+        link.addEventListener('click', function(e) {
+            if (item.classList.contains('active')) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('阻止 active 連結的點擊');
+                return false;
+            }
+        });
+    }
 });
