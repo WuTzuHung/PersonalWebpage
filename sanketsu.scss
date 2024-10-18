@@ -78,7 +78,7 @@ body{
 }
 
 .transition{
-  position: fixed;
+  position: fixed; //這邊改成fixed，不管網頁滑到哪邊 都能讓barba在當前視窗上過渡
   z-index: 9999;
   width: 100%;
   height: 100dvh;

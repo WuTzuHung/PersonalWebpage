@@ -97,6 +97,17 @@ function restartBackgroundAnimation() {
     });
 }
 
+// 在網頁載入時設定初始狀態，這是拿來改善首次進入home時，不小心點到home 會觸發不能點其他頁面的問題
+document.addEventListener('DOMContentLoaded', function() {
+    // 假設 Home 是預設的活動頁面
+    const homeLi = document.querySelector('.liComputer[data-page="home"], .navLi[data-page="home"]'); // 請根據您的 HTML 結構調整選擇器
+    if (homeLi) {
+        homeLi.classList.add('active');
+    }
+});
+
+
+//這是拿來改善過渡相同頁面的問題
 document.querySelectorAll('.liComputer, .navLi').forEach(item => {
     item.addEventListener('click', function(event) {
         event.preventDefault();  // 防止連接的默認跳轉行為，便於測試
