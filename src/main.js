@@ -99,12 +99,12 @@ function restartBackgroundAnimation() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const homeLis = document.querySelectorAll('li[data-page="home"]');
-    console.log('網頁載入時的 homeLis:', homeLis);
+    // console.log('網頁載入時的 homeLis:', homeLis);
     
     homeLis.forEach(homeLi => {
         if (homeLi) {
             homeLi.classList.add('active');
-            console.log('設置初始 active 後的狀態:', homeLi.classList.contains('active'));
+            // console.log('設置初始 active 後的狀態:', homeLi.classList.contains('active'));
         }
     });
 });
@@ -121,25 +121,25 @@ document.querySelectorAll('li').forEach(item => {
             });
         }
 
-        console.log('點擊事件觸發');
-        console.log('點擊的 li 元素:', item);
+        // console.log('點擊事件觸發');
+        // console.log('點擊的 li 元素:', item);
         
         // 檢查是否為 home 頁面的 li
         const isHomePage = item.getAttribute('data-page') === 'home';
         
         // 檢查當前 li 是否已經是 active
         if (item.classList.contains('active')) {
-            console.log('已在當前頁面，阻止處理');
+            // console.log('已在當前頁面，阻止處理');
             event.preventDefault(); // 再次確保阻止默認行為
             event.stopPropagation(); // 阻止事件冒泡
             return false; // 確保完全阻止
         }
 
-        console.log('開始切換頁面...');
+        // console.log('開始切換頁面...');
         
         // 移除所有 li 中的 active 類（包括兩個選單）
         document.querySelectorAll('li.active').forEach(activeItem => {
-            console.log('移除 active 從:', activeItem);
+            // console.log('移除 active 從:', activeItem);
             activeItem.classList.remove('active');
         });
 
@@ -173,7 +173,7 @@ document.querySelectorAll('li').forEach(item => {
             if (item.classList.contains('active')) {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('阻止 active 連結的點擊');
+                // console.log('阻止 active 連結的點擊');
                 return false;
             }
         });

@@ -19,7 +19,6 @@ body {
 
 .wrapper {
   width: 100%;
-  height: 100%;
   background-color: #F5F5F5;
 }
 
@@ -406,6 +405,8 @@ a {
 
 .Second {
   height: 100dvh;
+  background-color: #F5F5F5;
+  margin-top: 13dvh;
 }
 
 h1 {
