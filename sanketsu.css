@@ -478,4 +478,54 @@ h1 {
     margin: 0;
     margin-top: 1.5dvh;
   }
+}
+.Second {
+  height: 100dvh;
+  background-color: #F5F5F5;
+  margin-top: 15dvh;
+}
+.Second p {
+  font-family: "Rubik Marker Hatch", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 3rem;
+}
+.Second .imgContainer {
+  margin-top: 10dvh;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: 10dvh;
+  font-family: "Jua", sans-serif;
+  justify-content: space-between;
+}
+.Second .imgContainer .imgBox {
+  display: flex;
+  flex-direction: column;
+}
+.Second .imgContainer .imgBox .imgAll {
+  width: 20vw;
+  height: 20dvh;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.Second .imgContainer .imgBox .akiImg {
+  -o-object-position: 50% 20%;
+     object-position: 50% 20%;
+}
+.Second .imgContainer .imgBox .kyoImg {
+  -o-object-position: 50% 30%;
+     object-position: 50% 30%;
+}
+.Second .imgContainer .imgBox .nagoImg {
+  -o-object-position: 50% 20%;
+     object-position: 50% 20%;
+}
+.Second .imgContainer .imgBox .shimoImg {
+  -o-object-position: 50% 40%;
+     object-position: 50% 40%;
+}
+.Second .imgContainer .imgBox .takaImg {
+  -o-object-position: 50% 40%;
+     object-position: 50% 40%;
 }/*# sourceMappingURL=sanketsu.css.map */

@@ -555,3 +555,58 @@ h2{
         
         
           }
+
+          .Second{
+            height: 100dvh;
+            background-color: #F5F5F5;
+            margin-top: 15dvh;
+            p{
+              font-family: "Rubik Marker Hatch", system-ui;
+              font-weight: 400;
+              font-style: normal;
+              font-size: 3rem;
+            }
+  
+            .imgContainer{
+              margin-top: 10dvh;
+              display: flex;
+              flex-direction: row;
+              flex-wrap: wrap;
+              row-gap: 10dvh;
+              font-family: "Jua", sans-serif;
+              justify-content: space-between;
+
+              .imgBox{
+                display: flex;
+                flex-direction: column;
+  
+              .imgAll{
+                width: 20vw;
+                height: 20dvh;
+                object-fit: cover;
+              }
+  
+              .akiImg{
+                object-position: 50% 20%;
+              }
+  
+              .kyoImg{
+                object-position: 50% 30%;
+              }
+  
+              .nagoImg{
+                object-position: 50% 20%;
+              }
+  
+              .shimoImg{
+                object-position: 50% 40%;
+              }
+  
+              .takaImg{
+                object-position: 50% 40%;
+              }
+
+            }
+
+            }
+          }
