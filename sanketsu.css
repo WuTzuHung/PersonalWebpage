@@ -362,7 +362,7 @@ h1 {
 
 /* 桌面版樣式 */
 .Second {
-  height: 100dvh;
+  height: 200dvh;
   background-color: #F5F5F5;
   margin-top: 15dvh;
 }
@@ -373,12 +373,36 @@ h1 {
   font-size: 1.2rem;
 }
 .Second .imgContainer {
-  width: 100%;
   display: flex;
   flex-direction: column;
+  row-gap: 5dvh;
+  font-family: "Jua", sans-serif;
 }
-.Second .imgContainer .imgBox {
+.Second .imgContainer .imgAll {
   width: 100%;
+  height: 25dvh;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.Second .imgContainer .akiImg {
+  -o-object-position: 50% 20%;
+     object-position: 50% 20%;
+}
+.Second .imgContainer .kyoImg {
+  -o-object-position: 50% 30%;
+     object-position: 50% 30%;
+}
+.Second .imgContainer .nagoImg {
+  -o-object-position: 50% 20%;
+     object-position: 50% 20%;
+}
+.Second .imgContainer .shimoImg {
+  -o-object-position: 50% 40%;
+     object-position: 50% 40%;
+}
+.Second .imgContainer .takaImg {
+  -o-object-position: 50% 40%;
+     object-position: 50% 40%;
 }
 
 @media screen and (min-width: 768px) {

@@ -409,7 +409,7 @@ h2{
         // 個人首頁
 
         .Second{
-          height: 100dvh;
+          height: 200dvh;
           background-color: #F5F5F5;
           margin-top: 15dvh;
           p{
@@ -420,12 +420,35 @@ h2{
           }
 
           .imgContainer{
-            width: 100%;
             display: flex;
             flex-direction: column;
+            row-gap: 5dvh;
+            font-family: "Jua", sans-serif;
 
-            .imgBox{
+            .imgAll{
               width: 100%;
+              height: 25dvh;
+              object-fit: cover;
+            }
+
+            .akiImg{
+              object-position: 50% 20%;
+            }
+
+            .kyoImg{
+              object-position: 50% 30%;
+            }
+
+            .nagoImg{
+              object-position: 50% 20%;
+            }
+
+            .shimoImg{
+              object-position: 50% 40%;
+            }
+
+            .takaImg{
+              object-position: 50% 40%;
             }
           }
         }
