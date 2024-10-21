@@ -158,55 +158,57 @@ document.querySelectorAll('li').forEach(item => {
 const advancedLazyLoad = () => {
     const images = document.querySelectorAll('.imgAll');
     let imageQueue = [];
+    const maxConcurrentLoads = 3; // 最大同時載入圖片數量
+    let currentLoads = 0; // 當前正在載入的圖片數量
 
     const loadImage = (img) => {
         return new Promise((resolve) => {
-            const src = img.getAttribute('data-src');  // 確保從 data-src 中取得圖片 URL
+            const src = img.getAttribute('data-src');
             if (!src) {
-                resolve();  // 如果沒有 data-src，直接跳過
+                resolve();
                 return;
             }
             img.src = src;  // 設定圖片的 src
             img.onload = () => {
-                img.style.opacity = '1';  // 載入後顯示圖片
-                resolve();  // 解決 Promise
+                img.style.opacity = '1';
+                currentLoads--; // 載入完成，減少正在載入的計數
+                resolve();
             };
             img.onerror = () => {
                 console.error(`Failed to load image: ${src}`);
-                resolve();  // 即使失敗也繼續處理隊列中的其他圖片
+                currentLoads--; // 即使失敗也減少正在載入的計數
+                resolve();
             };
         });
     };
 
     const processQueue = async () => {
-        if (imageQueue.length > 0) {
-            const img = imageQueue.shift();  // 取出第一張圖片
-            await loadImage(img);  // 載入圖片
-            processQueue();  // 處理下一張圖片
+        while (imageQueue.length > 0 && currentLoads < maxConcurrentLoads) {
+            const img = imageQueue.shift();
+            currentLoads++;
+            await loadImage(img);
         }
     };
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const img = entry.target;  // 取得進入視窗的圖片
-                imageQueue.push(img);  // 加入待載入隊列
-                observer.unobserve(img);  // 停止觀察此圖片
+                const img = entry.target;
+                imageQueue.push(img);
+                observer.unobserve(img);
             }
         });
 
-        if (imageQueue.length > 0) {
-            processQueue();  // 開始處理圖片載入
-        }
+        processQueue(); // 開始處理圖片載入
     }, {
-        rootMargin: '100px',  // 增加根距，提早 100px 預載
-        threshold: 0  // 當圖片進入畫面時觸發
+        rootMargin: '100px',
+        threshold: 0
     });
 
     images.forEach(img => {
-        img.style.opacity = '0';  // 設置初始透明度
-        img.style.transition = 'opacity 1s ease-in-out';  // 動畫過渡效果
-        observer.observe(img);  // 開始觀察每張圖片
+        img.style.opacity = '0';
+        img.style.transition = 'opacity 1s ease-in-out';
+        observer.observe(img);
     });
 };
 
