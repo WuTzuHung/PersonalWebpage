@@ -191,13 +191,13 @@ const advancedLazyLoad = () => {
         processQueue();
       }
     }, {
-      rootMargin: '100px',
+      rootMargin: '500px',
       threshold: 0
     });
   
     images.forEach(img => {
       img.style.opacity = '0';
-      img.style.transition = 'opacity 1s ease-in-out';
+      img.style.transition = 'opacity 0.3s ease-in-out';
       observer.observe(img);
     });
   };
