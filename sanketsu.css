@@ -397,20 +397,20 @@ h1 {
      object-position: 50% 20%;
 }
 .Second .imgContainer .hyogoImg {
-  -o-object-position: 50% 70%;
-     object-position: 50% 70%;
+  -o-object-position: 50% 10%;
+     object-position: 50% 10%;
 }
 .Second .imgContainer .osakaImg {
-  -o-object-position: 50% 60%;
-     object-position: 50% 60%;
+  -o-object-position: 50% 30%;
+     object-position: 50% 30%;
 }
 .Second .imgContainer .shimoImg {
   -o-object-position: 50% 40%;
      object-position: 50% 40%;
 }
 .Second .imgContainer .takaImg {
-  -o-object-position: 50% 40%;
-     object-position: 50% 40%;
+  -o-object-position: 50% 60%;
+     object-position: 50% 60%;
 }
 
 @media screen and (min-width: 768px) {
