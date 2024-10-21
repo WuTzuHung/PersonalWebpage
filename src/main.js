@@ -158,46 +158,49 @@ document.querySelectorAll('li').forEach(item => {
 const advancedLazyLoad = () => {
     const images = document.querySelectorAll('.imgAll');
     let imageQueue = [];
-    
+
     const loadImage = (img) => {
-      return new Promise((resolve) => {
-        const tmpImg = new Image();
-        tmpImg.src = img.src;
-        tmpImg.onload = () => {
-          img.style.opacity = '1';
-          resolve();
-        };
-      });
+        return new Promise((resolve) => {
+            const tmpImg = new Image();
+            tmpImg.src = img.getAttribute('data-src');  // 使用 data-src，避免一開始就載入
+            tmpImg.onload = () => {
+                img.src = tmpImg.src;  // 載入完成後再設置圖片的 src
+                img.style.opacity = '1';
+                resolve();
+            };
+        });
     };
-  
+
     const processQueue = async () => {
-      if (imageQueue.length > 0) {
-        const img = imageQueue.shift();
-        await loadImage(img);
-        processQueue();
-      }
-    };
-  
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          imageQueue.push(img);
-          observer.unobserve(img);
+        if (imageQueue.length > 0) {
+            const img = imageQueue.shift();
+            await loadImage(img);
+            processQueue();
         }
-      });
-      
-      if (imageQueue.length > 0) {
-        processQueue();
-      }
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                imageQueue.push(img);
+                observer.unobserve(img);
+            }
+        });
+
+        if (imageQueue.length > 0) {
+            processQueue();
+        }
     }, {
-      rootMargin: '500px',
-      threshold: 0
+        rootMargin: '300px', // 提前 300px 預載入圖片
+        threshold: 0
     });
-  
+
     images.forEach(img => {
-      img.style.opacity = '0';
-      img.style.transition = 'opacity 0.3s ease-in-out';
-      observer.observe(img);
+        img.style.opacity = '0';
+        img.style.transition = 'opacity 1s ease-in-out';
+        img.setAttribute('data-src', img.src); // 將 src 改為 data-src，避免 DOM 載入時直接載入
+        img.src = ''; // 一開始設置 src 為空
+        observer.observe(img);
     });
-  };
+};
