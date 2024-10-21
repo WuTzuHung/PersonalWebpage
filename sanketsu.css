@@ -529,12 +529,12 @@ h1 {
        object-position: 50% 20%;
   }
   .Second .imgContainer .imgBox .hyogoImg {
-    -o-object-position: 50% 70%;
-       object-position: 50% 70%;
+    -o-object-position: 50% 10%;
+       object-position: 50% 10%;
   }
   .Second .imgContainer .imgBox .osakaImg {
-    -o-object-position: 50% 60%;
-       object-position: 50% 60%;
+    -o-object-position: 50% 30%;
+       object-position: 50% 30%;
   }
   .Second .imgContainer .imgBox .shimoImg {
     -o-object-position: 50% 40%;
