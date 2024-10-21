@@ -197,7 +197,7 @@ const advancedLazyLoad = () => {
   
     images.forEach(img => {
       img.style.opacity = '0';
-      img.style.transition = 'opacity 0.3s ease-in-out';
+      img.style.transition = 'opacity 1s ease-in-out';
       observer.observe(img);
     });
   };
