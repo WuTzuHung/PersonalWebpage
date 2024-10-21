@@ -161,46 +161,54 @@ const advancedLazyLoad = () => {
 
     const loadImage = (img) => {
         return new Promise((resolve) => {
-            const tmpImg = new Image();
-            tmpImg.src = img.getAttribute('data-src');  // 使用 data-src，避免一開始就載入
-            tmpImg.onload = () => {
-                img.src = tmpImg.src;  // 載入完成後再設置圖片的 src
-                img.style.opacity = '1';
-                resolve();
+            const src = img.getAttribute('data-src');  // 確保從 data-src 中取得圖片 URL
+            if (!src) {
+                resolve();  // 如果沒有 data-src，直接跳過
+                return;
+            }
+            img.src = src;  // 設定圖片的 src
+            img.onload = () => {
+                img.style.opacity = '1';  // 載入後顯示圖片
+                resolve();  // 解決 Promise
+            };
+            img.onerror = () => {
+                console.error(`Failed to load image: ${src}`);
+                resolve();  // 即使失敗也繼續處理隊列中的其他圖片
             };
         });
     };
 
     const processQueue = async () => {
         if (imageQueue.length > 0) {
-            const img = imageQueue.shift();
-            await loadImage(img);
-            processQueue();
+            const img = imageQueue.shift();  // 取出第一張圖片
+            await loadImage(img);  // 載入圖片
+            processQueue();  // 處理下一張圖片
         }
     };
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const img = entry.target;
-                imageQueue.push(img);
-                observer.unobserve(img);
+                const img = entry.target;  // 取得進入視窗的圖片
+                imageQueue.push(img);  // 加入待載入隊列
+                observer.unobserve(img);  // 停止觀察此圖片
             }
         });
 
         if (imageQueue.length > 0) {
-            processQueue();
+            processQueue();  // 開始處理圖片載入
         }
     }, {
-        rootMargin: '300px', // 提前 300px 預載入圖片
-        threshold: 0
+        rootMargin: '100px',  // 增加根距，提早 100px 預載
+        threshold: 0  // 當圖片進入畫面時觸發
     });
 
     images.forEach(img => {
-        img.style.opacity = '0';
-        img.style.transition = 'opacity 1s ease-in-out';
-        img.setAttribute('data-src', img.src); // 將 src 改為 data-src，避免 DOM 載入時直接載入
-        img.src = ''; // 一開始設置 src 為空
-        observer.observe(img);
+        img.style.opacity = '0';  // 設置初始透明度
+        img.style.transition = 'opacity 1s ease-in-out';  // 動畫過渡效果
+        observer.observe(img);  // 開始觀察每張圖片
     });
 };
+
+// 確保在 DOM 完全載入後執行懶加載
+document.addEventListener("DOMContentLoaded", advancedLazyLoad);
