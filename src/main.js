@@ -153,3 +153,51 @@ document.querySelectorAll('li').forEach(item => {
         });
     }
 });
+
+//使用動態載入和預載入
+const advancedLazyLoad = () => {
+    const images = document.querySelectorAll('.imgAll');
+    let imageQueue = [];
+    
+    const loadImage = (img) => {
+      return new Promise((resolve) => {
+        const tmpImg = new Image();
+        tmpImg.src = img.src;
+        tmpImg.onload = () => {
+          img.style.opacity = '1';
+          resolve();
+        };
+      });
+    };
+  
+    const processQueue = async () => {
+      if (imageQueue.length > 0) {
+        const img = imageQueue.shift();
+        await loadImage(img);
+        processQueue();
+      }
+    };
+  
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          imageQueue.push(img);
+          observer.unobserve(img);
+        }
+      });
+      
+      if (imageQueue.length > 0) {
+        processQueue();
+      }
+    }, {
+      rootMargin: '100px',
+      threshold: 0
+    });
+  
+    images.forEach(img => {
+      img.style.opacity = '0';
+      img.style.transition = 'opacity 0.3s ease-in-out';
+      observer.observe(img);
+    });
+  };
