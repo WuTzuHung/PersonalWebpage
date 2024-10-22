@@ -61,11 +61,13 @@ barba.init({
             async enter(data) {
 
                 contentAnimation(); // 其他頁面過渡動畫
+                advancedLazyLoad();  // 切換到新頁面時重新執行懶加載
             },
 
             async once(data) {
 
                 contentAnimation();
+                advancedLazyLoad();  // 頁面首次加載時執行懶加載
             },
         },
     ],
@@ -154,7 +156,7 @@ document.querySelectorAll('li').forEach(item => {
     }
 });
 
-//使用動態載入和預載入
+// 懶加載函數
 const advancedLazyLoad = () => {
     const images = document.querySelectorAll('.imgAll');
     let imageQueue = [];
@@ -164,8 +166,8 @@ const advancedLazyLoad = () => {
     const loadImage = (img) => {
         return new Promise((resolve) => {
             const src = img.getAttribute('data-src');
-            if (!src) {
-                resolve();
+            if (!src || img.src === src) {  // 檢查圖片是否已經載入過
+                resolve(); // 如果已經載入過，跳過處理
                 return;
             }
             img.src = src;  // 設定圖片的 src
@@ -206,9 +208,11 @@ const advancedLazyLoad = () => {
     });
 
     images.forEach(img => {
-        img.style.opacity = '0';
-        img.style.transition = 'opacity 1s ease-in-out';
-        observer.observe(img);
+        img.style.opacity = '0';  // 設置初始透明度
+        img.style.transition = 'opacity 1s ease-in-out';  // 動畫過渡效果
+        if (!img.src) { // 確保未被設置 src 的圖片重新觀察
+            observer.observe(img);  // 開始觀察每張圖片
+        }
     });
 };
 
