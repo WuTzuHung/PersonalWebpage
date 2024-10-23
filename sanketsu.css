@@ -79,6 +79,12 @@ body {
   align-items: center;
 }
 
+.containerOtherPage {
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
 .header {
   position: relative;
   width: -moz-max-content;
@@ -388,16 +394,16 @@ h1 {
      object-fit: cover;
 }
 .Second .imgContainer .akiImg {
-  -o-object-position: 50% 20%;
-     object-position: 50% 20%;
+  -o-object-position: 30% 50%;
+     object-position: 30% 50%;
 }
 .Second .imgContainer .kyoImg {
   -o-object-position: 50% 30%;
      object-position: 50% 30%;
 }
 .Second .imgContainer .nagoImg {
-  -o-object-position: 50% 20%;
-     object-position: 50% 20%;
+  -o-object-position: 50% 60%;
+     object-position: 50% 60%;
 }
 .Second .imgContainer .hyogoImg {
   -o-object-position: 50% 10%;
@@ -429,10 +435,25 @@ h1 {
   align-items: center;
   background-color: rgba(220, 205, 179, 0.3882352941);
   border-radius: 10px;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
 }
 .ContactBlock h3 {
   font-size: 2rem;
   margin-top: 1.5dvh;
+}
+.ContactBlock .iconS {
+  width: 80%;
+  display: flex;
+  justify-content: space-around;
+}
+.ContactBlock .iconS a:hover {
+  transform: translateY(-4px);
+  color: rgb(243, 105, 105);
+}
+.ContactBlock .iconS a:hover::after {
+  width: 100%;
+  transform: translateY(4px);
 }
 .ContactBlock .iconS .ti {
   font-size: 2rem;
@@ -562,16 +583,16 @@ h1 {
        object-fit: cover;
   }
   .Second .imgContainer .imgBox .akiImg {
-    -o-object-position: 50% 20%;
-       object-position: 50% 20%;
+    -o-object-position: 50% 50%;
+       object-position: 50% 50%;
   }
   .Second .imgContainer .imgBox .kyoImg {
     -o-object-position: 50% 30%;
        object-position: 50% 30%;
   }
   .Second .imgContainer .imgBox .nagoImg {
-    -o-object-position: 50% 20%;
-       object-position: 50% 20%;
+    -o-object-position: 50% 70%;
+       object-position: 50% 70%;
   }
   .Second .imgContainer .imgBox .hyogoImg {
     -o-object-position: 50% 10%;
@@ -586,11 +607,11 @@ h1 {
        object-position: 50% 40%;
   }
   .Second .imgContainer .imgBox .takaImg {
-    -o-object-position: 50% 40%;
-       object-position: 50% 40%;
+    -o-object-position: 50% 50%;
+       object-position: 50% 50%;
   }
   .ContactBlock {
-    margin-top: 10dvh;
+    margin-top: 5dvh;
     width: 35%;
     height: 35dvh;
     font-family: "Jua", sans-serif;
@@ -600,7 +621,7 @@ h1 {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    background-color: rgba(220, 205, 179, 0.3882352941);
+    background-color: rgba(220, 205, 178, 0.3882352941);
     border-radius: 10px;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -608,6 +629,11 @@ h1 {
   .ContactBlock h3 {
     font-size: 2rem;
     margin-top: 1.5dvh;
+  }
+  .ContactBlock .iconS {
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
   }
   .ContactBlock .iconS .ti {
     font-size: 2rem;

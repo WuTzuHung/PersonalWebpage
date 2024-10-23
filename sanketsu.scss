@@ -97,6 +97,12 @@ body{
   align-items: center;
 }
 
+.containerOtherPage{
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
 .header{
   position: relative;
   width: max-content;
@@ -427,7 +433,8 @@ h2{
             }
 
             .akiImg{
-              object-position: 50% 20%;
+              object-position: 30% 50%;
+              
             }
 
             .kyoImg{
@@ -435,7 +442,7 @@ h2{
             }
 
             .nagoImg{
-              object-position: 50% 20%;
+              object-position: 50% 60%;
             }
 
             .hyogoImg{
@@ -469,6 +476,8 @@ h2{
           align-items: center;
           background-color: #dccdb363;
           border-radius: 10px;
+          padding-left: 0.8rem;
+          padding-right: 0.8rem;
 
           h3{
             font-size: 2rem;
@@ -476,6 +485,22 @@ h2{
           }
 
           .iconS{
+            width: 80%;
+            display: flex;
+            justify-content: space-around;
+
+            a{
+              &:hover {
+                transform: translateY(-4px); 
+                color: rgb(243, 105, 105);
+              }
+          
+              &:hover::after {
+                width: 100%;  
+                transform: translateY(4px); 
+          
+              }
+            }
             .ti{
                 font-size: 2rem;
             }
@@ -636,7 +661,7 @@ h2{
                 }
     
                 .akiImg{
-                  object-position: 50% 20%;
+                  object-position: 50% 50%;
                 }
     
                 .kyoImg{
@@ -644,7 +669,7 @@ h2{
                 }
     
                 .nagoImg{
-                  object-position: 50% 20%;
+                  object-position: 50% 70%;
                 }
 
                 .hyogoImg{
@@ -660,7 +685,7 @@ h2{
                 }
     
                 .takaImg{
-                  object-position: 50% 40%;
+                  object-position: 50% 50%;
                 }
   
               }
@@ -669,7 +694,7 @@ h2{
             }
 
             .ContactBlock{
-              margin-top: 10dvh;
+              margin-top: 5dvh;
               width: 35%;
               height: 35dvh;
               font-family: "Jua", sans-serif;
@@ -679,7 +704,7 @@ h2{
               flex-direction: column;
               justify-content: space-around;
               align-items: center;
-              background-color: #dccdb363;
+              background-color: #dccdb263;
               border-radius: 10px;
               padding-left: 1.5rem;
               padding-right: 1.5rem;
@@ -690,6 +715,9 @@ h2{
               }
     
               .iconS{
+                width: 70%;
+                display: flex;
+                justify-content: space-around;
                 .ti{
                     font-size: 2rem;
                 }
