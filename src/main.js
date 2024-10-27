@@ -20,7 +20,7 @@ function pageTransition(){
 function contentAnimation(){
     let tl = gsap.timeline();
     tl.to("h2", {
-        top:0,
+        left: 0,
         duration:1,
         ease: "power3.inOut",
         delay: 0.75,
