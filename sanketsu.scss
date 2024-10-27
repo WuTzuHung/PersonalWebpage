@@ -551,7 +551,13 @@ h2{
             padding-bottom: 2.5dvh;
 
             .aboutMeImg{
-              width: 50vw;
+              width: 250px;
+              height: auto;
+            }
+
+            img{
+              max-width: 100%;
+              height: auto;
             }
           }
 
@@ -566,7 +572,6 @@ h2{
           .aboutMeWords{
            padding: 1rem;
            text-align: center;
-           margin-top: 1dvh;
            font-family: "Alegreya Sans", sans-serif;
            font-size: 1rem;
            color: #4B5563;
@@ -672,11 +677,23 @@ h2{
             }
 
             //// 個人首頁以上
-        
+
             h2{
+              position: fixed;
+              font-family: "Jua", sans-serif;
+              font-weight: 400;
+              font-style: normal;
               font-size: 3rem;
+              line-height: 1;
+              font-weight: 400;
+              color: #5b3232;
+              top: 0dvh;
+              left: 20vw;
+              // left: 5vw;
+              // white-space: nowrap;
               margin: 0;
-              margin-top: 1.5dvh;
+              margin-top: 3.5dvh;
+              margin-left: 8vw;
             }
 
             .Second{
@@ -794,6 +811,82 @@ h2{
                 font-size: 1rem;
               }
             }
+
+
+                    //about.html
+
+        .aboutMeBlock{
+          width: 100%;
+          padding-top: 25dvh;
+          display: flex;
+          flex-direction: row;
+          // justify-content: space-around;
+          // justify-content: center;
+          // align-items: center;
+          font-size: 0.8rem;
+
+
+          .imgAbout{
+            display: flex;
+            align-items: center;
+            justify-content:flex-end;
+            text-align: center;
+            padding-bottom: 1.5dvh;
+            // padding-top: 2dvh;
+            padding-right: 0.5vw;
+            width: 45%;
+
+            .aboutMeImg{
+              width: 320px;
+              height: auto;
+              margin-right: 5%;
+            }
+
+            img{
+              max-width: 100%;
+              height: auto;
+            }
+          }
+
+          .doubleAbout{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            // align-items: center;
+            width: 55%;
+            // margin-right: 10%;
+
+          
+          .aboutName{
+            width: 100%;
+            text-align:left;
+            margin-bottom: 0dvh;
+            font-family: "Jua", sans-serif;
+            color: #4B5563;
+            font-size: 1rem;
+            padding-top: 2dvh;
+
+
+            span{
+              padding: 0.8vw;
+            }
+
+        }
+          .aboutMeWords{
+            width: 100%;
+           padding: 1rem;
+           text-align: left;
+           font-family: "Alegreya Sans", sans-serif;
+           font-size: 1rem;
+           color: #4B5563;
+
+           P{
+            margin: 0;
+           }
+
+          }
+      }
+        }
         
         
           }

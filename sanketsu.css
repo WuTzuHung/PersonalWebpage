@@ -488,7 +488,12 @@ h1 {
   padding-bottom: 2.5dvh;
 }
 .aboutMeBlock .imgAbout .aboutMeImg {
-  width: 50vw;
+  width: 250px;
+  height: auto;
+}
+.aboutMeBlock .imgAbout img {
+  max-width: 100%;
+  height: auto;
 }
 .aboutMeBlock .aboutName {
   text-align: center;
@@ -500,7 +505,6 @@ h1 {
 .aboutMeBlock .aboutMeWords {
   padding: 1rem;
   text-align: center;
-  margin-top: 1dvh;
   font-family: "Alegreya Sans", sans-serif;
   font-size: 1rem;
   color: #4B5563;
@@ -579,9 +583,19 @@ h1 {
     font-size: 2.5rem;
   }
   h2 {
+    position: fixed;
+    font-family: "Jua", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     font-size: 3rem;
+    line-height: 1;
+    font-weight: 400;
+    color: #5b3232;
+    top: 0dvh;
+    left: 20vw;
     margin: 0;
-    margin-top: 1.5dvh;
+    margin-top: 3.5dvh;
+    margin-left: 8vw;
   }
   .Second {
     height: 100dvh;
@@ -686,5 +700,59 @@ h1 {
   .Footer h6 {
     text-align: center;
     font-size: 1rem;
+  }
+  .aboutMeBlock {
+    width: 100%;
+    padding-top: 25dvh;
+    display: flex;
+    flex-direction: row;
+    font-size: 0.8rem;
+  }
+  .aboutMeBlock .imgAbout {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    padding-bottom: 1.5dvh;
+    padding-right: 0.5vw;
+    width: 45%;
+  }
+  .aboutMeBlock .imgAbout .aboutMeImg {
+    width: 320px;
+    height: auto;
+    margin-right: 5%;
+  }
+  .aboutMeBlock .imgAbout img {
+    max-width: 100%;
+    height: auto;
+  }
+  .aboutMeBlock .doubleAbout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 55%;
+  }
+  .aboutMeBlock .doubleAbout .aboutName {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 0dvh;
+    font-family: "Jua", sans-serif;
+    color: #4B5563;
+    font-size: 1rem;
+    padding-top: 2dvh;
+  }
+  .aboutMeBlock .doubleAbout .aboutName span {
+    padding: 0.8vw;
+  }
+  .aboutMeBlock .doubleAbout .aboutMeWords {
+    width: 100%;
+    padding: 1rem;
+    text-align: left;
+    font-family: "Alegreya Sans", sans-serif;
+    font-size: 1rem;
+    color: #4B5563;
+  }
+  .aboutMeBlock .doubleAbout .aboutMeWords P {
+    margin: 0;
   }
 }/*# sourceMappingURL=sanketsu.css.map */
