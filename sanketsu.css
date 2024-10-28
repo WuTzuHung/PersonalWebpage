@@ -513,6 +513,49 @@ h1 {
   margin: 0;
 }
 
+.experienceBlock {
+  width: 100%;
+  padding-top: 20dvh;
+  display: flex;
+  flex-direction: column;
+}
+.experienceBlock .topExper {
+  margin-bottom: 8dvh;
+}
+.experienceBlock .topExper h3 {
+  font-family: "Jua", sans-serif;
+  font-size: 2.5rem;
+  color: #5B3232;
+}
+.experienceBlock .bottomExper {
+  display: flex;
+  flex-direction: column;
+}
+.experienceBlock .bottomExper .blockExper {
+  display: flex;
+  justify-content: center;
+}
+.experienceBlock .bottomExper .blockExper .leftExper {
+  width: 24%;
+  text-align: right;
+  padding-top: 1.25rem;
+  padding-right: 1.25rem;
+}
+.experienceBlock .bottomExper .blockExper .leftExper h6 {
+  font-family: "Jua", sans-serif;
+  font-size: 1.05rem;
+  color: #4B5563;
+}
+.experienceBlock .bottomExper .blockExper .rightExper {
+  width: 66%;
+  border-left-style: dotted;
+  border-left-color: rgba(232, 146, 146, 0.3);
+  border-left-width: 2px;
+  padding-top: 1.25rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
 @media screen and (min-width: 768px) {
   .nav {
     background-color: #FFFFF0;
