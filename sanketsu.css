@@ -542,6 +542,7 @@ h1 {
   color: #1F2937;
   font-size: 1rem;
   margin: 0;
+  font-weight: 600;
 }
 .experienceBlock .bottomExper .blockExper span {
   letter-spacing: 0.07em;
@@ -549,6 +550,7 @@ h1 {
   color: #4B5563;
   font-size: 1rem;
   margin: 0;
+  font-weight: 400;
 }
 .experienceBlock .bottomExper .blockExper .leftExper {
   width: 25%;
