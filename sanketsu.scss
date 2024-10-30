@@ -573,11 +573,16 @@ h2{
            padding: 1rem;
            text-align: center;
            font-family: "Alegreya Sans", sans-serif;
-           font-size: 1rem;
-           color: #4B5563;
+
+
 
            P{
             margin: 0;
+            font-size: 1rem;
+            color: #4B5563;
+            letter-spacing: 0.07em;
+
+
            }
 
           }
@@ -610,8 +615,25 @@ h2{
               justify-content: center;
               // align-items: center;
 
+              p{
+              letter-spacing: 0.07em;
+              font-family: "Alegreya Sans", sans-serif;
+              color: #1F2937;
+              font-size: 1rem;
+              margin: 0;
+            }
+
+            span{
+              letter-spacing: 0.07em;
+              font-family: "Alegreya Sans", sans-serif;
+              color: #4B5563;
+              font-size: 1rem;
+              margin: 0;
+            }
+
+
               .leftExper{
-                width: 24%;
+                width: 25%;
                 text-align: right;
                 padding-top: 1.25rem;
                 padding-right: 1.25rem;
@@ -625,7 +647,7 @@ h2{
               }
 
               .rightExper{
-                width: 66%;
+                width: 65%;
                 border-left-style: dotted;
                 border-left-color: rgba(232, 146, 146, 0.3);
                 border-left-width: 2px;
@@ -751,18 +773,19 @@ h2{
             }
 
             .Second{
-              height: 100dvh;
+              padding-bottom: 20dvh;
               background-color: #F5F5F5;
-              margin-top: 15dvh;
+              margin-top: 20dvh;
               p{
                 font-family: "Rubik Marker Hatch", system-ui;
                 font-weight: 400;
                 font-style: normal;
                 font-size: 3rem;
+                margin: 0;
               }
     
               .imgContainer{
-                margin-top: 10dvh;
+                margin-top: 5dvh;
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
@@ -871,7 +894,7 @@ h2{
 
         .aboutMeBlock{
           width: 100%;
-          padding-top: 25dvh;
+          padding-top: 32dvh;
           display: flex;
           flex-direction: row;
           // justify-content: space-around;
@@ -940,6 +963,84 @@ h2{
 
           }
       }
+        }
+
+        .experienceBlock{
+          width: 100%;
+          padding-top: 20dvh;
+          padding-bottom: 20dvh;
+          // padding: 1rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          .topExper{
+            margin-bottom: 8dvh;
+
+
+            h3{
+              font-family: "Jua", sans-serif;
+              font-size: 2.5rem;
+              color: #5B3232;
+            }
+          }
+
+          .bottomExper{
+            display: flex;
+            flex-direction: column;
+
+            .blockExper{
+              display: flex;
+              justify-content: center;
+              // align-items: center;
+
+              p{
+              letter-spacing: 0.07em;
+              font-family: "Alegreya Sans", sans-serif;
+              color: #1F2937;
+              font-size: 1rem;
+              margin: 0;
+            }
+
+            .midHidden{
+              display: none;
+            }
+
+            span{
+              letter-spacing: 0.07em;
+              font-family: "Alegreya Sans", sans-serif;
+              color: #4B5563;
+              font-size: 1rem;
+              margin: 0;
+            }
+
+
+              .leftExper{
+                width: 25%;
+                text-align: right;
+                padding-top: 1.25rem;
+                padding-right: 1.25rem;
+                
+                h6{
+                  font-family: "Jua", sans-serif;
+                  font-size: 1.05rem;
+                  color: #4B5563;
+
+                }
+              }
+
+              .rightExper{
+                width: 65%;
+                border-left-style: dotted;
+                border-left-color: rgba(232, 146, 146, 0.3);
+                border-left-width: 2px;
+                padding-top: 1.25rem;
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
+
+              }
+            }
+          }
         }
         
         
