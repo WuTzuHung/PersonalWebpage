@@ -371,7 +371,8 @@ h1 {
 .Second {
   width: 100%;
   background-color: #F5F5F5;
-  margin-top: 15dvh;
+  padding-top: 15dvh;
+  padding-bottom: 20dvh;
 }
 .Second p {
   font-family: "Rubik Marker Hatch", system-ui;
@@ -421,7 +422,6 @@ h1 {
 }
 
 .ContactBlock {
-  margin-top: 15dvh;
   width: 90%;
   height: 35dvh;
   font-family: "Jua", sans-serif;
@@ -517,6 +517,7 @@ h1 {
 .experienceBlock {
   width: 100%;
   padding-top: 20dvh;
+  padding-bottom: 20dvh;
   display: flex;
   flex-direction: column;
 }
@@ -571,6 +572,48 @@ h1 {
   padding-top: 1.25rem;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
+}
+
+.skills {
+  width: 100%;
+  padding-top: 20dvh;
+  padding-bottom: 20dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.skills h3 {
+  font-family: "Jua", sans-serif;
+  font-weight: 600;
+  padding-bottom: 7dvh;
+  margin: 0;
+  color: #1a1a1a;
+  letter-spacing: 0.1rem;
+}
+.skills .pro {
+  padding-bottom: 10dvh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: 5dvh;
+}
+.skills .pro .proIcon {
+  width: 15%;
+}
+.skills .pro .proIcon i {
+  font-size: 2rem;
+}
+.skills .pro .proName {
+  width: 35%;
+}
+.skills .pro .proName p {
+  font-size: 1.2rem;
+  margin: 0;
+  font-family: "Jua", sans-serif;
+  letter-spacing: 0.1rem;
 }
 
 @media screen and (min-width: 768px) {
@@ -660,7 +703,7 @@ h1 {
   .Second {
     padding-bottom: 20dvh;
     background-color: #F5F5F5;
-    margin-top: 20dvh;
+    padding-top: 20dvh;
   }
   .Second p {
     font-family: "Rubik Marker Hatch", system-ui;
@@ -717,7 +760,6 @@ h1 {
        object-position: 50% 50%;
   }
   .ContactBlock {
-    margin-top: 5dvh;
     width: 35%;
     height: 35dvh;
     font-family: "Jua", sans-serif;
