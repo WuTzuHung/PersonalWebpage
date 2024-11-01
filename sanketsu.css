@@ -577,7 +577,6 @@ h1 {
 .skills {
   width: 100%;
   padding-top: 20dvh;
-  padding-bottom: 20dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -592,7 +591,7 @@ h1 {
   letter-spacing: 0.1rem;
 }
 .skills .pro {
-  padding-bottom: 10dvh;
+  padding-bottom: 30dvh;
   width: 100%;
   display: flex;
   align-items: center;
@@ -600,14 +599,9 @@ h1 {
   flex-wrap: wrap;
   row-gap: 5dvh;
 }
-.skills .pro .proIcon {
-  width: 15%;
-}
-.skills .pro .proIcon i {
-  font-size: 2rem;
-}
 .skills .pro .proName {
-  width: 35%;
+  width: 50%;
+  text-align: center;
 }
 .skills .pro .proName p {
   font-size: 1.2rem;
