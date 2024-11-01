@@ -62,6 +62,8 @@ barba.init({
 
                 contentAnimation(); // 其他頁面過渡動畫
                 advancedLazyLoad();  // 切換到新頁面時重新執行懶加載
+                // 滾動到頁面頂部
+                window.scrollTo(0, 0);
             },
 
             async once(data) {
