@@ -420,11 +420,17 @@ h2{
           background-color: #F5F5F5;
           padding-top: 15dvh;
           padding-bottom: 20dvh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
           p{
             font-family: "Rubik Marker Hatch", system-ui;
             font-weight: 400;
             font-style: normal;
             font-size: 1.2rem;
+          }
+          .SecondP{
+            width: 330px;
           }
 
           .imgContainer{
@@ -432,13 +438,42 @@ h2{
             flex-direction: column;
             row-gap: 5dvh;
             font-family: "Jua", sans-serif;
+            justify-content: center;
+            align-items: center;
+
+            .imgBox{
+              flex: 1 1 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              width: 330px;
+
+
+              span{
+                align-self: flex-start;
+                text-align: left; 
+                max-width: 100%;
+              }
+
+              span{
+                align-self: flex-start;
+                text-align: left; 
+                max-width: 100%;
+              }
+            
 
             .imgAll{
-              width: 100%;
+              width: 330px;
               height: 25dvh;
               object-fit: cover;
             }
 
+            img{
+              max-width: 100%;
+              height: auto;
+              display: block;
+            }
+          }
             .akiImg{
               object-position: 30% 50%;
               
@@ -865,12 +900,18 @@ h2{
               padding-bottom: 20dvh;
               background-color: #F5F5F5;
               padding-top: 20dvh;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
               p{
                 font-family: "Rubik Marker Hatch", system-ui;
                 font-weight: 400;
                 font-style: normal;
                 font-size: 3rem;
                 margin: 0;
+              }
+              .SecondP{
+                width: 100%;
               }
     
               .imgContainer{
@@ -879,17 +920,28 @@ h2{
                 flex-direction: row;
                 flex-wrap: wrap;
                 row-gap: 10dvh;
+                column-gap:2rem;
                 font-family: "Jua", sans-serif;
                 justify-content: space-between;
-  
+                align-items: center;
+
                 .imgBox{
+                  flex: 1 1 calc(22% - 16px);
                   display: flex;
                   flex-direction: column;
+                  align-items: center;
+                  width: 330px;    
     
                 .imgAll{
-                  width: 20vw;
+                  width: 330px;
                   height: 20dvh;
                   object-fit: cover;
+                }
+
+                img{
+                  max-width: 100%;
+                  height: auto;
+                  display: block;
                 }
     
                 .akiImg{
@@ -1211,7 +1263,7 @@ h2{
             // }
 
             .proName{
-              width: 50%;
+              width: 40%;
               text-align: center;
 
               p{
@@ -1222,6 +1274,14 @@ h2{
                 letter-spacing: 0.1rem;
 
               }
+            }
+
+            .proLeft{
+              margin-left: 10%;
+            }
+
+            .proRight{
+              margin-right: 10%;
             }
           }
         }

@@ -373,6 +373,9 @@ h1 {
   background-color: #F5F5F5;
   padding-top: 15dvh;
   padding-bottom: 20dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .Second p {
   font-family: "Rubik Marker Hatch", system-ui;
@@ -380,17 +383,44 @@ h1 {
   font-style: normal;
   font-size: 1.2rem;
 }
+.Second .SecondP {
+  width: 330px;
+}
 .Second .imgContainer {
   display: flex;
   flex-direction: column;
   row-gap: 5dvh;
   font-family: "Jua", sans-serif;
+  justify-content: center;
+  align-items: center;
 }
-.Second .imgContainer .imgAll {
-  width: 100%;
+.Second .imgContainer .imgBox {
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 330px;
+}
+.Second .imgContainer .imgBox span {
+  align-self: flex-start;
+  text-align: left;
+  max-width: 100%;
+}
+.Second .imgContainer .imgBox span {
+  align-self: flex-start;
+  text-align: left;
+  max-width: 100%;
+}
+.Second .imgContainer .imgBox .imgAll {
+  width: 330px;
   height: 25dvh;
   -o-object-fit: cover;
      object-fit: cover;
+}
+.Second .imgContainer .imgBox img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 .Second .imgContainer .akiImg {
   -o-object-position: 30% 50%;
@@ -719,6 +749,9 @@ img {
     padding-bottom: 20dvh;
     background-color: #F5F5F5;
     padding-top: 20dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .Second p {
     font-family: "Rubik Marker Hatch", system-ui;
@@ -727,24 +760,38 @@ img {
     font-size: 3rem;
     margin: 0;
   }
+  .Second .SecondP {
+    width: 100%;
+  }
   .Second .imgContainer {
     margin-top: 5dvh;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     row-gap: 10dvh;
+    -moz-column-gap: 2rem;
+         column-gap: 2rem;
     font-family: "Jua", sans-serif;
     justify-content: space-between;
+    align-items: center;
   }
   .Second .imgContainer .imgBox {
+    flex: 1 1 calc(22% - 16px);
     display: flex;
     flex-direction: column;
+    align-items: center;
+    width: 330px;
   }
   .Second .imgContainer .imgBox .imgAll {
-    width: 20vw;
+    width: 330px;
     height: 20dvh;
     -o-object-fit: cover;
        object-fit: cover;
+  }
+  .Second .imgContainer .imgBox img {
+    max-width: 100%;
+    height: auto;
+    display: block;
   }
   .Second .imgContainer .imgBox .akiImg {
     -o-object-position: 50% 50%;
@@ -987,7 +1034,7 @@ img {
     row-gap: 8dvh;
   }
   .skills .pro .proName {
-    width: 50%;
+    width: 40%;
     text-align: center;
   }
   .skills .pro .proName p {
@@ -995,5 +1042,11 @@ img {
     margin: 0;
     font-family: "Jua", sans-serif;
     letter-spacing: 0.1rem;
+  }
+  .skills .pro .proLeft {
+    margin-left: 10%;
+  }
+  .skills .pro .proRight {
+    margin-right: 10%;
   }
 }/*# sourceMappingURL=sanketsu.css.map */
