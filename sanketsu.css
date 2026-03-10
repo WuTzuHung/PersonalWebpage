@@ -78,6 +78,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 80%;
 }
 
 .header {
@@ -352,7 +353,7 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 4dvh;
+  /* margin-top: 4dvh; */
 }
 .Who p {
   font-family: "Rubik Marker Hatch", system-ui;
@@ -369,7 +370,7 @@ h1 {
   font-size: 1.2rem;
 }
 
-/* 桌面版樣式 */
+
 .Second {
   width: 100%;
   background-color: #F5F5F5;
@@ -401,7 +402,8 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 330px;
+      width: 100%;
+    height: auto;
 }
 .Second .imgContainer .imgBox span {
   align-self: flex-start;
@@ -414,15 +416,16 @@ h1 {
   max-width: 100%;
 }
 .Second .imgContainer .imgBox .imgAll {
-  width: 330px;
-  height: 25dvh;
+    width: 100%;
+    height: 17dvh;
   -o-object-fit: cover;
      object-fit: cover;
 }
 .Second .imgContainer .imgBox img {
-  max-width: 100%;
-  height: auto;
+    width: 100%;
+    height: 17dvh;
   display: block;
+  object-fit: cover;
 }
 .Second .imgContainer .akiImg {
   -o-object-position: 30% 50%;
@@ -454,8 +457,11 @@ h1 {
 }
 
 .ContactBlock {
-  width: 90%;
-  height: 35dvh;
+   width: 90%;
+  height: auto;
+  padding: 7vw 1.5rem;  /* vw跟寬度連動 */
+  gap: 1.1rem;
+
   font-family: "Jua", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -465,8 +471,8 @@ h1 {
   align-items: center;
   background-color: rgba(220, 205, 179, 0.3882352941);
   border-radius: 10px;
-  padding-left: 0.8rem;
-  padding-right: 0.8rem;
+  /* padding-left: 0.8rem;
+  padding-right: 0.8rem; */
 }
 .ContactBlock h3 {
   font-size: 2rem;
@@ -698,6 +704,15 @@ img {
   .navLi {
     font-size: 2.5rem;
   }
+
+.container {
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80%;
+}
+
   h1 {
     margin: 0;
     position: fixed;
@@ -706,35 +721,40 @@ img {
     padding: 10px;
   }
   .First {
-    width: auto;
+    
     max-width: 100%;
-    height: auto;
+    height: 100dvh;
     display: flex;
     flex-direction: row;
-    margin-top: 19dvh;
+    /* margin-top: 19dvh; */
+    align-items: center;
+    justify-content: center;
   }
   .First .imgContent {
     /* margin-left: 10%; */
-    max-width: 50%;
+    max-width: 33%;
     height:auto;
+    margin-top: 0dvh;
   }
   .First .responsive-image {
     height:auto;
   }
   .First .Who {
-    width: 100%;
-    margin-top: 23dvh;
-    margin-left: 7%;
+    max-width: 60%;
+    /* margin-top: 23dvh; */
+    height: auto;
+    padding-left: 7%;
+    padding-top: 8.5rem;
   }
-  .First .Who .NameP {
-    font-size: 5rem;
-  }
-  .First .Who .NiceP {
-    font-size: 3rem;
-  }
-  .First .Who .SoftP {
-    font-size: 2.5rem;
-  }
+ .First .Who .NameP {
+  font-size: clamp(2rem, 4vw, 5rem);
+}
+.First .Who .NiceP {
+  font-size: clamp(1.5rem, 3vw, 3rem);
+}
+.First .Who .SoftP {
+  font-size: clamp(1rem, 2.5vw, 2.5rem);
+}
   h2 {
     position: fixed;
     font-family: "Jua", sans-serif;
@@ -751,9 +771,11 @@ img {
     margin-left: 8vw;
   }
   .Second {
-    padding-bottom: 20dvh;
+    max-width: 100%;
+    height: 100dvh;
+    /* padding-bottom: 20dvh; */
     background-color: #F5F5F5;
-    padding-top: 20dvh;
+    /* padding-top: 20dvh; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -769,6 +791,7 @@ img {
     width: 100%;
   }
   .Second .imgContainer {
+    width: 100%;
     margin-top: 5dvh;
     display: flex;
     flex-direction: row;
@@ -781,22 +804,25 @@ img {
     align-items: center;
   }
   .Second .imgContainer .imgBox {
-    flex: 1 1 calc(22% - 16px);
+    flex: 1 1 calc(25% - 16px);
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 330px;
+    width: 100%;
   }
   .Second .imgContainer .imgBox .imgAll {
-    width: 330px;
+    width: 100%;
     height: 20dvh;
-    -o-object-fit: cover;
-       object-fit: cover;
+object-fit: cover;
   }
   .Second .imgContainer .imgBox img {
-    max-width: 100%;
+    width: 100%;
     height: auto;
     display: block;
+    height: 20dvh;
+
+object-fit: cover;
+
   }
   .Second .imgContainer .imgBox .akiImg {
     -o-object-position: 50% 50%;
@@ -826,9 +852,11 @@ img {
     -o-object-position: 50% 50%;
        object-position: 50% 50%;
   }
+
   .ContactBlock {
-    width: 35%;
-    height: 35dvh;
+  width: 25%;
+  height: auto;
+  padding: 4vw 1.5rem;  /* vw跟寬度連動 */
     font-family: "Jua", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -840,23 +868,24 @@ img {
     border-radius: 10px;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+    gap: 1.5rem;
   }
-  .ContactBlock h3 {
-    font-size: 2rem;
-    margin-top: 1.5dvh;
-  }
-  .ContactBlock .iconS {
-    width: 70%;
-    display: flex;
-    justify-content: space-around;
-  }
-  .ContactBlock .iconS .ti {
-    font-size: 2rem;
-  }
-  .ContactBlock p {
-    font-size: 0.9rem;
-    text-align: center;
-  }
+.ContactBlock h3 {
+  font-size: clamp(1rem, 2vw, 2rem);
+  margin-top: 0;  
+}
+.ContactBlock .iconS {
+  width: 70%;
+  display: flex;
+  justify-content: space-around;
+}
+.ContactBlock .iconS .ti {
+  font-size: clamp(1rem, 2vw, 2rem);
+}
+.ContactBlock p {
+  font-size: clamp(0.5rem, 1vw, 0.9rem);
+  text-align: center;
+}
   .Footer {
     font-family: "Jua", sans-serif;
     font-weight: 400;
