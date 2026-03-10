@@ -24,7 +24,7 @@ body {
 }
 
 .nav {
-  height: 13dvh;
+  height: auto;
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -334,15 +334,17 @@ h1 {
 }
 
 .imgContent {
-  height: 40dvh;
+  width: 100%;
+
   display: flex;
   justify-content: center;
   margin-top: 5dvh;
 }
 
 .responsive-image {
+  width: auto;
   max-width: 100%; /* 使圖片不超過其容器的寬度 */
-  height: 40dvh; /* 高度自動調整以保持比例 */
+  height: auto; /* 高度自動調整以保持比例 */
 }
 
 .Who {
@@ -704,21 +706,24 @@ img {
     padding: 10px;
   }
   .First {
-    width: 100%;
+    width: auto;
+    max-width: 100%;
+    height: auto;
     display: flex;
     flex-direction: row;
-    margin-top: 20dvh;
+    margin-top: 19dvh;
   }
   .First .imgContent {
-    margin-left: 10%;
-    height: 60dvh;
+    /* margin-left: 10%; */
+    max-width: 50%;
+    height:auto;
   }
   .First .responsive-image {
-    height: 60dvh;
+    height:auto;
   }
   .First .Who {
-    width: 50%;
-    margin-top: 13dvh;
+    width: 100%;
+    margin-top: 23dvh;
     margin-left: 7%;
   }
   .First .Who .NameP {
@@ -742,7 +747,7 @@ img {
     top: 0dvh;
     left: 20vw;
     margin: 0;
-    margin-top: 3.5dvh;
+    margin-top: 2.7dvh;
     margin-left: 8vw;
   }
   .Second {
