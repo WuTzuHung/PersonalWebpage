@@ -457,7 +457,7 @@ h1 {
 }
 
 .ContactBlock {
-   width: 90%;
+   width: 100%;
   height: auto;
   padding: 7vw 1.5rem;  /* vw跟寬度連動 */
   gap: 1.1rem;
@@ -571,6 +571,8 @@ h1 {
 .experienceBlock .bottomExper {
   display: flex;
   flex-direction: column;
+  padding-bottom: 15dvh;
+  align-items: center;
 }
 .experienceBlock .bottomExper .blockExper {
   display: flex;
