@@ -614,6 +614,7 @@ h1 {
 
 .pcTop {
   width: 100%;
+  /* height: 100dvh; */
   padding-top: 5rem;
   display: flex;
   align-items: center;
@@ -902,7 +903,10 @@ object-fit: cover;
   }
   .aboutMeBlock {
     width: 100%;
-    padding-top: 32dvh;
+    height: 100dvh;
+    /* padding-top: 32dvh; */
+    padding-bottom: 15dvh;
+    padding-right: 8%;
     display: flex;
     flex-direction: row;
     font-size: 0.8rem;
@@ -1017,6 +1021,7 @@ object-fit: cover;
   }
   .pcTop {
     width: 100%;
+    height: 100dvh;
     padding-top: 8rem;
     display: flex;
     align-items: center;
