@@ -577,6 +577,10 @@ h1 {
 .experienceBlock .bottomExper .blockExper {
   display: flex;
   justify-content: center;
+    width: 100%; /* 確保每一行都佔滿寬度，不會縮小 */
+    display: flex;
+    clear: both;
+    /* margin-bottom: 25px; */
 }
 .experienceBlock .bottomExper .blockExper p {
   letter-spacing: 0.07em;
@@ -997,6 +1001,7 @@ object-fit: cover;
     display: none;
   }
   .experienceBlock .bottomExper .blockExper span {
+    /* width: 100%; */
     letter-spacing: 0.07em;
     font-family: "Alegreya Sans", sans-serif;
     color: #4B5563;
