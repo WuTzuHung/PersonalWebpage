@@ -1289,3 +1289,259 @@ h2{
         
           }
 
+/* Responsive boundary fixes. Keep this block in sync in CSS and SCSS;
+   the existing CSS also contains hand-tuned styles absent from the SCSS. */
+html,
+body {
+  height: auto;
+  min-height: 100svh;
+}
+
+.container {
+  min-width: 0;
+}
+
+.container > *,
+.aboutMeBlock .imgAbout,
+.aboutMeBlock .doubleAbout,
+.skills .pro .proName {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.outer-menu {
+  z-index: 30;
+}
+
+.header {
+  min-height: 5rem;
+}
+
+.header-revealer:after {
+  width: 100%;
+}
+
+.First {
+  width: 100%;
+  height: auto;
+}
+
+.First .imgContent {
+  height: auto;
+}
+
+.First .responsive-image {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: min(55svh, 34rem);
+  object-fit: contain;
+}
+
+.First .Who {
+  height: auto;
+}
+
+.Second {
+  height: auto;
+}
+
+.Second .SecondP {
+  width: 100%;
+  max-width: 100%;
+  font-size: clamp(1.2rem, 3.3vw, 3rem);
+}
+
+.Second .imgContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  margin-top: 2rem;
+}
+
+.Second .imgContainer .imgBox {
+  width: 100%;
+  min-width: 0;
+}
+
+.Second .imgContainer .imgBox .imgAll {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+}
+
+.ContactBlock {
+  width: min(100%, 28rem);
+  height: auto;
+  padding: clamp(1rem, 3vw, 2rem);
+  gap: 1.1rem;
+}
+
+.ContactBlock h3 {
+  font-size: 2rem;
+  margin-top: 0;
+}
+
+.ContactBlock .iconS {
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ContactBlock .iconS a {
+  flex: 0 0 2rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ContactBlock .iconS .ti {
+  font-size: 2rem;
+}
+
+.ContactBlock p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.experienceBlock .bottomExper {
+  width: 100%;
+  max-width: 64rem;
+}
+
+.experienceBlock .bottomExper .blockExper .leftExper {
+  flex-shrink: 0;
+  padding-right: clamp(0.5rem, 2vw, 1.25rem);
+}
+
+.experienceBlock .bottomExper .blockExper .rightExper {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding-inline: clamp(0.5rem, 2vw, 1.25rem);
+}
+
+.pcTop .imgSkills {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.skills h3 {
+  text-align: center;
+}
+
+.skills .pro .proName p {
+  font-size: clamp(1.1rem, 2.2vw, 1.8rem);
+  overflow-wrap: anywhere;
+}
+
+@media screen and (min-width: 576px) {
+  .Second .imgContainer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .nav {
+    z-index: 20;
+    min-height: 6.25rem;
+    height: auto;
+    align-items: center;
+    padding: 1.5rem clamp(1rem, 4vw, 3.5rem);
+  }
+
+  .container {
+    padding-top: 7.25rem;
+  }
+
+  h1 {
+    z-index: 21;
+    top: 1.25rem;
+    padding: 0;
+    font-size: clamp(2rem, 3.34vw, 3rem);
+  }
+
+  .header {
+    min-height: 0;
+  }
+
+  .header h2 {
+    z-index: 21;
+    top: 1.75rem;
+    margin-top: 0;
+    font-size: clamp(2rem, 3.34vw, 3rem);
+  }
+
+  .First,
+  .aboutMeBlock,
+  .pcTop {
+    height: auto;
+    min-height: calc(100svh - 7.25rem);
+  }
+
+  .First {
+    margin-top: 0;
+  }
+
+  .First .imgContent {
+    width: 40%;
+    max-width: 40%;
+    margin: 0;
+  }
+
+  .First .Who {
+    width: 55%;
+    max-width: 55%;
+    margin: 0;
+    padding: clamp(1rem, 5vw, 5rem) 0 0 clamp(1rem, 3vw, 3rem);
+  }
+
+  .aboutMeBlock {
+    padding-top: 2rem;
+    padding-bottom: clamp(2rem, 8svh, 6rem);
+  }
+
+  .pcTop {
+    gap: 1rem;
+    padding-top: 2rem;
+  }
+
+  .pcTop span {
+    font-size: clamp(1.5rem, 3.3vw, 3rem);
+    padding-right: clamp(0rem, 3vw, 5rem);
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .Second .imgContainer {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 767.98px) {
+  .nav > li {
+    display: none;
+  }
+
+  .aboutMeBlock,
+  .pcTop {
+    padding-top: 2rem;
+  }
+
+  .First .imgContent {
+    margin-inline: auto;
+    max-width: 22rem;
+  }
+
+  .First .Who {
+    margin-top: 1.5rem;
+  }
+
+  .outer-menu .menu > div > div,
+  .outer-menu .menu > div > div > ul {
+    max-height: 100svh;
+  }
+}
+
