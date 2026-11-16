@@ -587,7 +587,7 @@ html.is-snap .stack .panel__inner {
   padding: 0;
 }
 
-/* ---------- 換頁轉場：紙張簾幕 ---------- */
+/* ---------- 換頁轉場：畫面淡成一張紙，一片楓葉飄過 ---------- */
 
 .curtain {
   position: fixed;
@@ -595,6 +595,8 @@ html.is-snap .stack .panel__inner {
   z-index: 9999;
   visibility: hidden;
   pointer-events: none;
+  opacity: 0;
+  background-color: var(--surface);
 }
 
 .curtain.is-active {
@@ -602,27 +604,7 @@ html.is-snap .stack .panel__inner {
   pointer-events: auto;
 }
 
-.curtain svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* 三層紙：楓紅、暖米、奶油，依序蓋上來 */
-.curtain__layer--accent {
-  fill: #D9A894;
-}
-
-.curtain__layer--sand {
-  fill: var(--sand);
-}
-
-.curtain__layer--paper {
-  fill: var(--surface);
-}
-
-/* 蓋滿時在中央飄過的一片楓葉 */
+/* 在中央飄過的一片楓葉 */
 .curtain__leaf {
   position: absolute;
   top: 50%;

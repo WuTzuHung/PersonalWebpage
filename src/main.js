@@ -20,23 +20,22 @@
         snapEase: 'power3.inOut',
         minFitScale: 0.72,      // 內容放不下時最多縮到多小，再小就改回一般滑動
 
+        // 換頁轉場：畫面淡成一張奶油色的紙，一片楓葉飄過，再淡出露出新頁面
         curtain: {
-            cover: 0.85,        // 每一層蓋上來的秒數
-            open: 0.85,         // 每一層離開的秒數
-            layerGap: 0.11,     // 三層之間的時間差
-            hold: 0.45,         // 完全蓋住、楓葉飄過時停留的秒數
-            wave: 7             // 簾幕邊緣波浪的高度（0 = 直線）
+            fadeIn: 0.55,       // 淡成紙的秒數
+            hold: 0.75,         // 楓葉飄過的秒數
+            fadeOut: 0.7        // 紙淡出、露出新頁面的秒數
         },
 
         leaf: {
             enabled: true,
-            max: 2,                 // 畫面上同時最多幾片
+            max: 4,                 // 畫面上同時最多幾片
             maxMobile: 1,
             size: [40, 80],         // px
             sizeMobileMax: 56,
             opacity: [0.2, 0.38],
             fall: [12, 18],         // 落完一個畫面的秒數
-            interval: [4, 9],       // 兩片之間的等待秒數
+            interval: [2.5, 5],     // 兩片之間的等待秒數
             sway: [30, 60],         // 左右搖擺的振幅 px
             swayPeriod: [3, 5],     // 搖擺一次的秒數
             colors: ['#C4674B', '#CF8A4A', '#B5533C']
@@ -617,55 +616,17 @@
     })();
 
     /* ------------------------------------------------------------------
-       換頁轉場：由下往上的三層紙張簾幕，邊緣是手撕紙般的波浪
+       換頁轉場：畫面淡成一張紙，一片楓葉飄過，再淡出露出新頁面
        ------------------------------------------------------------------ */
     var Curtain = (function () {
-        var SVG_NS = 'http://www.w3.org/2000/svg';
-
         var el = document.createElement('div');
         el.className = 'curtain';
         el.setAttribute('aria-hidden', 'true');
 
-        var svg = document.createElementNS(SVG_NS, 'svg');
-        svg.setAttribute('viewBox', '0 0 100 100');
-        svg.setAttribute('preserveAspectRatio', 'none');
-
-        // 由下層到上層：楓紅、暖米、奶油
-        var layers = ['accent', 'sand', 'paper'].map(function (name, i) {
-            var path = document.createElementNS(SVG_NS, 'path');
-            path.setAttribute('class', 'curtain__layer curtain__layer--' + name);
-            svg.appendChild(path);
-            // 每一層的波浪方向交錯，三條邊才不會完全重疊
-            return { path: path, sign: i % 2 === 0 ? 1 : -1, state: { p: 0 } };
-        });
-
         var leaf = document.createElement('div');
         leaf.className = 'curtain__leaf';
-
-        el.appendChild(svg);
         el.appendChild(leaf);
         document.body.appendChild(el);
-
-        // p = 0 到 1。from 'bottom'：從底部長上來；from 'top'：往頂端收走
-        function draw(layer, from) {
-            var p = layer.state.p;
-            var amp = Math.sin(Math.PI * p) * CONFIG.curtain.wave * layer.sign;
-            var d;
-            if (from === 'bottom') {
-                var y = 100 - p * 100;
-                d = 'M 0 100 V ' + y.toFixed(2) +
-                    ' Q 12.5 ' + (y - amp).toFixed(2) + ' 25 ' + y.toFixed(2) +
-                    ' T 50 ' + y.toFixed(2) + ' T 75 ' + y.toFixed(2) + ' T 100 ' + y.toFixed(2) +
-                    ' V 100 Z';
-            } else {
-                var edge = 100 - p * 100;
-                d = 'M 0 0 V ' + edge.toFixed(2) +
-                    ' Q 12.5 ' + (edge + amp).toFixed(2) + ' 25 ' + edge.toFixed(2) +
-                    ' T 50 ' + edge.toFixed(2) + ' T 75 ' + edge.toFixed(2) + ' T 100 ' + edge.toFixed(2) +
-                    ' V 0 Z';
-            }
-            layer.path.setAttribute('d', d);
-        }
 
         function cover(oldContainer) {
             var c = CONFIG.curtain;
@@ -677,26 +638,15 @@
                 el.classList.add('is-active');
                 leaf.textContent = '';
                 leaf.appendChild(Leaves.createArt());
-                gsap.set(leaf, { opacity: 0, y: -46, rotation: -24 });
+                gsap.set(el, { opacity: 0 });
+                gsap.set(leaf, { opacity: 0, x: -26, y: -70, rotation: -28 });
 
                 var tl = gsap.timeline({ onComplete: resolve });
-                tl.to(oldContainer, { opacity: 0, duration: 0.5, ease: 'power2.in' }, 0);
-                layers.forEach(function (layer, i) {
-                    layer.state.p = 0;
-                    draw(layer, 'bottom');
-                    tl.to(layer.state, {
-                        p: 1,
-                        duration: c.cover,
-                        ease: 'power3.inOut',
-                        onUpdate: function () {
-                            draw(layer, 'bottom');
-                        }
-                    }, i * c.layerGap);
-                });
-                // 蓋滿後，一片楓葉在中央緩緩飄過
-                var covered = c.cover + c.layerGap * (layers.length - 1);
-                tl.to(leaf, { opacity: 0.85, duration: 0.35, ease: 'power1.out' }, covered - 0.3);
-                tl.to(leaf, { y: 0, rotation: 6, duration: 0.3 + c.hold, ease: 'sine.inOut' }, covered - 0.3);
+                tl.to(el, { opacity: 1, duration: c.fadeIn, ease: 'power2.inOut' }, 0);
+                // 楓葉從上方左右搖擺著飄下來
+                tl.to(leaf, { opacity: 0.9, duration: 0.4, ease: 'power1.out' }, c.fadeIn * 0.5);
+                tl.to(leaf, { y: 0, duration: c.hold, ease: 'sine.out' }, c.fadeIn * 0.5);
+                tl.to(leaf, { x: 22, rotation: 10, duration: c.hold, ease: 'sine.inOut' }, c.fadeIn * 0.5);
             });
         }
 
@@ -713,26 +663,15 @@
                         resolve();
                     }
                 });
-                tl.to(leaf, { opacity: 0, y: 40, rotation: 26, duration: 0.45, ease: 'power1.in' }, 0);
-                // 最上層先走，露出下面兩層的顏色，最後才看到新頁面
-                layers.slice().reverse().forEach(function (layer, i) {
-                    layer.state.p = 0;
-                    draw(layer, 'top');
-                    tl.to(layer.state, {
-                        p: 1,
-                        duration: c.open,
-                        ease: 'power3.inOut',
-                        onUpdate: function () {
-                            draw(layer, 'top');
-                        }
-                    }, 0.1 + i * c.layerGap);
-                });
+                // 楓葉繼續往下飄並淡出，紙跟著淡掉
+                tl.to(leaf, { y: 60, x: -8, rotation: 34, opacity: 0, duration: c.fadeOut * 0.85, ease: 'sine.in' }, 0);
+                tl.to(el, { opacity: 0, duration: c.fadeOut, ease: 'power2.inOut' }, 0.1);
             });
         }
 
-        // 新頁面的內容大約在簾幕離開到一半時開始出現
+        // 新頁面的內容在紙開始淡出後不久出現
         function revealDelay() {
-            return prefersReducedMotion() ? 0 : 0.1 + CONFIG.curtain.open * 0.55;
+            return prefersReducedMotion() ? 0 : 0.1 + CONFIG.curtain.fadeOut * 0.45;
         }
 
         return { cover: cover, open: open, revealDelay: revealDelay };
