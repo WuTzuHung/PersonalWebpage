@@ -21,10 +21,11 @@
         minFitScale: 0.72,      // 內容放不下時最多縮到多小，再小就改回一般滑動
 
         curtain: {
-            cover: 0.55,        // 簾幕蓋上來的秒數
-            open: 0.55,         // 簾幕離開的秒數
-            layerGap: 0.08,     // 兩層之間的時間差
-            hold: 0.12          // 完全蓋住時停留的秒數
+            cover: 0.85,        // 每一層蓋上來的秒數
+            open: 0.85,         // 每一層離開的秒數
+            layerGap: 0.11,     // 三層之間的時間差
+            hold: 0.45,         // 完全蓋住、楓葉飄過時停留的秒數
+            wave: 7             // 簾幕邊緣波浪的高度（0 = 直線）
         },
 
         leaf: {
@@ -38,16 +39,12 @@
             interval: [4, 9],       // 兩片之間的等待秒數
             sway: [30, 60],         // 左右搖擺的振幅 px
             swayPeriod: [3, 5],     // 搖擺一次的秒數
-            hoverRadius: 120,       // 滑鼠影響的半徑 px
-            pushMax: 40,            // 被滑鼠推開的最大距離 px
-            spinMax: 25,            // 被滑鼠帶動的最大額外旋轉（度）
             colors: ['#C4674B', '#CF8A4A', '#B5533C']
         }
     };
 
     var snapMq = window.matchMedia(CONFIG.snapQuery);
     var reduceMq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var finePointerMq = window.matchMedia('(hover: hover) and (pointer: fine)');
 
     function prefersReducedMotion() {
         return reduceMq.matches;
@@ -565,48 +562,10 @@
     })();
 
     /* ------------------------------------------------------------------
-       首頁頭像：滑鼠移動時的輕微視差
-       ------------------------------------------------------------------ */
-    var Parallax = (function () {
-        var moveX = null;
-        var moveY = null;
-
-        function onMove(e) {
-            if (!moveX) {
-                return;
-            }
-            moveX(((e.clientX / window.innerWidth) - 0.5) * -16);
-            moveY(((e.clientY / window.innerHeight) - 0.5) * -16);
-        }
-
-        window.addEventListener('pointermove', onMove, { passive: true });
-
-        return {
-            init: function (container) {
-                moveX = moveY = null;
-                var img = container.querySelector('.First .responsive-image');
-                if (!img || !finePointerMq.matches || prefersReducedMotion()) {
-                    return;
-                }
-                moveX = gsap.quickTo(img, 'x', { duration: 0.8, ease: 'power3.out' });
-                moveY = gsap.quickTo(img, 'y', { duration: 0.8, ease: 'power3.out' });
-            }
-        };
-    })();
-
-    /* ------------------------------------------------------------------
-       換頁轉場：由下往上的雙層紙張簾幕
+       換頁轉場：由下往上的三層紙張簾幕，邊緣是手撕紙般的波浪
        ------------------------------------------------------------------ */
     var Curtain = (function () {
         var SVG_NS = 'http://www.w3.org/2000/svg';
-        // 蓋上來：底部 → 帶弧線的中途 → 蓋滿
-        var COVER_START = 'M 0 100 V 100 Q 50 100 100 100 V 100 z';
-        var COVER_MID = 'M 0 100 V 56 Q 50 30 100 56 V 100 z';
-        var COVER_FULL = 'M 0 100 V 0 Q 50 0 100 0 V 100 z';
-        // 離開：蓋滿 → 帶弧線的中途 → 從頂端離開
-        var OPEN_FULL = 'M 0 0 V 100 Q 50 100 100 100 V 0 z';
-        var OPEN_MID = 'M 0 0 V 44 Q 50 70 100 44 V 0 z';
-        var OPEN_END = 'M 0 0 V 0 Q 50 0 100 0 V 0 z';
 
         var el = document.createElement('div');
         el.className = 'curtain';
@@ -615,26 +574,42 @@
         var svg = document.createElementNS(SVG_NS, 'svg');
         svg.setAttribute('viewBox', '0 0 100 100');
         svg.setAttribute('preserveAspectRatio', 'none');
-        var back = document.createElementNS(SVG_NS, 'path');
-        back.setAttribute('class', 'curtain__back');
-        back.setAttribute('d', COVER_START);
-        var front = document.createElementNS(SVG_NS, 'path');
-        front.setAttribute('class', 'curtain__front');
-        front.setAttribute('d', COVER_START);
-        svg.appendChild(back);
-        svg.appendChild(front);
 
-        var name = document.createElement('span');
-        name.className = 'curtain__name';
-        name.textContent = 'tzuhungwu';
+        // 由下層到上層：楓紅、暖米、奶油
+        var layers = ['accent', 'sand', 'paper'].map(function (name, i) {
+            var path = document.createElementNS(SVG_NS, 'path');
+            path.setAttribute('class', 'curtain__layer curtain__layer--' + name);
+            svg.appendChild(path);
+            // 每一層的波浪方向交錯，三條邊才不會完全重疊
+            return { path: path, sign: i % 2 === 0 ? 1 : -1, state: { p: 0 } };
+        });
+
+        var leaf = document.createElement('div');
+        leaf.className = 'curtain__leaf';
 
         el.appendChild(svg);
-        el.appendChild(name);
+        el.appendChild(leaf);
         document.body.appendChild(el);
 
-        function morph(tl, path, mid, end, total, at) {
-            tl.to(path, { attr: { d: mid }, duration: total / 2, ease: 'power2.in' }, at);
-            tl.to(path, { attr: { d: end }, duration: total / 2, ease: 'power2.out' }, at + total / 2);
+        // p = 0 到 1。from 'bottom'：從底部長上來；from 'top'：往頂端收走
+        function draw(layer, from) {
+            var p = layer.state.p;
+            var amp = Math.sin(Math.PI * p) * CONFIG.curtain.wave * layer.sign;
+            var d;
+            if (from === 'bottom') {
+                var y = 100 - p * 100;
+                d = 'M 0 100 V ' + y.toFixed(2) +
+                    ' Q 12.5 ' + (y - amp).toFixed(2) + ' 25 ' + y.toFixed(2) +
+                    ' T 50 ' + y.toFixed(2) + ' T 75 ' + y.toFixed(2) + ' T 100 ' + y.toFixed(2) +
+                    ' V 100 Z';
+            } else {
+                var edge = 100 - p * 100;
+                d = 'M 0 0 V ' + edge.toFixed(2) +
+                    ' Q 12.5 ' + (edge + amp).toFixed(2) + ' 25 ' + edge.toFixed(2) +
+                    ' T 50 ' + edge.toFixed(2) + ' T 75 ' + edge.toFixed(2) + ' T 100 ' + edge.toFixed(2) +
+                    ' V 0 Z';
+            }
+            layer.path.setAttribute('d', d);
         }
 
         function cover(oldContainer) {
@@ -645,14 +620,28 @@
                     return;
                 }
                 el.classList.add('is-active');
-                gsap.set([back, front], { attr: { d: COVER_START } });
-                gsap.set(name, { opacity: 0 });
+                leaf.textContent = '';
+                leaf.appendChild(Leaves.createArt());
+                gsap.set(leaf, { opacity: 0, y: -46, rotation: -24 });
+
                 var tl = gsap.timeline({ onComplete: resolve });
-                tl.to(oldContainer, { opacity: 0, duration: 0.35, ease: 'power2.in' }, 0);
-                morph(tl, back, COVER_MID, COVER_FULL, c.cover, 0);
-                morph(tl, front, COVER_MID, COVER_FULL, c.cover, c.layerGap);
-                tl.to(name, { opacity: 0.9, duration: 0.2 }, c.cover - 0.1);
-                tl.to({}, { duration: c.hold });
+                tl.to(oldContainer, { opacity: 0, duration: 0.5, ease: 'power2.in' }, 0);
+                layers.forEach(function (layer, i) {
+                    layer.state.p = 0;
+                    draw(layer, 'bottom');
+                    tl.to(layer.state, {
+                        p: 1,
+                        duration: c.cover,
+                        ease: 'power3.inOut',
+                        onUpdate: function () {
+                            draw(layer, 'bottom');
+                        }
+                    }, i * c.layerGap);
+                });
+                // 蓋滿後，一片楓葉在中央緩緩飄過
+                var covered = c.cover + c.layerGap * (layers.length - 1);
+                tl.to(leaf, { opacity: 0.85, duration: 0.35, ease: 'power1.out' }, covered - 0.3);
+                tl.to(leaf, { y: 0, rotation: 6, duration: 0.3 + c.hold, ease: 'sine.inOut' }, covered - 0.3);
             });
         }
 
@@ -663,24 +652,39 @@
                     gsap.fromTo(newContainer, { opacity: 0 }, { opacity: 1, duration: 0.2, onComplete: resolve });
                     return;
                 }
-                gsap.set([back, front], { attr: { d: OPEN_FULL } });
                 var tl = gsap.timeline({
                     onComplete: function () {
                         el.classList.remove('is-active');
                         resolve();
                     }
                 });
-                tl.to(name, { opacity: 0, duration: 0.15 }, 0);
-                morph(tl, front, OPEN_MID, OPEN_END, c.open, 0.05);
-                morph(tl, back, OPEN_MID, OPEN_END, c.open, 0.05 + c.layerGap);
+                tl.to(leaf, { opacity: 0, y: 40, rotation: 26, duration: 0.45, ease: 'power1.in' }, 0);
+                // 最上層先走，露出下面兩層的顏色，最後才看到新頁面
+                layers.slice().reverse().forEach(function (layer, i) {
+                    layer.state.p = 0;
+                    draw(layer, 'top');
+                    tl.to(layer.state, {
+                        p: 1,
+                        duration: c.open,
+                        ease: 'power3.inOut',
+                        onUpdate: function () {
+                            draw(layer, 'top');
+                        }
+                    }, 0.1 + i * c.layerGap);
+                });
             });
         }
 
-        return { cover: cover, open: open };
+        // 新頁面的內容大約在簾幕離開到一半時開始出現
+        function revealDelay() {
+            return prefersReducedMotion() ? 0 : 0.1 + CONFIG.curtain.open * 0.55;
+        }
+
+        return { cover: cover, open: open, revealDelay: revealDelay };
     })();
 
     /* ------------------------------------------------------------------
-       手繪楓葉：偶爾一片緩緩飄落，滑鼠靠近時輕輕晃動
+       手繪楓葉：偶爾一片緩緩飄落、慢慢淡出（不跟滑鼠互動）
        想換成自己的圖：改 Leaves.createArt() 讓它回傳自己的 <svg> 或 <img> 即可
        ------------------------------------------------------------------ */
     var Leaves = (function () {
@@ -689,7 +693,7 @@
         var layer = null;
         var leaves = [];
         var nextSpawnAt = 0;
-        var pointer = { x: -9999, y: -9999, active: false };
+        var gutter = 0;         // favorites 頁：卡片左右留白的寬度，楓葉只落在這裡
         var clock = 0;
 
         // 楓葉右半邊的輪廓（100 x 100 的畫布，左半邊鏡射產生）
@@ -790,6 +794,14 @@
             var size = rand(C.size[0], w < 768 ? Math.min(C.sizeMobileMax, C.size[1]) : C.size[1]);
             // 避開中央 30% 的寬度，優先落在左右兩側的留白
             var x = Math.random() < 0.5 ? rand(0.04, 0.33) * w : rand(0.67, 0.96) * w;
+            var amp = rand(C.sway[0], C.sway[1]);
+
+            // favorites：只落在卡片外側的留白，飄到卡片範圍時會被卡片蓋住
+            if (gutter > 0) {
+                size = clamp(gutter * 0.8, 26, 48);
+                x = Math.random() < 0.5 ? gutter / 2 : w - gutter / 2;
+                amp = rand(4, 10);
+            }
 
             var el = document.createElement('div');
             el.className = 'leaf';
@@ -804,15 +816,13 @@
                 x0: x - size / 2,
                 y: -size,
                 speed: (h + size) / rand(C.fall[0], C.fall[1]),
-                amp: rand(C.sway[0], C.sway[1]),
+                amp: amp,
                 freq: (Math.PI * 2) / rand(C.swayPeriod[0], C.swayPeriod[1]),
                 phase: rand(0, Math.PI * 2),
                 rot: rand(0, 360),
                 rotSpeed: rand(-14, 14),
                 alpha: rand(C.opacity[0], C.opacity[1]),
-                t: 0,
-                // 被滑鼠推開的偏移量（彈簧）
-                ox: 0, oy: 0, vx: 0, vy: 0, orot: 0, vrot: 0
+                t: 0
             });
         }
 
@@ -826,8 +836,6 @@
                 nextSpawnAt = clock + rand(C.interval[0], C.interval[1]);
             }
 
-            var damping = Math.pow(0.95, dt * 60);
-
             for (var i = leaves.length - 1; i >= 0; i--) {
                 var leaf = leaves[i];
                 leaf.t += dt;
@@ -836,32 +844,6 @@
                 var swing = leaf.phase + leaf.t * leaf.freq;
                 var x = leaf.x0 + Math.sin(swing) * leaf.amp;
                 var tilt = Math.cos(swing) * 16;
-
-                // 滑鼠靠近：往遠離游標的方向輕推一下
-                if (pointer.active) {
-                    var cx = x + leaf.ox + leaf.size / 2;
-                    var cy = leaf.y + leaf.oy + leaf.size / 2;
-                    var dx = cx - pointer.x;
-                    var dy = cy - pointer.y;
-                    var dist = Math.sqrt(dx * dx + dy * dy) || 1;
-                    if (dist < C.hoverRadius) {
-                        var force = 1 - dist / C.hoverRadius;
-                        leaf.vx += (dx / dist) * force * 900 * dt;
-                        leaf.vy += (dy / dist) * force * 900 * dt;
-                        leaf.vrot += (dx >= 0 ? 1 : -1) * force * 700 * dt;
-                    }
-                }
-
-                // 彈簧拉回原本的飄落路徑
-                leaf.vx += -28 * leaf.ox * dt;
-                leaf.vy += -28 * leaf.oy * dt;
-                leaf.vrot += -28 * leaf.orot * dt;
-                leaf.vx *= damping;
-                leaf.vy *= damping;
-                leaf.vrot *= damping;
-                leaf.ox = clamp(leaf.ox + leaf.vx * dt, -C.pushMax, C.pushMax);
-                leaf.oy = clamp(leaf.oy + leaf.vy * dt, -C.pushMax, C.pushMax);
-                leaf.orot = clamp(leaf.orot + leaf.vrot * dt, -C.spinMax, C.spinMax);
 
                 // 最後 30% 的路程慢慢淡出
                 var progress = (leaf.y + leaf.size) / (h + leaf.size);
@@ -873,9 +855,9 @@
                     continue;
                 }
 
-                var rotation = leaf.rot + leaf.rotSpeed * leaf.t + tilt + leaf.orot;
+                var rotation = leaf.rot + leaf.rotSpeed * leaf.t + tilt;
                 leaf.el.style.opacity = (leaf.alpha * fade).toFixed(3);
-                leaf.el.style.transform = 'translate3d(' + (x + leaf.ox).toFixed(1) + 'px,' + (leaf.y + leaf.oy).toFixed(1) + 'px,0) rotate(' + rotation.toFixed(1) + 'deg)';
+                leaf.el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + leaf.y.toFixed(1) + 'px,0) rotate(' + rotation.toFixed(1) + 'deg)';
             }
         }
 
@@ -904,32 +886,46 @@
                 return;
             }
 
-            if (finePointerMq.matches) {
-                window.addEventListener('pointermove', function (e) {
-                    pointer.x = e.clientX;
-                    pointer.y = e.clientY;
-                    pointer.active = true;
-                }, { passive: true });
-                document.addEventListener('pointerleave', function () {
-                    pointer.active = false;
-                });
-            }
-
             nextSpawnAt = 1.2;
             // gsap.ticker 在分頁切到背景時會自動暫停
             gsap.ticker.add(tick);
         }
 
-        return { init: init, createArt: createArt };
+        // 換頁時記錄新頁面是不是 favorites 的堆疊版面
+        function setPage(container) {
+            var card = container.querySelector('.stack-card');
+            gutter = card ? Math.max(0, card.getBoundingClientRect().left) : 0;
+        }
+
+        window.addEventListener('resize', function () {
+            var card = document.querySelector('main:not([style*="display: none"]) .stack-card');
+            gutter = card ? Math.max(0, card.getBoundingClientRect().left) : 0;
+        });
+
+        return { init: init, createArt: createArt, setPage: setPage };
     })();
 
     /* ------------------------------------------------------------------
        Barba.js
        ------------------------------------------------------------------ */
+    // 頁面標題（about me、skills、favorites）從中間滑到左邊，沿用原本網站的動畫
+    function slideHeading(container, delay) {
+        var heading = container.querySelectorAll('.header h2');
+        if (!heading.length) {
+            return;
+        }
+        if (prefersReducedMotion()) {
+            gsap.set(heading, { left: 0 });
+            return;
+        }
+        gsap.to(heading, { left: 0, duration: 1, ease: 'power3.inOut', delay: (delay || 0) + 0.35 });
+    }
+
     function startPage(container, firstDelay) {
         updateNav();
         Panels.init(container, firstDelay);
-        Parallax.init(container);
+        Leaves.setPage(container);
+        slideHeading(container, firstDelay);
         advancedLazyLoad();
     }
 
@@ -960,7 +956,7 @@
                 },
 
                 enter: function (data) {
-                    startPage(data.next.container, 0.4);
+                    startPage(data.next.container, Curtain.revealDelay());
                     return Curtain.open(data.next.container);
                 },
 
