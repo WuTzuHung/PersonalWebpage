@@ -102,6 +102,60 @@
     });
 
     /* ------------------------------------------------------------------
+       首頁照片：點一下聚焦（往左斜、放大，其他照片變淡）
+       ------------------------------------------------------------------ */
+    function clearPhotoFocus() {
+        document.querySelectorAll('.imgContainer.has-focus').forEach(function (grid) {
+            grid.classList.remove('has-focus');
+        });
+        document.querySelectorAll('.imgBox.is-focus').forEach(function (box) {
+            box.classList.remove('is-focus');
+            box.setAttribute('aria-pressed', 'false');
+        });
+    }
+
+    function togglePhotoFocus(box) {
+        var wasFocused = box.classList.contains('is-focus');
+        clearPhotoFocus();
+        if (!wasFocused) {
+            box.classList.add('is-focus');
+            box.setAttribute('aria-pressed', 'true');
+            box.parentNode.classList.add('has-focus');
+        }
+    }
+
+    // 讓照片可以用鍵盤操作（換頁後新的照片也要設定一次）
+    function setupPhotos(container) {
+        container.querySelectorAll('.imgContainer .imgBox').forEach(function (box) {
+            box.setAttribute('tabindex', '0');
+            box.setAttribute('role', 'button');
+            box.setAttribute('aria-pressed', 'false');
+        });
+    }
+
+    document.addEventListener('click', function (e) {
+        var box = e.target.closest ? e.target.closest('.imgContainer .imgBox') : null;
+        if (box) {
+            togglePhotoFocus(box);
+        } else {
+            clearPhotoFocus();
+        }
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            clearPhotoFocus();
+            return;
+        }
+        var box = e.target && e.target.classList && e.target.classList.contains('imgBox') ? e.target : null;
+        if (box && (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault();
+            e.stopPropagation();
+            togglePhotoFocus(box);
+        }
+    }, true);
+
+    /* ------------------------------------------------------------------
        圖片懶加載
        ------------------------------------------------------------------ */
     function advancedLazyLoad() {
@@ -155,7 +209,7 @@
         images.forEach(function (img) {
             if (!img.getAttribute('src')) {
                 img.style.opacity = '0';
-                img.style.transition = 'opacity 1s ease-in-out';
+                img.style.transition = 'opacity 1s ease-in-out, box-shadow 0.45s ease';
                 observer.observe(img);
             }
         });
@@ -312,6 +366,7 @@
                 return;
             }
             index = i;
+            clearPhotoFocus();
             updateDots();
             reveal(panels[i], 0.35);
 
@@ -924,6 +979,7 @@
     function startPage(container, firstDelay) {
         updateNav();
         Panels.init(container, firstDelay);
+        setupPhotos(container);
         Leaves.setPage(container);
         slideHeading(container, firstDelay);
         advancedLazyLoad();
