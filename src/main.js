@@ -1,222 +1,975 @@
-function pageTransition(){
-    let tl = gsap.timeline();
+(function () {
+    'use strict';
 
-    tl.to(".transition", {
-        duration: 1,
-        scaleY: 1,
-        transformOrigin: "bottom",
-        ease: "power4.inOut",
-    });
+    var root = document.documentElement;
 
-    tl.to(".transition", {
-        duration: 1,
-        scaleY: 0,
-        transformOrigin: "top",
-        ease: "power4.inOut",
-        delay: 0.2,
-    });
-}
-
-function contentAnimation(){
-    let tl = gsap.timeline();
-    tl.to("h2", {
-        left: 0,
-        duration:1,
-        ease: "power3.inOut",
-        delay: 0.75,
-    });
-}
-
-function delay(n) {
-    n = n || 0;
-    return new Promise((done) => {
-        setTimeout(() => {
-            done();
-        }, n);
-    });
-}
-
-//關閉漢堡選單方法
-function closeHamburgerMenu() {
-    const checkbox = document.querySelector('.checkbox-toggle');
-    if (checkbox && checkbox.checked) {
-        checkbox.checked = false; // 取消選中，關閉漢堡選單
+    // 函式庫沒載到時（例如 CDN 失敗），退回一般的靜態頁面，不要讓內容卡在隱藏狀態
+    if (!window.gsap || !window.barba) {
+        root.classList.remove('js', 'is-snap');
+        return;
     }
-}
+    root.classList.add('js-ready');
 
+    /* ------------------------------------------------------------------
+       可調整的參數都集中在這裡
+       ------------------------------------------------------------------ */
+    var CONFIG = {
+        // 啟用「一次滑一個區塊」的條件：有滑鼠的桌機、視窗夠大
+        snapQuery: '(hover: hover) and (pointer: fine) and (min-width: 1024px) and (min-height: 560px)',
+        snapDuration: 1.0,      // 區塊之間滑動的秒數
+        snapEase: 'power3.inOut',
+        minFitScale: 0.72,      // 內容放不下時最多縮到多小，再小就改回一般滑動
 
-// 初始化 Barba.js
-barba.init({
-    sync: true,
-    transitions: [
-        {
-            async leave(data) {
-                const done = this.async();
-                pageTransition();
-                closeHamburgerMenu(); // 強制關閉選單
-                await delay(1000);
-                done();
-            },
-
-            async enter(data) {
-
-                contentAnimation(); // 其他頁面過渡動畫
-                advancedLazyLoad();  // 切換到新頁面時重新執行懶加載
-                // 滾動到頁面頂部
-                window.scrollTo(0, 0);
-            },
-
-            async once(data) {
-
-                contentAnimation();
-                advancedLazyLoad();  // 頁面首次加載時執行懶加載
-            },
+        curtain: {
+            cover: 0.55,        // 簾幕蓋上來的秒數
+            open: 0.55,         // 簾幕離開的秒數
+            layerGap: 0.08,     // 兩層之間的時間差
+            hold: 0.12          // 完全蓋住時停留的秒數
         },
-    ],
-});
 
-document.addEventListener('DOMContentLoaded', function() {
-    const homeLis = document.querySelectorAll('li[data-page="home"]');
-    // console.log('網頁載入時的 homeLis:', homeLis);
-    
-    homeLis.forEach(homeLi => {
-        if (homeLi) {
-            homeLi.classList.add('active');
-            // console.log('設置初始 active 後的狀態:', homeLi.classList.contains('active'));
+        leaf: {
+            enabled: true,
+            max: 2,                 // 畫面上同時最多幾片
+            maxMobile: 1,
+            size: [40, 80],         // px
+            sizeMobileMax: 56,
+            opacity: [0.2, 0.38],
+            fall: [12, 18],         // 落完一個畫面的秒數
+            interval: [4, 9],       // 兩片之間的等待秒數
+            sway: [30, 60],         // 左右搖擺的振幅 px
+            swayPeriod: [3, 5],     // 搖擺一次的秒數
+            hoverRadius: 120,       // 滑鼠影響的半徑 px
+            pushMax: 40,            // 被滑鼠推開的最大距離 px
+            spinMax: 25,            // 被滑鼠帶動的最大額外旋轉（度）
+            colors: ['#C4674B', '#CF8A4A', '#B5533C']
         }
-    });
-});
+    };
 
-// 監聽所有 li 元素的點擊事件
-document.querySelectorAll('li').forEach(item => {
-    item.addEventListener('click', function(event) {
-        // 找到 li 內的 a 元素並阻止其默認行為
-        const link = item.querySelector('a');
-        if (link) {
-            event.preventDefault();
-            link.addEventListener('click', function(e) {
+    var snapMq = window.matchMedia(CONFIG.snapQuery);
+    var reduceMq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var finePointerMq = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+    function prefersReducedMotion() {
+        return reduceMq.matches;
+    }
+
+    function rand(min, max) {
+        return min + Math.random() * (max - min);
+    }
+
+    function clamp(v, min, max) {
+        return Math.max(min, Math.min(max, v));
+    }
+
+    /* ------------------------------------------------------------------
+       導覽列：目前頁面標記、漢堡選單
+       ------------------------------------------------------------------ */
+    var PAGES = ['about', 'skills', 'favorites'];
+
+    function pageKey(href) {
+        var a = document.createElement('a');
+        a.href = href;
+        var last = a.pathname.replace(/\/+$/, '').split('/').pop().replace(/\.html$/, '');
+        return PAGES.indexOf(last) !== -1 ? last : 'home';
+    }
+
+    function updateNav() {
+        var current = pageKey(window.location.href);
+        document.querySelectorAll('.nav a').forEach(function (link) {
+            var isCurrent = pageKey(link.href) === current;
+            link.classList.toggle('is-current', isCurrent);
+            if (isCurrent) {
+                link.setAttribute('aria-current', 'page');
+            } else {
+                link.removeAttribute('aria-current');
+            }
+        });
+    }
+
+    // 關閉漢堡選單
+    function closeHamburgerMenu() {
+        var checkbox = document.querySelector('.checkbox-toggle');
+        if (checkbox && checkbox.checked) {
+            checkbox.checked = false;
+        }
+    }
+
+    // 點擊目前所在頁面的連結時不換頁
+    document.querySelectorAll('.nav a').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            if (pageKey(link.href) === pageKey(window.location.href)) {
                 e.preventDefault();
+                closeHamburgerMenu();
+            }
+        });
+    });
+
+    /* ------------------------------------------------------------------
+       圖片懶加載
+       ------------------------------------------------------------------ */
+    function advancedLazyLoad() {
+        var images = document.querySelectorAll('.imgAll');
+        var imageQueue = [];
+        var maxConcurrentLoads = 3; // 最大同時載入圖片數量
+        var currentLoads = 0;
+
+        function loadImage(img) {
+            return new Promise(function (resolve) {
+                var src = img.getAttribute('data-src');
+                if (!src || img.getAttribute('src') === src) {
+                    resolve();
+                    return;
+                }
+                img.onload = function () {
+                    img.style.opacity = '1';
+                    currentLoads--;
+                    resolve();
+                };
+                img.onerror = function () {
+                    console.error('Failed to load image: ' + src);
+                    currentLoads--;
+                    resolve();
+                };
+                img.src = src;
             });
         }
 
-        // console.log('點擊事件觸發');
-        // console.log('點擊的 li 元素:', item);
-        
-        // 檢查是否為 home 頁面的 li
-        const isHomePage = item.getAttribute('data-page') === 'home';
-        
-        // 檢查當前 li 是否已經是 active
-        if (item.classList.contains('active')) {
-            // console.log('已在當前頁面，阻止處理');
-            event.preventDefault(); // 再次確保阻止默認行為
-            event.stopPropagation(); // 阻止事件冒泡
-            return false; // 確保完全阻止
+        async function processQueue() {
+            while (imageQueue.length > 0 && currentLoads < maxConcurrentLoads) {
+                var img = imageQueue.shift();
+                currentLoads++;
+                await loadImage(img);
+            }
         }
 
-        // console.log('開始切換頁面...');
-        
-        // 移除所有 li 中的 active 類（包括兩個選單）
-        document.querySelectorAll('li.active').forEach(activeItem => {
-            // console.log('移除 active 從:', activeItem);
-            activeItem.classList.remove('active');
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    imageQueue.push(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+            processQueue();
+        }, {
+            rootMargin: '300px',
+            threshold: 0
         });
 
-        // 如果點擊的是 home 頁面，則為兩個選單中的 home li 都添加 active
-        if (isHomePage) {
-            document.querySelectorAll('li[data-page="home"]').forEach(homeLi => {
-                homeLi.classList.add('active');
-            });
-        } else {
-            // 為當前點擊的 li 添加 active 類
-            item.classList.add('active');
-            
-            // 在另一個選單中找到對應的 li 並添加 active
-            const href = link ? link.getAttribute('href') : null;
-            if (href) {
-                const correspondingLinks = document.querySelectorAll(`a[href="${href}"]`);
-                correspondingLinks.forEach(corrLink => {
-                    const corrLi = corrLink.closest('li');
-                    if (corrLi && corrLi !== item) {
-                        corrLi.classList.add('active');
+        images.forEach(function (img) {
+            if (!img.getAttribute('src')) {
+                img.style.opacity = '0';
+                img.style.transition = 'opacity 1s ease-in-out';
+                observer.observe(img);
+            }
+        });
+    }
+
+    /* ------------------------------------------------------------------
+       區塊：全畫面、一次滑一個、進場動畫
+       ------------------------------------------------------------------ */
+    var Panels = (function () {
+        var container = null;
+        var panels = [];
+        var index = 0;
+        var step = 0;
+        var base = 0;
+        var snap = false;
+        var animating = false;
+        var coasting = false;   // 上一次滑動後，觸控板的慣性滾動還沒結束
+        var lastWheelTime = 0;
+        var lastWheelAbs = 0;
+        var unlockAt = 0;
+        var tween = null;
+        var dots = null;
+        var io = null;
+        var scrollTimer = null;
+        var resizeTimer = null;
+        var refitTimer = null;
+        var locked = false;     // 換頁轉場進行中
+
+        var REVEAL_SELECTOR = '[data-reveal], [data-reveal-children] > *';
+
+        function reveal(panel, delay) {
+            if (!panel || panel.__revealed) {
+                return;
+            }
+            panel.__revealed = true;
+            var items = panel.querySelectorAll(REVEAL_SELECTOR);
+            if (!items.length) {
+                return;
+            }
+            if (prefersReducedMotion()) {
+                gsap.set(items, { opacity: 1 });
+                return;
+            }
+            gsap.fromTo(items,
+                { opacity: 0, y: 24 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    stagger: Math.min(0.08, 0.9 / items.length),
+                    ease: 'power3.out',
+                    delay: delay || 0,
+                    clearProps: 'transform'
+                });
+        }
+
+        // 內容比一個畫面高時，等比例縮小到剛好放得下；差太多就放棄吸附
+        function fit() {
+            var ok = true;
+            panels.forEach(function (panel) {
+                var inner = panel.querySelector('.panel__inner');
+                if (!inner) {
+                    return;
+                }
+                inner.style.transform = '';
+                var cs = window.getComputedStyle(panel);
+                var avail = panel.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+                var needed = inner.offsetHeight;
+                if (needed > avail + 1) {
+                    var scale = avail / needed;
+                    if (scale < CONFIG.minFitScale) {
+                        ok = false;
+                    } else {
+                        inner.style.transform = 'scale(' + scale.toFixed(4) + ')';
                     }
+                }
+            });
+            if (!ok) {
+                clearFit();
+            }
+            return ok;
+        }
+
+        function clearFit() {
+            panels.forEach(function (panel) {
+                var inner = panel.querySelector('.panel__inner');
+                if (inner) {
+                    inner.style.transform = '';
+                }
+            });
+        }
+
+        function measure() {
+            step = panels[0].offsetHeight;
+            if (window.scrollY === 0) {
+                base = panels[0].getBoundingClientRect().top;
+            }
+        }
+
+        function targetOf(i) {
+            return base + i * step;
+        }
+
+        function updateDots() {
+            if (!dots) {
+                return;
+            }
+            Array.prototype.forEach.call(dots.children, function (dot, i) {
+                if (i === index) {
+                    dot.setAttribute('aria-current', 'true');
+                } else {
+                    dot.removeAttribute('aria-current');
+                }
+            });
+            var hint = container && container.querySelector('.scroll-hint');
+            if (hint) {
+                gsap.to(hint, { autoAlpha: index === 0 ? 1 : 0, duration: 0.3 });
+            }
+        }
+
+        function buildDots() {
+            removeDots();
+            if (panels.length < 2) {
+                return;
+            }
+            dots = document.createElement('div');
+            dots.className = 'panel-dots';
+            panels.forEach(function (panel, i) {
+                var dot = document.createElement('button');
+                dot.type = 'button';
+                dot.setAttribute('aria-label', 'Go to section ' + (i + 1) + ' of ' + panels.length);
+                dot.addEventListener('click', function () {
+                    go(i);
+                });
+                dots.appendChild(dot);
+            });
+            document.body.appendChild(dots);
+            updateDots();
+        }
+
+        function removeDots() {
+            if (dots) {
+                dots.remove();
+                dots = null;
+            }
+        }
+
+        function go(i, force) {
+            if (!snap || locked) {
+                return;
+            }
+            i = clamp(i, 0, panels.length - 1);
+            if (i === index && !force) {
+                return;
+            }
+            index = i;
+            updateDots();
+            reveal(panels[i], 0.35);
+
+            if (tween) {
+                tween.kill();
+            }
+            var state = { y: window.scrollY };
+            var target = targetOf(i);
+            if (prefersReducedMotion()) {
+                window.scrollTo(0, target);
+                return;
+            }
+            animating = true;
+            tween = gsap.to(state, {
+                y: target,
+                duration: CONFIG.snapDuration,
+                ease: CONFIG.snapEase,
+                onUpdate: function () {
+                    window.scrollTo(0, state.y);
+                },
+                onComplete: function () {
+                    animating = false;
+                    coasting = true;
+                    unlockAt = performance.now() + 150;
+                    tween = null;
+                }
+            });
+        }
+
+        function onWheel(e) {
+            if (!snap || e.ctrlKey) {
+                return;
+            }
+            e.preventDefault();
+
+            var now = performance.now();
+            var gap = now - lastWheelTime;
+            var abs = Math.abs(e.deltaY);
+            var prevAbs = lastWheelAbs;
+            lastWheelTime = now;
+            lastWheelAbs = abs;
+
+            if (locked || animating || now < unlockAt || abs < 4) {
+                return;
+            }
+            // 觸控板放開後還會持續送出越來越小的滾動事件，那些不算新的一次滑動
+            if (coasting) {
+                if (gap < 80 && abs <= prevAbs + 20) {
+                    return;
+                }
+                coasting = false;
+            }
+            go(index + (e.deltaY > 0 ? 1 : -1));
+        }
+
+        function onKeydown(e) {
+            if (!snap || locked || e.altKey || e.ctrlKey || e.metaKey) {
+                return;
+            }
+            var tag = (e.target && e.target.tagName) || '';
+            if (/^(INPUT|TEXTAREA|SELECT)$/.test(tag) || (e.target && e.target.isContentEditable)) {
+                return;
+            }
+            var next = null;
+            switch (e.key) {
+                case 'ArrowDown':
+                case 'PageDown':
+                    next = index + 1;
+                    break;
+                case 'ArrowUp':
+                case 'PageUp':
+                    next = index - 1;
+                    break;
+                case ' ':
+                    if (tag === 'BUTTON' || tag === 'A') {
+                        return;
+                    }
+                    next = index + (e.shiftKey ? -1 : 1);
+                    break;
+                case 'Home':
+                    next = 0;
+                    break;
+                case 'End':
+                    next = panels.length - 1;
+                    break;
+                default:
+                    return;
+            }
+            e.preventDefault();
+            if (!animating) {
+                go(next);
+            }
+        }
+
+        // 用 Tab 鍵、觸控螢幕或其他方式捲動後，對齊回最近的區塊
+        function onScroll() {
+            if (!snap || animating || locked) {
+                return;
+            }
+            window.clearTimeout(scrollTimer);
+            scrollTimer = window.setTimeout(function () {
+                if (!snap || animating || locked || !step) {
+                    return;
+                }
+                var nearest = clamp(Math.round((window.scrollY - base) / step), 0, panels.length - 1);
+                if (Math.abs(window.scrollY - targetOf(nearest)) > 2) {
+                    go(nearest, true);
+                } else if (nearest !== index) {
+                    index = nearest;
+                    updateDots();
+                    reveal(panels[index], 0);
+                }
+            }, 160);
+        }
+
+        function onResize() {
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(function () {
+                if (!container || locked) {
+                    return;
+                }
+                var keep = index;
+                setup();
+                if (snap) {
+                    index = clamp(keep, 0, panels.length - 1);
+                    window.scrollTo(0, targetOf(index));
+                    updateDots();
+                    reveal(panels[index], 0);
+                }
+            }, 150);
+        }
+
+        function scheduleRefit() {
+            window.clearTimeout(refitTimer);
+            refitTimer = window.setTimeout(function () {
+                if (snap && !animating && !locked) {
+                    if (!fit()) {
+                        onResize();
+                    }
+                }
+            }, 60);
+        }
+
+        // 依目前的視窗大小決定要不要吸附，並量好尺寸
+        function setup() {
+            if (tween) {
+                tween.kill();
+                tween = null;
+            }
+            animating = false;
+            removeDots();
+            if (io) {
+                io.disconnect();
+                io = null;
+            }
+
+            snap = snapMq.matches && panels.length > 0;
+            root.classList.toggle('is-snap', snap);
+
+            if (snap) {
+                window.scrollTo(0, 0);
+                if (!fit()) {
+                    snap = false;
+                    root.classList.remove('is-snap');
+                }
+            } else {
+                clearFit();
+            }
+
+            if (snap) {
+                measure();
+                buildDots();
+            } else if ('IntersectionObserver' in window) {
+                io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            reveal(entry.target, 0);
+                            io.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.12 });
+                panels.forEach(function (panel) {
+                    if (!panel.__revealed) {
+                        io.observe(panel);
+                    }
+                });
+            } else {
+                panels.forEach(function (panel) {
+                    reveal(panel, 0);
                 });
             }
         }
-    });
 
-    // 額外監聽 a 標籤的點擊事件
-    const link = item.querySelector('a');
-    if (link) {
-        link.addEventListener('click', function(e) {
-            if (item.classList.contains('active')) {
-                e.preventDefault();
-                e.stopPropagation();
-                // console.log('阻止 active 連結的點擊');
-                return false;
+        function init(nextContainer, firstDelay) {
+            destroy();
+            container = nextContainer;
+            panels = Array.prototype.slice.call(container.querySelectorAll('.panel'));
+            index = 0;
+            if ('scrollRestoration' in window.history) {
+                window.history.scrollRestoration = 'manual';
             }
-        });
-    }
-});
+            setup();
+            if (snap) {
+                reveal(panels[0], firstDelay);
+            }
+            container.querySelectorAll('img').forEach(function (img) {
+                if (!img.complete) {
+                    img.addEventListener('load', scheduleRefit, { once: true });
+                }
+            });
+        }
 
-// 懶加載函數
-const advancedLazyLoad = () => {
-    const images = document.querySelectorAll('.imgAll');
-    let imageQueue = [];
-    const maxConcurrentLoads = 3; // 最大同時載入圖片數量
-    let currentLoads = 0; // 當前正在載入的圖片數量
+        function destroy() {
+            if (tween) {
+                tween.kill();
+                tween = null;
+            }
+            animating = false;
+            coasting = false;
+            removeDots();
+            if (io) {
+                io.disconnect();
+                io = null;
+            }
+            window.clearTimeout(scrollTimer);
+            window.clearTimeout(resizeTimer);
+            window.clearTimeout(refitTimer);
+            container = null;
+            panels = [];
+            snap = false;
+        }
 
-    const loadImage = (img) => {
-        return new Promise((resolve) => {
-            const src = img.getAttribute('data-src');
-            if (!src || img.src === src) {  // 檢查圖片是否已經載入過
-                resolve(); // 如果已經載入過，跳過處理
+        window.addEventListener('wheel', onWheel, { passive: false });
+        window.addEventListener('keydown', onKeydown);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onResize);
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(scheduleRefit);
+        }
+
+        return {
+            init: init,
+            destroy: destroy,
+            lock: function (value) {
+                locked = value;
+            }
+        };
+    })();
+
+    /* ------------------------------------------------------------------
+       首頁頭像：滑鼠移動時的輕微視差
+       ------------------------------------------------------------------ */
+    var Parallax = (function () {
+        var moveX = null;
+        var moveY = null;
+
+        function onMove(e) {
+            if (!moveX) {
                 return;
             }
-            img.src = src;  // 設定圖片的 src
-            img.onload = () => {
-                img.style.opacity = '1';
-                currentLoads--; // 載入完成，減少正在載入的計數
-                resolve();
-            };
-            img.onerror = () => {
-                console.error(`Failed to load image: ${src}`);
-                currentLoads--; // 即使失敗也減少正在載入的計數
-                resolve();
-            };
-        });
-    };
-
-    const processQueue = async () => {
-        while (imageQueue.length > 0 && currentLoads < maxConcurrentLoads) {
-            const img = imageQueue.shift();
-            currentLoads++;
-            await loadImage(img);
+            moveX(((e.clientX / window.innerWidth) - 0.5) * -16);
+            moveY(((e.clientY / window.innerHeight) - 0.5) * -16);
         }
-    };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                imageQueue.push(img);
-                observer.unobserve(img);
+        window.addEventListener('pointermove', onMove, { passive: true });
+
+        return {
+            init: function (container) {
+                moveX = moveY = null;
+                var img = container.querySelector('.First .responsive-image');
+                if (!img || !finePointerMq.matches || prefersReducedMotion()) {
+                    return;
+                }
+                moveX = gsap.quickTo(img, 'x', { duration: 0.8, ease: 'power3.out' });
+                moveY = gsap.quickTo(img, 'y', { duration: 0.8, ease: 'power3.out' });
             }
-        });
+        };
+    })();
 
-        processQueue(); // 開始處理圖片載入
-    }, {
-        rootMargin: '100px',
-        threshold: 0
-    });
+    /* ------------------------------------------------------------------
+       換頁轉場：由下往上的雙層紙張簾幕
+       ------------------------------------------------------------------ */
+    var Curtain = (function () {
+        var SVG_NS = 'http://www.w3.org/2000/svg';
+        // 蓋上來：底部 → 帶弧線的中途 → 蓋滿
+        var COVER_START = 'M 0 100 V 100 Q 50 100 100 100 V 100 z';
+        var COVER_MID = 'M 0 100 V 56 Q 50 30 100 56 V 100 z';
+        var COVER_FULL = 'M 0 100 V 0 Q 50 0 100 0 V 100 z';
+        // 離開：蓋滿 → 帶弧線的中途 → 從頂端離開
+        var OPEN_FULL = 'M 0 0 V 100 Q 50 100 100 100 V 0 z';
+        var OPEN_MID = 'M 0 0 V 44 Q 50 70 100 44 V 0 z';
+        var OPEN_END = 'M 0 0 V 0 Q 50 0 100 0 V 0 z';
 
-    images.forEach(img => {
-        img.style.opacity = '0';  // 設置初始透明度
-        img.style.transition = 'opacity 1s ease-in-out';  // 動畫過渡效果
-        if (!img.src) { // 確保未被設置 src 的圖片重新觀察
-            observer.observe(img);  // 開始觀察每張圖片
+        var el = document.createElement('div');
+        el.className = 'curtain';
+        el.setAttribute('aria-hidden', 'true');
+
+        var svg = document.createElementNS(SVG_NS, 'svg');
+        svg.setAttribute('viewBox', '0 0 100 100');
+        svg.setAttribute('preserveAspectRatio', 'none');
+        var back = document.createElementNS(SVG_NS, 'path');
+        back.setAttribute('class', 'curtain__back');
+        back.setAttribute('d', COVER_START);
+        var front = document.createElementNS(SVG_NS, 'path');
+        front.setAttribute('class', 'curtain__front');
+        front.setAttribute('d', COVER_START);
+        svg.appendChild(back);
+        svg.appendChild(front);
+
+        var name = document.createElement('span');
+        name.className = 'curtain__name';
+        name.textContent = 'tzuhungwu';
+
+        el.appendChild(svg);
+        el.appendChild(name);
+        document.body.appendChild(el);
+
+        function morph(tl, path, mid, end, total, at) {
+            tl.to(path, { attr: { d: mid }, duration: total / 2, ease: 'power2.in' }, at);
+            tl.to(path, { attr: { d: end }, duration: total / 2, ease: 'power2.out' }, at + total / 2);
         }
-    });
-};
 
-// 確保在 DOM 完全載入後執行懶加載
-document.addEventListener("DOMContentLoaded", advancedLazyLoad);
+        function cover(oldContainer) {
+            var c = CONFIG.curtain;
+            return new Promise(function (resolve) {
+                if (prefersReducedMotion()) {
+                    gsap.to(oldContainer, { opacity: 0, duration: 0.2, onComplete: resolve });
+                    return;
+                }
+                el.classList.add('is-active');
+                gsap.set([back, front], { attr: { d: COVER_START } });
+                gsap.set(name, { opacity: 0 });
+                var tl = gsap.timeline({ onComplete: resolve });
+                tl.to(oldContainer, { opacity: 0, duration: 0.35, ease: 'power2.in' }, 0);
+                morph(tl, back, COVER_MID, COVER_FULL, c.cover, 0);
+                morph(tl, front, COVER_MID, COVER_FULL, c.cover, c.layerGap);
+                tl.to(name, { opacity: 0.9, duration: 0.2 }, c.cover - 0.1);
+                tl.to({}, { duration: c.hold });
+            });
+        }
+
+        function open(newContainer) {
+            var c = CONFIG.curtain;
+            return new Promise(function (resolve) {
+                if (prefersReducedMotion()) {
+                    gsap.fromTo(newContainer, { opacity: 0 }, { opacity: 1, duration: 0.2, onComplete: resolve });
+                    return;
+                }
+                gsap.set([back, front], { attr: { d: OPEN_FULL } });
+                var tl = gsap.timeline({
+                    onComplete: function () {
+                        el.classList.remove('is-active');
+                        resolve();
+                    }
+                });
+                tl.to(name, { opacity: 0, duration: 0.15 }, 0);
+                morph(tl, front, OPEN_MID, OPEN_END, c.open, 0.05);
+                morph(tl, back, OPEN_MID, OPEN_END, c.open, 0.05 + c.layerGap);
+            });
+        }
+
+        return { cover: cover, open: open };
+    })();
+
+    /* ------------------------------------------------------------------
+       手繪楓葉：偶爾一片緩緩飄落，滑鼠靠近時輕輕晃動
+       想換成自己的圖：改 Leaves.createArt() 讓它回傳自己的 <svg> 或 <img> 即可
+       ------------------------------------------------------------------ */
+    var Leaves = (function () {
+        var SVG_NS = 'http://www.w3.org/2000/svg';
+        var C = CONFIG.leaf;
+        var layer = null;
+        var leaves = [];
+        var nextSpawnAt = 0;
+        var pointer = { x: -9999, y: -9999, active: false };
+        var clock = 0;
+
+        // 楓葉右半邊的輪廓（100 x 100 的畫布，左半邊鏡射產生）
+        var HALF = [
+            [50, 4], [55, 18], [62, 13], [59, 35], [71, 27], [73, 36], [93, 30],
+            [86, 42], [94, 49], [78, 58], [85, 70], [64, 66], [53, 73]
+        ];
+        var VEINS = [[50, 12], [86, 32], [14, 32], [79, 67], [21, 67]];
+
+        function outlinePoints() {
+            var pts = HALF.slice();
+            for (var i = HALF.length - 1; i >= 1; i--) {
+                pts.push([100 - HALF[i][0], HALF[i][1]]);
+            }
+            return pts;
+        }
+
+        // 每個點加一點隨機偏移，邊線微微內凹，畫出來才不會像電腦圖示
+        function sketchPath(jitter) {
+            var pts = outlinePoints().map(function (p) {
+                return [p[0] + rand(-jitter, jitter), p[1] + rand(-jitter, jitter)];
+            });
+            var d = 'M ' + pts[0][0].toFixed(1) + ' ' + pts[0][1].toFixed(1);
+            for (var i = 1; i <= pts.length; i++) {
+                var a = pts[i - 1];
+                var b = pts[i % pts.length];
+                var mx = (a[0] + b[0]) / 2;
+                var my = (a[1] + b[1]) / 2;
+                var cx = mx + (50 - mx) * 0.1 + rand(-jitter, jitter);
+                var cy = my + (46 - my) * 0.1 + rand(-jitter, jitter);
+                d += ' Q ' + cx.toFixed(1) + ' ' + cy.toFixed(1) + ' ' + b[0].toFixed(1) + ' ' + b[1].toFixed(1);
+            }
+            return d + ' Z';
+        }
+
+        function svgEl(tag, attrs) {
+            var node = document.createElementNS(SVG_NS, tag);
+            Object.keys(attrs).forEach(function (key) {
+                node.setAttribute(key, attrs[key]);
+            });
+            return node;
+        }
+
+        function createArt() {
+            var color = C.colors[Math.floor(Math.random() * C.colors.length)];
+            var svg = svgEl('svg', { viewBox: '0 0 100 100', 'aria-hidden': 'true' });
+
+            // 水彩色塊：故意和線稿錯開一點
+            svg.appendChild(svgEl('path', {
+                d: sketchPath(1.6),
+                fill: color,
+                'fill-opacity': '0.62',
+                transform: 'translate(' + rand(-2, 2).toFixed(1) + ' ' + rand(-1.5, 2).toFixed(1) + ')'
+            }));
+
+            // 線稿畫兩次，兩次略有不同，像鉛筆來回描過
+            for (var pass = 0; pass < 2; pass++) {
+                svg.appendChild(svgEl('path', {
+                    d: sketchPath(pass === 0 ? 0.9 : 1.5),
+                    fill: 'none',
+                    stroke: '#2B2926',
+                    'stroke-opacity': pass === 0 ? '0.75' : '0.4',
+                    'stroke-width': pass === 0 ? '1.3' : '0.9',
+                    'stroke-linejoin': 'round',
+                    'stroke-linecap': 'round'
+                }));
+            }
+
+            // 葉脈與葉柄
+            var veins = '';
+            VEINS.forEach(function (tip) {
+                var ex = 50 + (tip[0] - 50) * 0.84 + rand(-1, 1);
+                var ey = 71 + (tip[1] - 71) * 0.84 + rand(-1, 1);
+                var cx = (50 + ex) / 2 + rand(-3, 3);
+                var cy = (71 + ey) / 2 + rand(-3, 3);
+                veins += 'M 50 71 Q ' + cx.toFixed(1) + ' ' + cy.toFixed(1) + ' ' + ex.toFixed(1) + ' ' + ey.toFixed(1) + ' ';
+            });
+            veins += 'M 50 70 Q ' + rand(47, 53).toFixed(1) + ' 84 ' + rand(46, 54).toFixed(1) + ' 97';
+            svg.appendChild(svgEl('path', {
+                d: veins,
+                fill: 'none',
+                stroke: '#2B2926',
+                'stroke-opacity': '0.55',
+                'stroke-width': '1',
+                'stroke-linecap': 'round'
+            }));
+
+            return svg;
+        }
+
+        function maxLeaves() {
+            return window.innerWidth < 768 ? C.maxMobile : C.max;
+        }
+
+        function spawn() {
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+            var size = rand(C.size[0], w < 768 ? Math.min(C.sizeMobileMax, C.size[1]) : C.size[1]);
+            // 避開中央 30% 的寬度，優先落在左右兩側的留白
+            var x = Math.random() < 0.5 ? rand(0.04, 0.33) * w : rand(0.67, 0.96) * w;
+
+            var el = document.createElement('div');
+            el.className = 'leaf';
+            el.style.width = size + 'px';
+            el.style.height = size + 'px';
+            el.appendChild(createArt());
+            layer.appendChild(el);
+
+            leaves.push({
+                el: el,
+                size: size,
+                x0: x - size / 2,
+                y: -size,
+                speed: (h + size) / rand(C.fall[0], C.fall[1]),
+                amp: rand(C.sway[0], C.sway[1]),
+                freq: (Math.PI * 2) / rand(C.swayPeriod[0], C.swayPeriod[1]),
+                phase: rand(0, Math.PI * 2),
+                rot: rand(0, 360),
+                rotSpeed: rand(-14, 14),
+                alpha: rand(C.opacity[0], C.opacity[1]),
+                t: 0,
+                // 被滑鼠推開的偏移量（彈簧）
+                ox: 0, oy: 0, vx: 0, vy: 0, orot: 0, vrot: 0
+            });
+        }
+
+        function tick(time, deltaTime) {
+            var dt = Math.min(deltaTime, 50) / 1000;
+            clock += dt;
+            var h = window.innerHeight;
+
+            if (leaves.length < maxLeaves() && clock >= nextSpawnAt) {
+                spawn();
+                nextSpawnAt = clock + rand(C.interval[0], C.interval[1]);
+            }
+
+            var damping = Math.pow(0.95, dt * 60);
+
+            for (var i = leaves.length - 1; i >= 0; i--) {
+                var leaf = leaves[i];
+                leaf.t += dt;
+                leaf.y += leaf.speed * dt;
+
+                var swing = leaf.phase + leaf.t * leaf.freq;
+                var x = leaf.x0 + Math.sin(swing) * leaf.amp;
+                var tilt = Math.cos(swing) * 16;
+
+                // 滑鼠靠近：往遠離游標的方向輕推一下
+                if (pointer.active) {
+                    var cx = x + leaf.ox + leaf.size / 2;
+                    var cy = leaf.y + leaf.oy + leaf.size / 2;
+                    var dx = cx - pointer.x;
+                    var dy = cy - pointer.y;
+                    var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                    if (dist < C.hoverRadius) {
+                        var force = 1 - dist / C.hoverRadius;
+                        leaf.vx += (dx / dist) * force * 900 * dt;
+                        leaf.vy += (dy / dist) * force * 900 * dt;
+                        leaf.vrot += (dx >= 0 ? 1 : -1) * force * 700 * dt;
+                    }
+                }
+
+                // 彈簧拉回原本的飄落路徑
+                leaf.vx += -28 * leaf.ox * dt;
+                leaf.vy += -28 * leaf.oy * dt;
+                leaf.vrot += -28 * leaf.orot * dt;
+                leaf.vx *= damping;
+                leaf.vy *= damping;
+                leaf.vrot *= damping;
+                leaf.ox = clamp(leaf.ox + leaf.vx * dt, -C.pushMax, C.pushMax);
+                leaf.oy = clamp(leaf.oy + leaf.vy * dt, -C.pushMax, C.pushMax);
+                leaf.orot = clamp(leaf.orot + leaf.vrot * dt, -C.spinMax, C.spinMax);
+
+                // 最後 30% 的路程慢慢淡出
+                var progress = (leaf.y + leaf.size) / (h + leaf.size);
+                var fade = progress < 0.08 ? progress / 0.08 : (progress > 0.7 ? Math.max(0, 1 - (progress - 0.7) / 0.3) : 1);
+
+                if (progress >= 1) {
+                    leaf.el.remove();
+                    leaves.splice(i, 1);
+                    continue;
+                }
+
+                var rotation = leaf.rot + leaf.rotSpeed * leaf.t + tilt + leaf.orot;
+                leaf.el.style.opacity = (leaf.alpha * fade).toFixed(3);
+                leaf.el.style.transform = 'translate3d(' + (x + leaf.ox).toFixed(1) + 'px,' + (leaf.y + leaf.oy).toFixed(1) + 'px,0) rotate(' + rotation.toFixed(1) + 'deg)';
+            }
+        }
+
+        function showStaticLeaf() {
+            var el = document.createElement('div');
+            el.className = 'leaf';
+            el.style.width = '64px';
+            el.style.height = '64px';
+            el.style.opacity = '0.2';
+            el.style.transform = 'translate3d(' + (window.innerWidth - 110) + 'px,' + (window.innerHeight - 120) + 'px,0) rotate(-18deg)';
+            el.appendChild(createArt());
+            layer.appendChild(el);
+        }
+
+        function init() {
+            if (!C.enabled) {
+                return;
+            }
+            layer = document.createElement('div');
+            layer.className = 'leaf-layer';
+            layer.setAttribute('aria-hidden', 'true');
+            document.body.appendChild(layer);
+
+            if (prefersReducedMotion()) {
+                showStaticLeaf();
+                return;
+            }
+
+            if (finePointerMq.matches) {
+                window.addEventListener('pointermove', function (e) {
+                    pointer.x = e.clientX;
+                    pointer.y = e.clientY;
+                    pointer.active = true;
+                }, { passive: true });
+                document.addEventListener('pointerleave', function () {
+                    pointer.active = false;
+                });
+            }
+
+            nextSpawnAt = 1.2;
+            // gsap.ticker 在分頁切到背景時會自動暫停
+            gsap.ticker.add(tick);
+        }
+
+        return { init: init, createArt: createArt };
+    })();
+
+    /* ------------------------------------------------------------------
+       Barba.js
+       ------------------------------------------------------------------ */
+    function startPage(container, firstDelay) {
+        updateNav();
+        Panels.init(container, firstDelay);
+        Parallax.init(container);
+        advancedLazyLoad();
+    }
+
+    barba.init({
+        preventRunning: true,
+        prevent: function (data) {
+            return !!data.el && !!data.el.href && pageKey(data.el.href) === pageKey(window.location.href);
+        },
+        transitions: [
+            {
+                name: 'paper-curtain',
+
+                once: function (data) {
+                    startPage(data.next.container, 0.15);
+                },
+
+                leave: function (data) {
+                    Panels.lock(true);
+                    closeHamburgerMenu();
+                    return Curtain.cover(data.current.container);
+                },
+
+                afterLeave: function (data) {
+                    // 舊頁面先收起來，新頁面才能從最上方開始排版
+                    Panels.destroy();
+                    data.current.container.style.display = 'none';
+                    window.scrollTo(0, 0);
+                },
+
+                enter: function (data) {
+                    startPage(data.next.container, 0.4);
+                    return Curtain.open(data.next.container);
+                },
+
+                after: function () {
+                    Panels.lock(false);
+                }
+            }
+        ]
+    });
+
+    Leaves.init();
+})();

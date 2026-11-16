@@ -3,76 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>favorites</title>
+    <title>TzuHung Wu | Favorites</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="./sanketsu.css">
     <link rel="stylesheet" href="https://unpkg.com/@tabler/icons@1.39.1/iconfont/tabler-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
-
+    <link rel="stylesheet" href="./redesign.css">
+    <script>
+      // 在畫面出現前先決定是否啟用桌機的「一次滑一個區塊」版面，避免載入時版面跳動
+      (function (d) {
+        d.classList.add('js');
+        try {
+          if (window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1024px) and (min-height: 560px)').matches) {
+            d.classList.add('is-snap');
+          }
+        } catch (e) {}
+      })(document.documentElement);
+    </script>
 </head>
 
-    <body data-barba="wrapper">
-      <div class="transition"></div>
-      <div class="wrapper">
-        <div class="nav">
-          <div class="wow animate__animated animate__fadeIn outer-menu" data-wow-delay="6s" >
-            <input class="checkbox-toggle" type="checkbox" />
-            <div class="hamburger">
-                <div></div>
-            </div>
-            <div class="menu">
-                <div>
-                    <div>
-                        <ul>
-                            <li><a href="index.html">home</a></li>
-                            <li><a href="about.html">about</a></li>
-                            <li><a href="skills.html">skills</a></li>
-                            <!-- <li><a href="favorites.html">favorites</a></li> -->
-                        </ul>
-                    </div>
-                </div>
-            </div>
+  <body data-barba="wrapper">
+    <div class="wrapper">
+      <div class="nav">
+        <div class="outer-menu">
+          <input class="checkbox-toggle" type="checkbox" aria-label="menu" />
+          <div class="hamburger">
+              <div></div>
+          </div>
+          <div class="menu">
+              <div>
+                  <div>
+                      <ul>
+                          <li><a class="navLi" href="index.html">home</a></li>
+                          <li><a class="navLi" href="about.html">about</a></li>
+                          <li><a class="navLi" href="skills.html">skills</a></li>
+                          <li><a class="navLi" href="favorites.html">favorites</a></li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
         </div>
         <li><a class="liComputer" href="index.html">home</a></li>
         <li><a class="liComputer" href="about.html">about</a></li>
         <li><a class="liComputer" href="skills.html">skills</a></li>
-        <!-- <li><a class="liComputer" href="favorites.html">favorites</a></li> -->
-        </div>
-  
-        <main data-barba="container" 
-        data-barba-namespace="home"
-        class="container" 
-        >
+        <li><a class="liComputer" href="favorites.html">favorites</a></li>
+      </div>
+
+      <main data-barba="container" data-barba-namespace="favorites" class="container stack">
         <div class="header">
-            <div class="header-revealer"></div> 
-        <h2>favorites</h2>
-    </div>
-    <div class="ContactBlock">
-        <h3>contact</h3>
-        <div class="iconS">
-          <a href="mailto:not0988709735@gmail.com">
-          <i class="ti ti-mail"></i></a>
-          <a href="https://github.com/WuTzuHung">
-          <i class="ti ti-brand-github"></i></a>
-          <a href="https://youtube.com/@shiko8031?si=3C6dGjy3erUZwEPU">
-          <i class="ti ti-brand-youtube"></i></a>
-          <a href="https://x.com/not5508085">
-          <i class="ti ti-brand-twitter"></i></a>
-          <a href="https://www.instagram.com/bb5508085/">
-          <i class="ti ti-brand-instagram"></i></a>
-            </div> 
+          <div class="header-revealer"></div>
+          <h2>favorites</h2>
+        </div>
+
+      <!-- 堆疊區塊：每個 .panel 會黏在畫面頂端，下一個滑上來蓋住它。
+           要增減區塊就複製或刪除一個 <section class="panel">，--i 依序編號即可。 -->
+      <section class="panel" style="--i: 0">
+        <div class="panel__inner">
+          <article class="stack-card">
+            <header class="stack-card__head" data-reveal>
+              <span class="stack-card__no">01</span>
+              <h3 class="stack-card__title">favorite 01</h3>
+              <span class="stack-card__hint">coming soon</span>
+            </header>
+            <!-- 內容放這裡。放好之後可以刪掉 stack-card__body 這個虛線預留框 -->
+            <div class="stack-card__body" data-reveal>content</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" style="--i: 1">
+        <div class="panel__inner">
+          <article class="stack-card">
+            <header class="stack-card__head" data-reveal>
+              <span class="stack-card__no">02</span>
+              <h3 class="stack-card__title">favorite 02</h3>
+              <span class="stack-card__hint">coming soon</span>
+            </header>
+            <!-- 內容放這裡。放好之後可以刪掉 stack-card__body 這個虛線預留框 -->
+            <div class="stack-card__body" data-reveal>content</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" style="--i: 2">
+        <div class="panel__inner">
+          <article class="stack-card">
+            <header class="stack-card__head" data-reveal>
+              <span class="stack-card__no">03</span>
+              <h3 class="stack-card__title">favorite 03</h3>
+              <span class="stack-card__hint">coming soon</span>
+            </header>
+            <!-- 內容放這裡。放好之後可以刪掉 stack-card__body 這個虛線預留框 -->
+            <div class="stack-card__body" data-reveal>content</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" style="--i: 3">
+        <div class="panel__inner">
+          <article class="stack-card">
+            <header class="stack-card__head" data-reveal>
+              <span class="stack-card__no">04</span>
+              <h3 class="stack-card__title">favorite 04</h3>
+              <span class="stack-card__hint">coming soon</span>
+            </header>
+            <!-- 內容放這裡。放好之後可以刪掉 stack-card__body 這個虛線預留框 -->
+            <div class="stack-card__body" data-reveal>content</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" style="--i: 4">
+        <div class="panel__inner">
+          <article class="stack-card">
+            <header class="stack-card__head" data-reveal>
+              <span class="stack-card__no">05</span>
+              <h3 class="stack-card__title">favorite 05</h3>
+              <span class="stack-card__hint">coming soon</span>
+            </header>
+            <!-- 內容放這裡。放好之後可以刪掉 stack-card__body 這個虛線預留框 -->
+            <div class="stack-card__body" data-reveal>content</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" style="--i: 5">
+        <div class="panel__inner">
+          <div class="stack-card stack-card--contact">
+          <div class="ContactBlock" data-reveal>
+            <h3>contact</h3>
+            <div class="iconS">
+              <a href="mailto:not0988709735@gmail.com" aria-label="Email">
+              <i class="ti ti-mail"></i></a>
+              <a href="https://github.com/WuTzuHung" aria-label="GitHub">
+              <i class="ti ti-brand-github"></i></a>
+              <a href="https://youtube.com/@shiko8031?si=3C6dGjy3erUZwEPU" aria-label="YouTube">
+              <i class="ti ti-brand-youtube"></i></a>
+              <a href="https://x.com/not5508085" aria-label="X">
+              <i class="ti ti-brand-twitter"></i></a>
+              <a href="https://www.instagram.com/bb5508085/" aria-label="Instagram">
+              <i class="ti ti-brand-instagram"></i></a>
+            </div>
             <p>You're welcome to follow me or drop me a message! I'd love to connect and chat with you about anything you're interested in.</p>
-      </div>
-    <div class="Footer">
-        <h6 class="copyright">Copyright © tzuhungwu, All rights reserved.</h6>
-      </div>
-        </main>
-      </div>
+          </div>
+          <div class="Footer">
+            <h6 class="copyright">Copyright © tzuhungwu, All rights reserved.</h6>
+          </div>
+          </div>
+        </div>
+      </section>
+      </main>
+    </div>
 
-
-        <script src="https://cdn.jsdelivr.net/npm/@barba/core"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-        <script src="src/main.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/@barba/core"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="src/main.js"></script>
+  </body>
 </html>
