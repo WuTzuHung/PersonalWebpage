@@ -1,0 +1,667 @@
+/* ==========================================================================
+   redesign.css
+   改版樣式：暖紙色配色、全畫面區塊、紙張簾幕轉場、手繪楓葉、favorites 堆疊卡片。
+   這個檔案載入在 sanketsu.css 之後，只做覆寫與新增，原本的 sanketsu.css / scss 沒有更動。
+   ========================================================================== */
+
+:root {
+  --bg: #F6F3EC;        /* 頁面背景（暖紙色） */
+  --surface: #FFFDF2;   /* 導覽列、轉場上層 */
+  --sand: #E8DFCF;      /* 轉場下層、分隔線 */
+  --ink: #2B2926;       /* 主要文字 */
+  --ink-soft: #6E675D;  /* 次要文字 */
+  --accent: #C4674B;    /* 點綴色（楓紅），只用在小面積 */
+
+  --nav-h: 6.25rem;     /* 桌機固定導覽列的高度 */
+  --stack-gap: 0px;     /* favorites：每張卡片頂線往下錯開的距離，0 = 全部黏在同一條線 */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Bootstrap 預設會開 scroll-behavior: smooth，會和 JS 的區塊滑動動畫互相打架 */
+html {
+  scroll-behavior: auto !important;
+}
+
+/* ---------- 配色 ---------- */
+
+body,
+.nav {
+  background-color: var(--bg);
+}
+
+/* 內容區不鋪底色，楓葉才能落在內容的後面 */
+.wrapper,
+.Second {
+  background-color: transparent;
+}
+
+.wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+body {
+  color: var(--ink);
+}
+
+/* 很淡的紙張顆粒，讓單色背景有紙的質感 */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .17 0 0 0 0 .16 0 0 0 0 .15 0 0 0 1.2 -.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.Footer {
+  border-top-color: var(--sand);
+}
+
+.Footer h6 {
+  color: var(--ink-soft);
+}
+
+/* ---------- 導覽列 ---------- */
+
+.nav > li {
+  list-style: none;
+}
+
+/* 桌機導覽列的底線沿用 sanketsu.css 原本的樣式（粗細、圓角、顏色都不變），
+   這裡只讓「目前所在的頁面」也固定顯示那條底線，並拿掉點擊後的外框。 */
+.nav .liComputer.is-current::after,
+.nav .liComputer:focus-visible::after {
+  width: 100%;
+}
+
+.nav a:focus,
+.nav a:focus-visible {
+  outline: none;
+}
+
+/* 手機的漢堡選單 */
+.outer-menu .hamburger {
+  background: rgba(43, 41, 38, 0.82);
+  border-radius: 12px;
+}
+
+.outer-menu .menu > div {
+  color: var(--ink);
+  background: rgba(232, 223, 207, 0.97);
+}
+
+.outer-menu .menu > div > div > ul > li > a:hover,
+.outer-menu .menu > div > div > ul > li > a.is-current {
+  color: var(--accent);
+}
+
+.outer-menu .menu > div > div > ul > li > a:after {
+  background: var(--accent);
+}
+
+@media screen and (min-width: 768px) {
+  .nav {
+    background-color: rgba(255, 253, 242, 0.82);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--sand);
+  }
+}
+
+/* ---------- 首頁主視覺 ---------- */
+
+.First .imgContent {
+  position: relative;
+}
+
+/* 頭像後方的水彩暈染 */
+.First .imgContent::before {
+  content: "";
+  position: absolute;
+  inset: 10% 8% 2%;
+  z-index: 0;
+  border-radius: 58% 42% 55% 45% / 48% 60% 40% 52%;
+  background: radial-gradient(closest-side, rgba(196, 103, 75, 0.2), rgba(232, 223, 207, 0.75) 62%, rgba(232, 223, 207, 0) 100%);
+  filter: blur(22px);
+}
+
+.First .responsive-image {
+  position: relative;
+  z-index: 1;
+}
+
+.ContactBlock .iconS a {
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.ContactBlock .iconS a:hover {
+  color: var(--accent);
+}
+
+/* ---------- 首頁照片：點一下聚焦 ---------- */
+
+/* 點到的照片往左斜一點並放大，其他照片變淡。再點一次、點空白處或按 Esc 還原。 */
+.Second .imgContainer .imgBox {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.5s var(--ease-out), filter 0.45s ease;
+}
+
+.Second .imgContainer .imgBox .imgAll {
+  transition: opacity 1s ease-in-out, box-shadow 0.45s ease;
+}
+
+@media (hover: hover) {
+  .Second .imgContainer:not(.has-focus) .imgBox:hover {
+    transform: translateY(-4px);
+  }
+}
+
+/* 用降低飽和度與對比的方式變淡，照片本身仍然不透明，後面的楓葉才不會透出來 */
+.Second .imgContainer.has-focus .imgBox:not(.is-focus) {
+  filter: saturate(0.35) contrast(0.55) brightness(1.22);
+}
+
+.Second .imgContainer .imgBox.is-focus {
+  z-index: 2;
+  transform: rotate(-3deg) scale(1.14);
+}
+
+.Second .imgContainer .imgBox.is-focus .imgAll {
+  box-shadow: 0 18px 36px -18px rgba(43, 41, 38, 0.55);
+}
+
+.Second .imgContainer .imgBox:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+/* ---------- 區塊（panel） ---------- */
+
+.panel {
+  position: relative;
+  width: 100%;
+}
+
+.panel__inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: center center;
+}
+
+.panel__inner > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.snap-only,
+.scroll-hint,
+.panel-dots {
+  display: none;
+}
+
+/* skills 的每個分類（標題 + 項目）包成一組 */
+.skillGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 經歷拆成兩個區塊後，手機上兩段之間不要留一大段空白 */
+.experienceBlock--first {
+  padding-bottom: 0;
+}
+
+.experienceBlock--first .bottomExper {
+  padding-bottom: 0;
+}
+
+.experienceBlock--cont {
+  padding-top: 0;
+}
+
+/* 進場動畫的起始狀態（由 main.js 播放）。JS 沒載到時 4 秒後自動顯示。 */
+html.js [data-reveal],
+html.js [data-reveal-children] > * {
+  opacity: 0;
+}
+
+html.js:not(.js-ready) [data-reveal],
+html.js:not(.js-ready) [data-reveal-children] > * {
+  animation: reveal-failsafe 0.01s 4s forwards;
+}
+
+@keyframes reveal-failsafe {
+  to { opacity: 1; }
+}
+
+/* ---------- 桌機：一次滑一個區塊（html.is-snap 由 JS 依裝置加上） ---------- */
+
+html.is-snap {
+  scrollbar-width: none;
+}
+
+html.is-snap::-webkit-scrollbar {
+  display: none;
+}
+
+html.is-snap main.container {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+}
+
+html.is-snap .panel {
+  height: 100vh;
+  height: 100svh;
+  padding: var(--nav-h) clamp(1rem, 4vw, 3.5rem) 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+html.is-snap .panel__inner {
+  max-width: 1140px;
+  padding-block: 1.25rem;
+}
+
+html.is-snap .snap-only {
+  display: block;
+}
+
+/* 首頁 */
+html.is-snap .First {
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+html.is-snap .First .Who {
+  padding-top: 0;
+  justify-content: center;
+}
+
+html.is-snap .First .Who p {
+  margin-bottom: 0.4em;
+}
+
+html.is-snap .Second {
+  padding: 0;
+}
+
+html.is-snap .Second .SecondP {
+  text-align: center;
+  font-size: clamp(1.5rem, 2.6vw, 2.4rem);
+}
+
+html.is-snap .Second .imgContainer {
+  margin-top: clamp(1rem, 3svh, 2rem);
+  gap: clamp(0.75rem, 2.4svh, 1.5rem) 1.25rem;
+}
+
+/* about */
+html.is-snap .aboutMeBlock {
+  min-height: 0;
+  padding: 0;
+  align-items: center;
+}
+
+html.is-snap .experienceBlock {
+  padding: 0;
+}
+
+html.is-snap .experienceBlock .topExper {
+  margin-bottom: clamp(0.5rem, 2.5svh, 2rem);
+}
+
+html.is-snap .experienceBlock .bottomExper .blockExper .leftExper,
+html.is-snap .experienceBlock .bottomExper .blockExper .rightExper {
+  padding-top: clamp(0.3rem, 1.5svh, 1.1rem);
+}
+
+html.is-snap .experienceBlock .bottomExper .blockExper .leftExper h6 {
+  margin-bottom: 0;
+}
+
+/* 年份欄固定寬度，右邊的說明盡量排成一行，十年的經歷才放得進兩個畫面 */
+html.is-snap .experienceBlock .bottomExper {
+  width: min(100%, 56rem);
+  max-width: none;
+  padding-bottom: 0;
+  align-items: stretch;
+}
+
+html.is-snap .experienceBlock .bottomExper .blockExper {
+  justify-content: flex-start;
+}
+
+html.is-snap .experienceBlock .bottomExper .blockExper .leftExper {
+  width: 9rem;
+}
+
+html.is-snap .experienceBlock .bottomExper .blockExper .rightExper {
+  width: auto;
+  flex: 1;
+}
+
+/* skills */
+html.is-snap .pcTop {
+  min-height: 0;
+  padding: 0;
+  justify-content: center;
+  gap: clamp(2rem, 6vw, 6rem);
+}
+
+html.is-snap .pcTop .imgSkills img {
+  max-height: 62svh;
+  width: auto;
+}
+
+html.is-snap .skills {
+  padding: 0;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(1.5rem, 6svh, 4rem) clamp(1.5rem, 3vw, 3rem);
+}
+
+html.is-snap .skillGroup {
+  flex: 0 1 21rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--sand);
+  text-align: center;
+}
+
+html.is-snap .skills h3 {
+  padding: 0 0 1rem;
+  font-size: 2rem;
+}
+
+html.is-snap .skills .pro {
+  padding-bottom: 0;
+  justify-content: center;
+  gap: 0.5rem 1.5rem;
+}
+
+html.is-snap .skills .pro .proIcon {
+  display: none;
+}
+
+html.is-snap .skills .pro .proName {
+  width: auto;
+  margin: 0;
+}
+
+html.is-snap .skills .pro .proName p {
+  font-size: 1.5rem;
+  color: var(--ink-soft);
+}
+
+/* contact + 頁尾 */
+html.is-snap .panel--contact .panel__inner {
+  position: relative;
+  align-self: stretch;
+  justify-content: center;
+}
+
+html.is-snap .panel--contact .Footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin-top: 0;
+  padding: 1.1rem 0;
+}
+
+html.is-snap .panel--contact .Footer h6 {
+  margin: 0;
+}
+
+/* 主視覺底部的向下提示 */
+html.is-snap .scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: "Jua", sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  color: var(--ink-soft);
+  transform: translateX(-50%);
+  animation: scroll-hint 2.4s ease-in-out infinite;
+}
+
+html.is-snap .scroll-hint::after {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  transform: rotate(45deg);
+}
+
+@keyframes scroll-hint {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 7px); }
+}
+
+/* 右側的區塊指示圓點 */
+html.is-snap .panel-dots {
+  position: fixed;
+  top: 50%;
+  right: clamp(0.75rem, 1.6vw, 1.5rem);
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  transform: translateY(-50%);
+}
+
+.panel-dots button {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.3s var(--ease-out), background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.panel-dots button::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+}
+
+.panel-dots button[aria-current="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  transform: scale(1.35);
+}
+
+/* ---------- favorites：往上疊的卡片 ---------- */
+
+/* 每個區塊都黏在畫面頂端，下一個區塊滑上來蓋住前一個 */
+.stack .panel {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  padding: 0.75rem 0.5rem 0;
+  overflow: hidden;
+}
+
+.stack .panel__inner {
+  height: 100%;
+}
+
+html.is-snap .stack .panel {
+  padding: calc(var(--nav-h) + 0.75rem) clamp(1rem, 4vw, 3.5rem) 0;
+  align-items: stretch;
+}
+
+html.is-snap .stack .panel__inner {
+  max-width: none;
+  padding-block: 0;
+}
+
+/* 卡片本體。上緣的線條就是「黏住的那條線」，之後放內容時可以直接拿掉 border。 */
+.stack-card {
+  width: 100%;
+  height: calc(100% - var(--i, 0) * var(--stack-gap));
+  margin-top: calc(var(--i, 0) * var(--stack-gap));
+  padding: clamp(1.25rem, 3.5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3svh, 2rem);
+  border: 1.5px solid var(--ink);
+  border-bottom: 0;
+  border-radius: 28px 28px 0 0;
+  background: var(--card-bg, var(--bg));
+  box-shadow: 0 -22px 44px -30px rgba(43, 41, 38, 0.45);
+}
+
+.stack .panel:nth-child(odd) .stack-card {
+  --card-bg: var(--surface);
+}
+
+.stack-card__head {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.stack-card__no {
+  font-family: "Rubik Marker Hatch", system-ui;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 1;
+  color: var(--accent);
+}
+
+/* 內容預留區，之後把內容放進來並刪掉這個虛線框即可 */
+.stack-card__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dashed rgba(43, 41, 38, 0.28);
+  border-radius: 18px;
+}
+
+@media screen and (max-width: 767.98px) {
+  /* 手機左上角有固定的漢堡選單，卡片標題往下讓開 */
+  .stack-card {
+    padding-top: 4.25rem;
+  }
+}
+
+.stack-card--contact {
+  align-items: center;
+  justify-content: center;
+}
+
+.stack-card--contact .Footer {
+  margin-top: 0;
+  border-top: 0;
+  padding: 0;
+}
+
+/* ---------- 換頁轉場：畫面淡成一張紙，一片楓葉飄過 ---------- */
+
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+  background-color: var(--surface);
+}
+
+.curtain.is-active {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* 在中央飄過的一片楓葉 */
+.curtain__leaf {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(72px, 9vw, 120px);
+  height: clamp(72px, 9vw, 120px);
+  margin: calc(clamp(72px, 9vw, 120px) / -2) 0 0 calc(clamp(72px, 9vw, 120px) / -2);
+  opacity: 0;
+}
+
+.curtain__leaf svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ---------- 手繪楓葉 ---------- */
+
+/* 放在內容後面：文字與 favorites 的卡片會蓋住楓葉，楓葉只在留白處看得到 */
+.leaf-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.leaf {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.leaf svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ---------- 減少動態效果 ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal],
+  html.js [data-reveal-children] > * {
+    opacity: 1;
+  }
+
+  html.is-snap .scroll-hint {
+    animation: none;
+  }
+
+  .Second .imgContainer .imgBox {
+    transition: none;
+  }
+
+}

@@ -3,59 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>about</title>
+    <title>TzuHung Wu | About</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="./sanketsu.css">
     <link rel="stylesheet" href="https://unpkg.com/@tabler/icons@1.39.1/iconfont/tabler-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
-
+    <link rel="stylesheet" href="./redesign.css">
+    <script>
+      // 在畫面出現前先決定是否啟用桌機的「一次滑一個區塊」版面，避免載入時版面跳動
+      (function (d) {
+        d.classList.add('js');
+        try {
+          if (window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1024px) and (min-height: 560px)').matches) {
+            d.classList.add('is-snap');
+          }
+        } catch (e) {}
+      })(document.documentElement);
+    </script>
 </head>
 
-    <body data-barba="wrapper">
-      <div class="transition"></div>
-      <div class="wrapper">
-        <div class="nav">
-          <div class="wow animate__animated animate__fadeIn outer-menu" data-wow-delay="6s" >
-            <input class="checkbox-toggle" type="checkbox" />
-            <div class="hamburger">
-                <div></div>
-            </div>
-            <div class="menu">
-                <div>
-                    <div>
-                        <ul>
-                            <li><a href="index.html">home</a></li>
-                            <li><a href="about.html">about</a></li>
-                            <li><a href="skills.html">skills</a></li>
-                            <!-- <li><a href="favorites.html">favorites</a></li> -->
-                        </ul>
-                    </div>
-                </div>
-            </div>
+  <body data-barba="wrapper">
+    <div class="wrapper">
+      <div class="nav">
+        <div class="outer-menu">
+          <input class="checkbox-toggle" type="checkbox" aria-label="menu" />
+          <div class="hamburger">
+              <div></div>
+          </div>
+          <div class="menu">
+              <div>
+                  <div>
+                      <ul>
+                          <li><a class="navLi" href="index.html">home</a></li>
+                          <li><a class="navLi" href="about.html">about</a></li>
+                          <li><a class="navLi" href="skills.html">skills</a></li>
+                          <li><a class="navLi" href="favorites.html">favorites</a></li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
         </div>
         <li><a class="liComputer" href="index.html">home</a></li>
         <li><a class="liComputer" href="about.html">about</a></li>
         <li><a class="liComputer" href="skills.html">skills</a></li>
-        <!-- <li><a class="liComputer" href="favorites.html">favorites</a></li> -->
+        <li><a class="liComputer" href="favorites.html">favorites</a></li>
+      </div>
+
+      <main data-barba="container" data-barba-namespace="about" class="container">
+        <div class="header">
+          <div class="header-revealer"></div>
+          <h2>about me</h2>
         </div>
 
-        <main data-barba="container" 
-        data-barba-namespace="home"
-        class="container" 
-        >
-        <div class="header">
-            <div class="header-revealer"></div> 
-        <h2>about me</h2>
-        </div>
-        <!-- <div class="aboutTitle"><h3>Who am I?</h3></div> -->
-        <div class="aboutMeBlock">
-            <div class="imgAbout"><img class="aboutMeImg" src="public/pictures/aboutImg.jpg" alt="..."></div>
-            <div class="doubleAbout">
-            <div class="aboutName"> 
+      <section class="panel">
+        <div class="panel__inner">
+          <div class="aboutMeBlock">
+            <div class="imgAbout" data-reveal><img class="aboutMeImg" src="public/pictures/aboutImg.jpg" alt="Photo of TzuHung Wu"></div>
+            <div class="doubleAbout" data-reveal>
+              <div class="aboutName">
                 <span>TzuHungWu</span><br><span>System Engineer</span>
-            </div>
-            <div class="aboutMeWords">
-            <p>Hello, I'm Ben. I currently work in Japan as an in-house System Engineer.
+              </div>
+              <div class="aboutMeWords">
+                <p>Hello, I'm Ben. I currently work in Japan as an in-house System Engineer.
               <br>
                 In my job, I mainly use VB.NET and Oracle to modify, test, and check our company's core business systems.
                 <br>
@@ -63,234 +72,253 @@
                 <br>
                 I'm still learning software development step by step, and I try to keep improving through my daily work.
                     </p>
+              </div>
             </div>
+          </div>
         </div>
-        </div>
-        <div class="experienceBlock">
-            <div class="topExper"><h3>Experience</h3></div>
-            <div class="bottomExper">
-                <div class="blockExper">
-                    <div class="leftExper"><h6>2025 year</h6></div>
-                    <div class="rightExper"><p>System Engineer&nbsp;|
-                        <br class="midHidden">
-                        <span>Manufacturing industry</span>
-                    </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"></div>
-                    <div class="rightExper"><p>Travel Arrangements&nbsp;|
-                        <br class="midHidden">
-                        <span>Finished working at a Travel Agency</span>
-                    </p></div>
-                </div>
+      </section>
 
-                <div class="blockExper">
-                    <div class="leftExper"><h6>2024 year</h6></div>
-                    <div class="rightExper"><p>Travel Arrangements&nbsp;|
-                        <br class="midHidden">
-                        <span>Travel Agency</span>
-                    </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"></div>
-                    <div class="rightExper"><p>Web Coding Intensive Course Student&nbsp;|
-                        <br class="midHidden">
-                        <span>Completed a Web Coding Intensive Course</span>
-                    </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"><h6>2023 year</h6></div>
-                    <div class="rightExper"><p>Web Coding Intensive Course Student&nbsp;|
-                        <br class="midHidden">
-                        <span>Attended a Web Coding Intensive Course</span>
-                    </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"></div>
-                    <div class="rightExper">
-                        <p>Accounting Assistant&nbsp;|
-                            <br class="midHidden">
-                            <span>Cleaning Company</span>
-                        </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"></div>
-                    <div class="rightExper">
-                        <p>Military Service&nbsp;|
-                            <br class="midHidden">
-                            <span>Completed Military Service</span>
-                        </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"><h6>2022 year</h6></div>
-                    <div class="rightExper">
-                        <p>Military Service&nbsp;|
-                            <br class="midHidden">
-                            <span>Enlisted in the Army</span>
-                        </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"></div>
-                    <div class="rightExper">
-                        <p>Accounting Assistant&nbsp;|
-                            <br class="midHidden">
-                            <span>Cleaning Company</span>
-                        </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"></div>
-                    <div class="rightExper">
-                        <p>Class President&nbsp;|
-                            <br class="midHidden">
-                            <span>Graduated from Shih Hsin University</span>
-                        </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"><h6>2021 year</h6></div>
-                    <div class="rightExper">
-                        <p>Class President&nbsp;|
-                            <br class="midHidden">
-                            <span>Shih Hsin University</span>
-                        </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"></div>
-                    <div class="rightExper">
-                        <p>General Affairs Office&nbsp;|
-                            <br class="midHidden">
-                            <span>Shih Hsin University</span>
-                        </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"><h6>2020 year</h6></div>
-                    <div class="rightExper">
-                        <p>University Student in Japanese Language&nbsp;|
-                            <br class="midHidden">
-                            <span>Transferred to Shih Hsin University</span>
-                        </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"></div>
-                    <div class="rightExper">
-                        <p>University Student in Japanese Language&nbsp;|
-                            <br class="midHidden">
-                            <span>Transferred from Wenzao Ursuline University of Languages</span> 
-                        </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"><h6>2019 year</h6></div>
-                    <div class="rightExper">
-                        <p>University Student in Japanese Language&nbsp;|
-                            <br class="midHidden">
-                            <span>Wenzao Ursuline University of Languages</span> 
-                        </p></div>
-                </div>
-                <!-- <div class="blockExper">
-                    <div class="leftExper"></div>
-                    <div class="rightExper"></div>
-                </div> -->
-                <div class="blockExper">
-                    <div class="leftExper"><h6>2018 year</h6></div>
-                    <div class="rightExper">
-                        <p>University Student in Japanese Language&nbsp;|
-                        <br class="midHidden">
-                            <span>Wenzao Ursuline University of Languages</span> 
-                        </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"></div>
-                    <div class="rightExper">
-                        <p>Class President&nbsp;|
-                            <br class="midHidden">
-                            <span>Graduated as a Japanese Language Student from Chung-Hsin High School</span> 
-                        </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"></div>
-                    <div class="rightExper">
-                        <p>President of the Japanese Culture Club&nbsp;|
-                            <br class="midHidden">
-                            <span>Graduated as a Japanese Language Student from Chung-Hsin High School</span>
-                    </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"><h6>2017 year</h6></div>
-                    <div class="rightExper">
-                        <p>Math Coordinator&nbsp;|
-                            <br class="midHidden">
-                            <span>Japanese Language Student at Chung-Hsin High School</span>
-                        </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"></div>
-                    <div class="rightExper">
-                        <p>President of the Japanese Culture Club&nbsp;|
-                            <br class="midHidden">
-                            <span>Japanese Language Student at Chung-Hsin High School</span>
-                    </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"><h6>2016 year</h6></div>
-                    <div class="rightExper"><p>Group Leader&nbsp;|
-                        <br class="midHidden">
-                        <span>Japanese Language Student at Anabuki College Group, Takamatsu, Shikoku (Summer)</span>
-                    </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"></div>
-                    <div class="rightExper"><p>President of the Japanese Culture Club&nbsp;|
-                        <br class="midHidden">
-                        <span>Japanese Language Student at Chung-Hsin High School</span>
-                    </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"></div>
-                    <div class="rightExper"><p>IT Coordinator&nbsp;|
-                        <br class="midHidden">
-                        <span>Japanese Language Student at Chung-Hsin High School</span>
-                    </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"><h6>2015 year</h6></div>
-                    <div class="rightExper"><p>IT Coordinator&nbsp;|
-                        <br class="midHidden">
-                        <span>Japanese Language Student at Chung-Hsin High School</span>
-                    </p></div>
-                </div>
-                <div class="blockExper">
-                    <div class="leftExper"></div>
-                    <div class="rightExper"></div>
-                </div>
-
+      <section class="panel">
+        <div class="panel__inner">
+          <div class="experienceBlock experienceBlock--first">
+            <div class="topExper" data-reveal><h3>Experience</h3></div>
+            <div class="bottomExper" data-reveal-children>
+              <div class="blockExper">
+              <div class="leftExper"><h6>2025 year</h6></div>
+              <div class="rightExper"><p>System Engineer&nbsp;|
+              <br class="midHidden">
+              <span>Manufacturing industry</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"></div>
+              <div class="rightExper"><p>Travel Arrangements&nbsp;|
+              <br class="midHidden">
+              <span>Finished working at a Travel Agency</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"><h6>2024 year</h6></div>
+              <div class="rightExper"><p>Travel Arrangements&nbsp;|
+              <br class="midHidden">
+              <span>Travel Agency</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"></div>
+              <div class="rightExper"><p>Web Coding Intensive Course Student&nbsp;|
+              <br class="midHidden">
+              <span>Completed a Web Coding Intensive Course</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"><h6>2023 year</h6></div>
+              <div class="rightExper"><p>Web Coding Intensive Course Student&nbsp;|
+              <br class="midHidden">
+              <span>Attended a Web Coding Intensive Course</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"></div>
+              <div class="rightExper">
+              <p>Accounting Assistant&nbsp;|
+              <br class="midHidden">
+              <span>Cleaning Company</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"></div>
+              <div class="rightExper">
+              <p>Military Service&nbsp;|
+              <br class="midHidden">
+              <span>Completed Military Service</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"><h6>2022 year</h6></div>
+              <div class="rightExper">
+              <p>Military Service&nbsp;|
+              <br class="midHidden">
+              <span>Enlisted in the Army</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"></div>
+              <div class="rightExper">
+              <p>Accounting Assistant&nbsp;|
+              <br class="midHidden">
+              <span>Cleaning Company</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"></div>
+              <div class="rightExper">
+              <p>Class President&nbsp;|
+              <br class="midHidden">
+              <span>Graduated from Shih Hsin University</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"><h6>2021 year</h6></div>
+              <div class="rightExper">
+              <p>Class President&nbsp;|
+              <br class="midHidden">
+              <span>Shih Hsin University</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"></div>
+              <div class="rightExper">
+              <p>General Affairs Office&nbsp;|
+              <br class="midHidden">
+              <span>Shih Hsin University</span>
+              </p></div>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-        <div class="ContactBlock">
+      </section>
+
+      <section class="panel">
+        <div class="panel__inner">
+          <div class="experienceBlock experienceBlock--cont">
+            <!-- 桌機一次只看到一個區塊，所以第二段經歷再顯示一次標題；手機上兩段連在一起，不重複顯示 -->
+            <div class="topExper snap-only" data-reveal aria-hidden="true"><h3>Experience</h3></div>
+            <div class="bottomExper" data-reveal-children>
+              <div class="blockExper">
+              <div class="leftExper"><h6>2020 year</h6></div>
+              <div class="rightExper">
+              <p>University Student in Japanese Language&nbsp;|
+              <br class="midHidden">
+              <span>Transferred to Shih Hsin University</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"></div>
+              <div class="rightExper">
+              <p>University Student in Japanese Language&nbsp;|
+              <br class="midHidden">
+              <span>Transferred from Wenzao Ursuline University of Languages</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"><h6>2019 year</h6></div>
+              <div class="rightExper">
+              <p>University Student in Japanese Language&nbsp;|
+              <br class="midHidden">
+              <span>Wenzao Ursuline University of Languages</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"></div>
+              <div class="rightExper"></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"><h6>2018 year</h6></div>
+              <div class="rightExper">
+              <p>University Student in Japanese Language&nbsp;|
+              <br class="midHidden">
+              <span>Wenzao Ursuline University of Languages</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"></div>
+              <div class="rightExper">
+              <p>Class President&nbsp;|
+              <br class="midHidden">
+              <span>Graduated as a Japanese Language Student from Chung-Hsin High School</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"></div>
+              <div class="rightExper">
+              <p>President of the Japanese Culture Club&nbsp;|
+              <br class="midHidden">
+              <span>Graduated as a Japanese Language Student from Chung-Hsin High School</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"><h6>2017 year</h6></div>
+              <div class="rightExper">
+              <p>Math Coordinator&nbsp;|
+              <br class="midHidden">
+              <span>Japanese Language Student at Chung-Hsin High School</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"></div>
+              <div class="rightExper">
+              <p>President of the Japanese Culture Club&nbsp;|
+              <br class="midHidden">
+              <span>Japanese Language Student at Chung-Hsin High School</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"><h6>2016 year</h6></div>
+              <div class="rightExper"><p>Group Leader&nbsp;|
+              <br class="midHidden">
+              <span>Japanese Language Student at Anabuki College Group, Takamatsu, Shikoku (Summer)</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"></div>
+              <div class="rightExper"><p>President of the Japanese Culture Club&nbsp;|
+              <br class="midHidden">
+              <span>Japanese Language Student at Chung-Hsin High School</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"></div>
+              <div class="rightExper"><p>IT Coordinator&nbsp;|
+              <br class="midHidden">
+              <span>Japanese Language Student at Chung-Hsin High School</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"><h6>2015 year</h6></div>
+              <div class="rightExper"><p>IT Coordinator&nbsp;|
+              <br class="midHidden">
+              <span>Japanese Language Student at Chung-Hsin High School</span>
+              </p></div>
+              </div>
+              <div class="blockExper">
+              <div class="leftExper"></div>
+              <div class="rightExper"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel panel--contact">
+        <div class="panel__inner">
+          <div class="ContactBlock" data-reveal>
             <h3>contact</h3>
             <div class="iconS">
-              <a href="mailto:not0988709735@gmail.com">
+              <a href="mailto:not0988709735@gmail.com" aria-label="Email">
               <i class="ti ti-mail"></i></a>
-              <a href="https://github.com/WuTzuHung">
+              <a href="https://github.com/WuTzuHung" aria-label="GitHub">
               <i class="ti ti-brand-github"></i></a>
-              <a href="https://youtube.com/@shiko8031?si=3C6dGjy3erUZwEPU">
+              <a href="https://youtube.com/@shiko8031?si=3C6dGjy3erUZwEPU" aria-label="YouTube">
               <i class="ti ti-brand-youtube"></i></a>
-              <a href="https://x.com/not5508085">
+              <a href="https://x.com/not5508085" aria-label="X">
               <i class="ti ti-brand-twitter"></i></a>
-              <a href="https://www.instagram.com/bb5508085/">
+              <a href="https://www.instagram.com/bb5508085/" aria-label="Instagram">
               <i class="ti ti-brand-instagram"></i></a>
-                </div> 
-                <p>You're welcome to follow me or drop me a message! I'd love to connect and chat with you about anything you're interested in.</p>
+            </div>
+            <p>You're welcome to follow me or drop me a message! I'd love to connect and chat with you about anything you're interested in.</p>
           </div>
-        <div class="Footer">
+          <div class="Footer">
             <h6 class="copyright">Copyright © tzuhungwu, All rights reserved.</h6>
           </div>
-        </main>
+        </div>
+      </section>
+      </main>
     </div>
-      </div>
 
-
-        <script src="https://cdn.jsdelivr.net/npm/@barba/core"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-        <script src="src/main.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/@barba/core"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="src/main.js"></script>
+  </body>
 </html>

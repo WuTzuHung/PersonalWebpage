@@ -3,24 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>TzuHung Wu | Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="./sanketsu.css">
-    <!-- Animate.css -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-<link rel="stylesheet" href="https://unpkg.com/@tabler/icons@1.39.1/iconfont/tabler-icons.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
-
-
+    <link rel="stylesheet" href="https://unpkg.com/@tabler/icons@1.39.1/iconfont/tabler-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+    <link rel="stylesheet" href="./redesign.css">
+    <script>
+      // 在畫面出現前先決定是否啟用桌機的「一次滑一個區塊」版面，避免載入時版面跳動
+      (function (d) {
+        d.classList.add('js');
+        try {
+          if (window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1024px) and (min-height: 560px)').matches) {
+            d.classList.add('is-snap');
+          }
+        } catch (e) {}
+      })(document.documentElement);
+    </script>
 </head>
 
   <body data-barba="wrapper">
-    
-    <div class="transition"></div>
     <div class="wrapper">
       <div class="nav">
-        <div class="animate__animated animate__fadeIn outer-menu" >
-          <input class="checkbox-toggle" type="checkbox" />
+        <div class="outer-menu">
+          <input class="checkbox-toggle" type="checkbox" aria-label="menu" />
           <div class="hamburger">
               <div></div>
           </div>
@@ -28,117 +34,103 @@
               <div>
                   <div>
                       <ul>
-                          <li data-page="home" ><a class="navLi" href="index.html">home</a></li>
+                          <li><a class="navLi" href="index.html">home</a></li>
                           <li><a class="navLi" href="about.html">about</a></li>
                           <li><a class="navLi" href="skills.html">skills</a></li>
-                          <!-- <li><a class="navLi" href="favorites.html">favorites</a></li> -->
+                          <li><a class="navLi" href="favorites.html">favorites</a></li>
                       </ul>
                   </div>
               </div>
           </div>
+        </div>
+        <li><a class="liComputer" href="index.html">home</a></li>
+        <li><a class="liComputer" href="about.html">about</a></li>
+        <li><a class="liComputer" href="skills.html">skills</a></li>
+        <li><a class="liComputer" href="favorites.html">favorites</a></li>
       </div>
-                          <li data-page="home"><a class="liComputer" href="index.html">home</a></li>
-                          <li><a class="liComputer" href="about.html">about</a></li>
-                          <li><a class="liComputer" href="skills.html">skills</a></li>
-                          <!-- <li><a class="liComputer" href="favorites.html">favorites</a></li> -->
-      </div>
 
-      <main data-barba="container" 
-      data-barba-namespace="home"
-      class="container" 
-      >
-      <!-- <div class="header"> -->
-        <!-- <div class="header-revealer"></div>  -->
-        <!-- <h2>home</h2> -->
+      <main data-barba="container" data-barba-namespace="home" class="container">
+        <h1>tzuhungwu</h1>
 
-<!-- </div>  -->
-<!-- 上面是header的結尾div -->
-<h1 class="wow animate__animated animate__flipInX" data-wow-delay="0.2s" data-wow-duration="2s" >tzuhungwu</h1>
+      <section class="panel panel--hero">
+        <div class="panel__inner">
+          <div class="First">
+            <div class="imgContent" data-reveal>
+              <img src="public/pictures/file.png" alt="Portrait of TzuHung Wu" class="responsive-image" width="1244" height="1600">
+            </div>
+            <div class="Who" data-reveal-children>
+              <p class="NameP">I'm Ben</p>
+              <p class="NiceP">Nice to meet you!</p>
+              <p class="SoftP">System Engineer</p>
+            </div>
+          </div>
+        </div>
+        <div class="scroll-hint" aria-hidden="true">scroll</div>
+      </section>
 
-<div class="First">
-<div class="wow animate__animated animate__fadeIn imgContent" data-wow-delay="1.4s">
-<img src="public/pictures/file.png" alt="無法顯示圖片" class="responsive-image">
-</div>
-      <div class="wow animate__animated animate__fadeIn Who" data-wow-delay="1.6s">
-    <p class="NameP">I'm Ben</p>
-    <p class="NiceP">Nice to meet you!</p>
-    <p class="SoftP">System Engineer</p>
-    </div>
-  </div>
+      <section class="panel">
+        <div class="panel__inner">
+          <div class="Second">
+            <p class="SecondP" data-reveal>Places I've Visited in Japan</p>
+            <div class="imgContainer" data-reveal-children>
+              <div class="imgBox">
+                <img class="imgAll akiImg" data-src="public/pictures/JapanPic/akiPic/aki01.jpg" loading="lazy" alt="Akihabara, Japan"><span>Akihabara</span>
+              </div>
+              <div class="imgBox">
+                <img class="imgAll ikeImg" data-src="public/pictures/JapanPic/ikePic/ike01.jpg" loading="lazy" alt="Ikebukuro, Japan"><span>Ikebukuro</span>
+              </div>
+              <div class="imgBox">
+                <img class="imgAll kyoImg" data-src="public/pictures/JapanPic/kyoPic/kyo01.jpg" loading="lazy" alt="Kyoto, Japan"><span>Kyoto</span>
+              </div>
+              <div class="imgBox">
+                <img class="imgAll nagoImg" data-src="public/pictures/JapanPic/nagoPic/nago01.jpg" loading="lazy" alt="Nagoya, Japan"><span>Nagoya</span>
+              </div>
+              <div class="imgBox">
+                <img class="imgAll hyogoImg" data-src="public/pictures/JapanPic/hyogoPic/hyogo01.jpg" loading="lazy" alt="Hyogo, Japan"><span>Hyogo</span>
+              </div>
+              <div class="imgBox">
+                <img class="imgAll osakaImg" data-src="public/pictures/JapanPic/osakaPic/osaka01.jpg" loading="lazy" alt="Osaka, Japan"><span>Osaka</span>
+              </div>
+              <div class="imgBox">
+                <img class="imgAll shimoImg" data-src="public/pictures/JapanPic/shimoPic/shimo01.jpg" loading="lazy" alt="Shimokitazawa, Japan"><span>Shimokitazawa</span>
+              </div>
+              <div class="imgBox">
+                <img class="imgAll takaImg" data-src="public/pictures/JapanPic/takaPic/taka01.jpg" loading="lazy" alt="Takamatsu, Japan"><span>Takamatsu</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-
-
-
-  <div class="Second">
-    <p class="SecondP">Places I've Visited in Japan</p>
-    <div class="imgContainer">
-      <div class="imgBox">
-      <img class="imgAll akiImg" data-src="public/pictures/JapanPic/akiPic/aki01.jpg" loading="lazy"  alt=""><span class="spanP">Akihabara</span>
-    </div>
-    <div class="imgBox">
-      <img class="imgAll ikeImg" data-src="public/pictures/JapanPic/ikePic/ike01.jpg" loading="lazy"  alt=""><span>Ikebukuro</span>
-    </div>
-    <div class="imgBox">
-      <img class="imgAll kyoImg" data-src="public/pictures/JapanPic/kyoPic/kyo01.jpg" loading="lazy" alt=""><span>Kyoto</span>
-    </div>
-    <div class="imgBox">
-      <img class="imgAll nagoImg" data-src="public/pictures/JapanPic/nagoPic/nago01.jpg" loading="lazy" alt=""><span>Nagoya</span>
-    </div>
-    <div class="imgBox">
-      <img class="imgAll hyogoImg" data-src="public/pictures/JapanPic/hyogoPic/hyogo01.jpg" loading="lazy" alt=""><span>Hyogo</span>
-    </div>
-    <div class="imgBox">
-      <img class="imgAll osakaImg" data-src="public/pictures/JapanPic/osakaPic/osaka01.jpg" loading="lazy" alt=""><span>Osaka</span>
-    </div>
-      <div class="imgBox">
-      <img class="imgAll shimoImg" data-src="public/pictures/JapanPic/shimoPic/shimo01.jpg" loading="lazy" alt=""><span>Shimokitazawa</span>
-    </div>
-      <div class="imgBox">
-      <img class="imgAll takaImg" data-src="public/pictures/JapanPic/takaPic/taka01.jpg" loading="lazy" alt=""><span>Takamatsu</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="ContactBlock">
-    <h3>contact</h3>
-    <div class="iconS">
-      <a href="mailto:not0988709735@gmail.com">
-      <i class="ti ti-mail"></i></a>
-      <a href="https://github.com/WuTzuHung">
-      <i class="ti ti-brand-github"></i></a>
-      <a href="https://youtube.com/@shiko8031?si=3C6dGjy3erUZwEPU">
-      <i class="ti ti-brand-youtube"></i></a>
-      <a href="https://x.com/not5508085">
-      <i class="ti ti-brand-twitter"></i></a>
-      <a href="https://www.instagram.com/bb5508085/">
-      <i class="ti ti-brand-instagram"></i></a>
-        </div> 
-        <p>You're welcome to follow me or drop me a message! I'd love to connect and chat with you about anything you're interested in.</p>
-  </div>
-  <div class="Footer">
-    <h6 class="copyright">Copyright © tzuhungwu, All rights reserved.</h6>
-  </div>
+      <section class="panel panel--contact">
+        <div class="panel__inner">
+          <div class="ContactBlock" data-reveal>
+            <h3>contact</h3>
+            <div class="iconS">
+              <a href="mailto:not0988709735@gmail.com" aria-label="Email">
+              <i class="ti ti-mail"></i></a>
+              <a href="https://github.com/WuTzuHung" aria-label="GitHub">
+              <i class="ti ti-brand-github"></i></a>
+              <a href="https://youtube.com/@shiko8031?si=3C6dGjy3erUZwEPU" aria-label="YouTube">
+              <i class="ti ti-brand-youtube"></i></a>
+              <a href="https://x.com/not5508085" aria-label="X">
+              <i class="ti ti-brand-twitter"></i></a>
+              <a href="https://www.instagram.com/bb5508085/" aria-label="Instagram">
+              <i class="ti ti-brand-instagram"></i></a>
+            </div>
+            <p>You're welcome to follow me or drop me a message! I'd love to connect and chat with you about anything you're interested in.</p>
+          </div>
+          <div class="Footer">
+            <h6 class="copyright">Copyright © tzuhungwu, All rights reserved.</h6>
+          </div>
+        </div>
+      </section>
       </main>
-
     </div>
 
-  
-
-
-        <script src="https://cdn.jsdelivr.net/npm/@barba/core"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-        <!-- WOW.js -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-        <script src="src/main.js"></script>
-        
-        <script>
-          
-          // 初始化 WOW.js
-          new WOW().init();
-      
-
-        </script>
-  </body>        
-
+    <script src="https://cdn.jsdelivr.net/npm/@barba/core"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="src/main.js"></script>
+  </body>
 </html>
